@@ -100,6 +100,7 @@ const AuthProvider = ({ children }: Props) => {
     apiClient
       .post(authConfig.loginEndpoint, { username, password })
       .then(async response => {
+        apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`
 
         rememberMe
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token)

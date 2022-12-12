@@ -97,13 +97,23 @@ const LoginPage = () => {
   // ** Vars
   const { skin } = settings
 
+  interface FormInputs {
+    username: string;
+    password: string;
+  }
+
+  const defaultValues = {
+    username: '',
+    password: ''
+  }
+
   const {
     control,
     setError,
     handleSubmit,
     formState: { errors }
-  } = useForm({
-    defaultValues: {},
+  } = useForm<FormInputs>({
+    defaultValues: defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })

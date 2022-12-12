@@ -48,6 +48,7 @@ import TableHeader from './TableHeader'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import DialogEditUserInfo from './DialogMember';
 
 export type Member = {
   id: string;
@@ -113,7 +114,7 @@ const defaultColumns = [
     field: 'id',
     minWidth: 80,
     headerName: '#',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/apps/invoice/preview/${row?.id}`}>{`#${row.id}`}</StyledLink>
+    renderCell: ({ row }: CellType) => <StyledLink href={`/members/view/${row?.id}`}>{`#${row.id}`}</StyledLink>
   },
   {
     flex: 0.15,
@@ -242,9 +243,9 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 })
 /* eslint-enable */
 
-const InvoiceList = () => {
+const MemberPage = () => {
   // ** State
-  const [dates, setDates] = useState<Date[]>([])
+
   const [value, setValue] = useState<string>('')
   const [pageSize, setPageSize] = useState<number>(10)
   const [statusValue, setStatusValue] = useState<string>('')
@@ -258,30 +259,14 @@ const InvoiceList = () => {
 
   useEffect(() => {
     dispatch(
-      fetchData({
-        dates,
-        q: value,
-        status: statusValue
-      })
+      fetchData()
     )
-  }, [dispatch, statusValue, value, dates])
+  }, [dispatch])
 
   const handleFilter = (val: string) => {
     setValue(val)
   }
 
-  const handleStatusValue = (e: SelectChangeEvent) => {
-    setStatusValue(e.target.value)
-  }
-
-  const handleOnChangeRange = (dates: any) => {
-    const [start, end] = dates
-    if (start !== null && end !== null) {
-      setDates(dates)
-    }
-    setStartDateRange(start)
-    setEndDateRange(end)
-  }
 
   const columns = [
     ...defaultColumns,
@@ -353,4 +338,4 @@ const InvoiceList = () => {
   )
 }
 
-export default InvoiceList
+export default MemberPage

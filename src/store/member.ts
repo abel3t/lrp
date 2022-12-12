@@ -15,7 +15,7 @@ interface Redux {
 }
 
 // ** Fetch Members
-export const fetchData = createAsyncThunk('member/fetchData', async (params: DataParams) => {
+export const fetchData = createAsyncThunk('member/fetchData', async () => {
   const response = await apiClient.get('/members')
 
   console.log(response.data, 'data')
@@ -23,18 +23,18 @@ export const fetchData = createAsyncThunk('member/fetchData', async (params: Dat
   return response.data
 })
 
-export const deleteMember = createAsyncThunk(
-  'appMember/deleteData',
-  async (id: number | string, { getState, dispatch }: Redux) => {
-    const response = await apiClient.delete('/apps/member/delete', {
-      data: id
-    })
-    await dispatch(fetchData(getState().member.params))
-
-
-    return response.data
-  }
-)
+// export const deleteMember = createAsyncThunk(
+//   'appMember/deleteData',
+//   async (id: number | string, { getState, dispatch }: Redux) => {
+//     const response = await apiClient.delete('/apps/member/delete', {
+//       data: id
+//     })
+//     await dispatch(fetchData(getState().member.params))
+//
+//
+//     return response.data
+//   }
+// )
 
 export const appMemberSlice = createSlice({
   name: 'member',

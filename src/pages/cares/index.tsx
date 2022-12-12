@@ -274,11 +274,11 @@ const InvoiceList = () => {
       headerName: 'Actions',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title='Delete Invoice'>
-            <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => dispatch(deleteInvoice(row.id))}>
-              <Icon icon='mdi:delete-outline' />
-            </IconButton>
-          </Tooltip>
+          {/*<Tooltip title='Delete Invoice'>*/}
+          {/*  <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => dispatch(deleteInvoice(row.id))}>*/}
+          {/*    <Icon icon='mdi:delete-outline' />*/}
+          {/*  </IconButton>*/}
+          {/*</Tooltip>*/}
           <Tooltip title='View'>
             <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/apps/invoice/preview/${row.id}`}>
               <Icon icon='mdi:eye-outline' />

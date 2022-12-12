@@ -74,7 +74,7 @@ const RegisterIllustration = styled('img')(({ theme }) => ({
   }
 }))
 
-const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
     maxWidth: 400
@@ -168,7 +168,7 @@ const Register = () => {
           <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
         </Box>
       ) : null}
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+      <ContentWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
           sx={{
             p: 7,
@@ -446,7 +446,7 @@ const Register = () => {
             </form>
           </BoxWrapper>
         </Box>
-      </RightWrapper>
+      </ContentWrapper>
     </Box>
   )
 }
