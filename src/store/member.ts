@@ -1,9 +1,7 @@
 // ** Redux Imports
 import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
-// ** Axios Imports
-import axios from 'axios'
+import apiClient from '../@core/services/api.client';
 
 interface DataParams {
   q: string
@@ -16,29 +14,30 @@ interface Redux {
   dispatch: Dispatch<any>
 }
 
-// ** Fetch Invoices
-export const fetchData = createAsyncThunk('appInvoice/fetchData', async (params: DataParams) => {
-  const response = await axios.get('/apps/invoice/invoices', {
-    params
-  })
+// ** Fetch Members
+export const fetchData = createAsyncThunk('member/fetchData', async (params: DataParams) => {
+  const response = await apiClient.get('/members')
+
+  console.log(response.data, 'data')
 
   return response.data
 })
 
-export const deleteInvoice = createAsyncThunk(
-  'appInvoice/deleteData',
+export const deleteMember = createAsyncThunk(
+  'appMember/deleteData',
   async (id: number | string, { getState, dispatch }: Redux) => {
-    const response = await axios.delete('/apps/invoice/delete', {
+    const response = await apiClient.delete('/apps/member/delete', {
       data: id
     })
-    await dispatch(fetchData(getState().invoice.params))
+    await dispatch(fetchData(getState().member.params))
+
 
     return response.data
   }
 )
 
-export const appInvoiceSlice = createSlice({
-  name: 'appInvoice',
+export const appMemberSlice = createSlice({
+  name: 'member',
   initialState: {
     data: [],
     total: 1,
@@ -48,7 +47,7 @@ export const appInvoiceSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload.invoices
+      state.data = action.payload.members
       state.params = action.payload.params
       state.allData = action.payload.allData
       state.total = action.payload.total
@@ -56,4 +55,4 @@ export const appInvoiceSlice = createSlice({
   }
 })
 
-export default appInvoiceSlice.reducer
+export default appMemberSlice.reducer

@@ -18,8 +18,9 @@ export type ACLObj = {
  */
 const defineRulesFor = (role: string, subject: string) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
+  const acceptRoles = ['Global_Admin', 'Staff', 'Pastor', 'Deacon']
 
-  if (role === 'admin') {
+  if (acceptRoles.includes(role)) {
     can('manage', 'all')
   } else if (role === 'client') {
     can(['read'], 'acl-page')

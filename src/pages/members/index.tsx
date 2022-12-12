@@ -29,13 +29,12 @@ import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
 
 // ** Store & Actions Imports
-// import { useDispatch, useSelector } from 'react-redux'
-// import { fetchData, deleteInvoice } from 'src/store/apps/invoice'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchData } from 'src/store/member'
 
 // ** Types Imports
-// import { RootState, AppDispatch } from 'src/store'
+import { RootState, AppDispatch } from 'src/store'
 import { ThemeColor } from 'src/@core/layouts/types'
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
 // ** Utils Import
@@ -49,6 +48,12 @@ import TableHeader from './TableHeader'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+
+export type Member = {
+  id: string;
+  name: string;
+  email?: string;
+}
 
 interface InvoiceStatusObj {
   [key: string]: {
@@ -66,7 +71,7 @@ interface CustomInputProps {
 }
 
 interface CellType {
-  row: InvoiceType
+  row: Member
 }
 
 // ** Styled component for the link in the dataTable
@@ -86,21 +91,21 @@ const invoiceStatusObj: InvoiceStatusObj = {
 }
 
 // ** renders client column
-const renderClient = (row: InvoiceType) => {
-  if (row.avatar.length) {
-    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
-  } else {
-    return (
-      <CustomAvatar
-        skin='light'
-        color={(row.avatarColor as ThemeColor) || ('primary' as ThemeColor)}
-        sx={{ mr: 3, fontSize: '1rem', width: 34, height: 34 }}
-      >
-        {getInitials(row.name || 'John Doe')}
-      </CustomAvatar>
-    )
-  }
-}
+// const renderClient = (row: Member) => {
+//   if (row.avatar.length) {
+//     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
+//   } else {
+//     return (
+//       <CustomAvatar
+//         skin='light'
+//         color={(row.avatarColor as ThemeColor) || ('primary' as ThemeColor)}
+//         sx={{ mr: 3, fontSize: '1rem', width: 34, height: 34 }}
+//       >
+//         {getInitials(row.name || 'John Doe')}
+//       </CustomAvatar>
+//     )
+//   }
+// }
 
 const defaultColumns = [
   {
@@ -108,105 +113,119 @@ const defaultColumns = [
     field: 'id',
     minWidth: 80,
     headerName: '#',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/apps/invoice/preview/${row.id}`}>{`#${row.id}`}</StyledLink>
-  },
-  {
-    flex: 0.1,
-    minWidth: 80,
-    field: 'invoiceStatus',
-    renderHeader: () => (
-      <Box sx={{ display: 'flex', color: 'action.active' }}>
-        <Icon icon='mdi:trending-up' fontSize={20} />
-      </Box>
-    ),
-    renderCell: ({ row }: CellType) => {
-      const { dueDate, balance, invoiceStatus } = row
-
-      const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary'
-
-      return (
-        <Tooltip
-          title={
-            <div>
-              <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-                {invoiceStatus}
-              </Typography>
-              <br />
-              <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-                Balance:
-              </Typography>{' '}
-              {balance}
-              <br />
-              <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-                Due Date:
-              </Typography>{' '}
-              {dueDate}
-            </div>
-          }
-        >
-          <CustomAvatar skin='light' color={color} sx={{ width: 34, height: 34 }}>
-            <Icon icon={invoiceStatusObj[invoiceStatus].icon} fontSize='1.25rem' />
-          </CustomAvatar>
-        </Tooltip>
-      )
-    }
-  },
-  {
-    flex: 0.25,
-    field: 'name',
-    minWidth: 300,
-    headerName: 'Client',
-    renderCell: ({ row }: CellType) => {
-      const { name, companyEmail } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              variant='body2'
-              sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
-            >
-              {name}
-            </Typography>
-            <Typography noWrap variant='caption'>
-              {companyEmail}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 90,
-    field: 'total',
-    headerName: 'Total',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{`$${row.total || 0}`}</Typography>
+    renderCell: ({ row }: CellType) => <StyledLink href={`/apps/invoice/preview/${row?.id}`}>{`#${row.id}`}</StyledLink>
   },
   {
     flex: 0.15,
     minWidth: 125,
-    field: 'issuedDate',
-    headerName: 'Issued Date',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.issuedDate}</Typography>
+    field: 'name',
+    headerName: 'Name',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.name}</Typography>
   },
   {
-    flex: 0.1,
-    minWidth: 90,
-    field: 'balance',
-    headerName: 'Balance',
-    renderCell: ({ row }: CellType) => {
-      return row.balance !== 0 ? (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.balance}
-        </Typography>
-      ) : (
-        <CustomChip size='small' skin='light' color='success' label='Paid' />
-      )
-    }
-  }
+    flex: 0.15,
+    minWidth: 125,
+    field: 'email',
+    headerName: 'Email',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.email}</Typography>
+  },
+  // {
+  //   flex: 0.1,
+  //   minWidth: 80,
+  //   field: 'invoiceStatus',
+  //   renderHeader: () => (
+  //     <Box sx={{ display: 'flex', color: 'action.active' }}>
+  //       <Icon icon='mdi:trending-up' fontSize={20} />
+  //     </Box>
+  //   ),
+  //   renderCell: ({ row }: CellType) => {
+  //     const { dueDate, balance, invoiceStatus } = row
+  //
+  //     const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary'
+  //
+  //     return (
+  //       <Tooltip
+  //         title={
+  //           <div>
+  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
+  //               {invoiceStatus}
+  //             </Typography>
+  //             <br />
+  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
+  //               Balance:
+  //             </Typography>{' '}
+  //             {balance}
+  //             <br />
+  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
+  //               Due Date:
+  //             </Typography>{' '}
+  //             {dueDate}
+  //           </div>
+  //         }
+  //       >
+  //         <CustomAvatar skin='light' color={color} sx={{ width: 34, height: 34 }}>
+  //           <Icon icon={invoiceStatusObj[invoiceStatus].icon} fontSize='1.25rem' />
+  //         </CustomAvatar>
+  //       </Tooltip>
+  //     )
+  //   }
+  // },
+  // {
+  //   flex: 0.25,
+  //   field: 'name',
+  //   minWidth: 300,
+  //   headerName: 'Client',
+  //   renderCell: ({ row }: CellType) => {
+  //     const { name, companyEmail } = row
+  //
+  //     return (
+  //       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+  //         {renderClient(row)}
+  //         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+  //           <Typography
+  //             noWrap
+  //             variant='body2'
+  //             sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
+  //           >
+  //             {name}
+  //           </Typography>
+  //           <Typography noWrap variant='caption'>
+  //             {companyEmail}
+  //           </Typography>
+  //         </Box>
+  //       </Box>
+  //     )
+  //   }
+  // },
+  // {
+  //   flex: 0.1,
+  //   minWidth: 90,
+  //   field: 'total',
+  //   headerName: 'Total',
+  //   renderCell: ({ row }: CellType) => <Typography variant='body2'>{`$${row.total || 0}`}</Typography>
+  // },
+  // {
+  //   flex: 0.15,
+  //   minWidth: 125,
+  //   field: 'issuedDate',
+  //   headerName: 'Issued Date',
+  //   renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.issuedDate}</Typography>
+  // },
+  // {
+  //   flex: 0.1,
+  //   minWidth: 90,
+  //   field: 'balance',
+  //   headerName: 'Balance',
+  //   renderCell: ({ row }: CellType) => {
+  //     return row.balance !== 0 ? (
+  //       <Typography variant='body2' sx={{ color: 'text.primary' }}>
+  //         {row.balance}
+  //       </Typography>
+  //     ) : (
+  //       <CustomChip size='small' skin='light' color='success' label='Paid' />
+  //     )
+  //   }
+  // }
 ]
 
 /* eslint-disable */
@@ -215,7 +234,7 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
   const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
-  props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
+  props.start === null && props.dates?.length && props.setDates ? props.setDates([]) : null
   const updatedProps = { ...props }
   delete updatedProps.setDates
 
@@ -234,18 +253,18 @@ const InvoiceList = () => {
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
 
   // ** Hooks
-  // const dispatch = useDispatch<AppDispatch>()
-  // const store = useSelector((state: RootState) => state.invoice)
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.member)
 
-  // useEffect(() => {
-  //   dispatch(
-  //     fetchData({
-  //       dates,
-  //       q: value,
-  //       status: statusValue
-  //     })
-  //   )
-  // }, [dispatch, statusValue, value, dates])
+  useEffect(() => {
+    dispatch(
+      fetchData({
+        dates,
+        q: value,
+        status: statusValue
+      })
+    )
+  }, [dispatch, statusValue, value, dates])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -274,11 +293,11 @@ const InvoiceList = () => {
       headerName: 'Actions',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title='Delete Invoice'>
-            <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => dispatch(deleteInvoice(row.id))}>
-              <Icon icon='mdi:delete-outline' />
-            </IconButton>
-          </Tooltip>
+          {/*<Tooltip title='Delete Invoice'>*/}
+          {/*  <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => dispatch(deleteInvoice(row.id))}>*/}
+          {/*    <Icon icon='mdi:delete-outline' />*/}
+          {/*  </IconButton>*/}
+          {/*</Tooltip>*/}
           <Tooltip title='View'>
             <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/apps/invoice/preview/${row.id}`}>
               <Icon icon='mdi:eye-outline' />
@@ -370,7 +389,7 @@ const InvoiceList = () => {
             <DataGrid
               autoHeight
               pagination
-              rows={[]}
+              rows={store.data || []}
               columns={columns}
               checkboxSelection
               disableSelectionOnClick

@@ -15,7 +15,7 @@ import { useAuth } from 'src/hooks/useAuth'
  */
 export const getHomeRoute = (role: string) => {
   if (role === 'client') return '/acl'
-  else return '/home'
+  else return '/dashboard'
 }
 
 const Home = () => {
@@ -31,6 +31,7 @@ const Home = () => {
     if (auth.user && auth.user.role) {
       const homeRoute = getHomeRoute(auth.user.role)
 
+      console.log(auth.user, 'ser')
       // Redirect user to Home URL
       router.replace(homeRoute)
     }
