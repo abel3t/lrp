@@ -3,10 +3,12 @@ import { configureStore } from '@reduxjs/toolkit'
 
 // ** Reducers
 import member from 'src/store/member'
+import friend from 'src/store/friend'
 
 export const store = configureStore({
   reducer: {
-    member
+    member,
+    friend
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

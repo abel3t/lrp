@@ -14,30 +14,30 @@ interface Redux {
   dispatch: Dispatch<any>
 }
 
-// ** Fetch Members
-export const fetchData = createAsyncThunk('member/fetchData', async (params: DataParams) => {
-  const response = await apiClient.get('/members')
+// ** Fetch Friends
+export const fetchData = createAsyncThunk('friend/fetchData', async (params: DataParams) => {
+  const response = await apiClient.get('/friends')
 
   console.log(response.data, 'data')
 
   return response.data
 })
 
-export const deleteMember = createAsyncThunk(
-  'appMember/deleteData',
+export const deleteFriend = createAsyncThunk(
+  'appFriend/deleteData',
   async (id: number | string, { getState, dispatch }: Redux) => {
-    const response = await apiClient.delete('/apps/member/delete', {
+    const response = await apiClient.delete('/apps/friend/delete', {
       data: id
     })
-    await dispatch(fetchData(getState().member.params))
+    await dispatch(fetchData(getState().friend.params))
 
 
     return response.data
   }
 )
 
-export const appMemberSlice = createSlice({
-  name: 'member',
+export const appFriendSlice = createSlice({
+  name: 'friend',
   initialState: {
     data: []
   },
@@ -49,4 +49,4 @@ export const appMemberSlice = createSlice({
   }
 })
 
-export default appMemberSlice.reducer
+export default appFriendSlice.reducer
