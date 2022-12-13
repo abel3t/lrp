@@ -2,6 +2,7 @@
 import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import apiClient from '../@core/services/api.client';
+import { Member } from '../@core/types';
 
 interface DataParams {
   q: string
@@ -18,7 +19,11 @@ interface Redux {
 export const fetchData = createAsyncThunk('member/fetchData', async () => {
   const response = await apiClient.get('/members')
 
-  console.log(response.data, 'data')
+  return response.data
+})
+
+export const fetchMemberData = createAsyncThunk('member/fetchMemberData', async (memberId: string) => {
+  const response = await apiClient.get(`/members/${memberId}`)
 
   return response.data
 })
@@ -39,12 +44,16 @@ export const fetchData = createAsyncThunk('member/fetchData', async () => {
 export const appMemberSlice = createSlice({
   name: 'member',
   initialState: {
-    data: []
+    data: [],
+    member: {} as Member
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
       state.data = action.payload;
+    }),
+    builder.addCase(fetchMemberData.fulfilled, (state, action) => {
+      state.member = action.payload;
     })
   }
 })

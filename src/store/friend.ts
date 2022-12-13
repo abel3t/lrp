@@ -18,8 +18,6 @@ interface Redux {
 export const fetchData = createAsyncThunk('friend/fetchData', async (params: DataParams) => {
   const response = await apiClient.get('/friends')
 
-  console.log(response.data, 'data')
-
   return response.data
 })
 

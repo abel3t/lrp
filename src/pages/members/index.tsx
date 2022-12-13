@@ -1,74 +1,38 @@
-// ** React Imports
-import { useState, useEffect, forwardRef } from 'react'
-
-// ** Next Import
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Tooltip from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
-import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
-import FormControl from '@mui/material/FormControl'
-import CardContent from '@mui/material/CardContent'
 import { DataGrid, GridRowId } from '@mui/x-data-grid'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
 
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Third Party Imports
-import format from 'date-fns/format'
-import DatePicker from 'react-datepicker'
-
-// ** Store & Actions Imports
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from 'src/store/member'
-
-// ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
 import { ThemeColor } from 'src/@core/layouts/types'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
-import TableHeader from './TableHeader'
-
-// ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import DialogEditUserInfo from './DialogMember';
+import { DiscipleshipProcess } from '../../@core/enums';
+import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import DialogMemberForm from './DialogMemberForm';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { FormMode } from '../../@core/types';
+import CustomChip from '../../@core/components/mui/chip';
 
 export type Member = {
   id: string;
   name: string;
-  email?: string;
-}
-
-interface InvoiceStatusObj {
-  [key: string]: {
-    icon: string
-    color: ThemeColor
-  }
-}
-
-interface CustomInputProps {
-  dates: Date[]
-  label: string
-  end: number | Date
-  start: number | Date
-  setDates?: (value: Date[]) => void
+  phone?: string;
+  discipleshipProcess?: DiscipleshipProcess;
 }
 
 interface CellType {
@@ -81,40 +45,14 @@ const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
-// ** Vars
-const invoiceStatusObj: InvoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'mdi:send' },
-  Paid: { color: 'success', icon: 'mdi:check' },
-  Draft: { color: 'primary', icon: 'mdi:content-save-outline' },
-  'Partial Payment': { color: 'warning', icon: 'mdi:chart-pie' },
-  'Past Due': { color: 'error', icon: 'mdi:information-outline' },
-  Downloaded: { color: 'info', icon: 'mdi:arrow-down' }
-}
-
-// ** renders client column
-// const renderClient = (row: Member) => {
-//   if (row.avatar.length) {
-//     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
-//   } else {
-//     return (
-//       <CustomAvatar
-//         skin='light'
-//         color={(row.avatarColor as ThemeColor) || ('primary' as ThemeColor)}
-//         sx={{ mr: 3, fontSize: '1rem', width: 34, height: 34 }}
-//       >
-//         {getInitials(row.name || 'John Doe')}
-//       </CustomAvatar>
-//     )
-//   }
-// }
 
 const defaultColumns = [
   {
     flex: 0.1,
     field: 'id',
-    minWidth: 80,
-    headerName: '#',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/members/${row?.id}`}>{`#${row.id}`}</StyledLink>
+    minWidth: 95,
+    headerName: 'ID',
+    renderCell: ({ row }: CellType) => <StyledLink href={`/members/${row?.id}`}>{`${row.id}`}</StyledLink>
   },
   {
     flex: 0.15,
@@ -124,136 +62,51 @@ const defaultColumns = [
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.name}</Typography>
   },
   {
-    flex: 0.15,
-    minWidth: 125,
-    field: 'email',
-    headerName: 'Email',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.email}</Typography>
+    flex: 0.09,
+    minWidth: 90,
+    field: 'phone',
+    headerName: 'Phone',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.phone || NotApplicable}</Typography>
   },
-  // {
-  //   flex: 0.1,
-  //   minWidth: 80,
-  //   field: 'invoiceStatus',
-  //   renderHeader: () => (
-  //     <Box sx={{ display: 'flex', color: 'action.active' }}>
-  //       <Icon icon='mdi:trending-up' fontSize={20} />
-  //     </Box>
-  //   ),
-  //   renderCell: ({ row }: CellType) => {
-  //     const { dueDate, balance, invoiceStatus } = row
-  //
-  //     const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary'
-  //
-  //     return (
-  //       <Tooltip
-  //         title={
-  //           <div>
-  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-  //               {invoiceStatus}
-  //             </Typography>
-  //             <br />
-  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-  //               Balance:
-  //             </Typography>{' '}
-  //             {balance}
-  //             <br />
-  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-  //               Due Date:
-  //             </Typography>{' '}
-  //             {dueDate}
-  //           </div>
-  //         }
-  //       >
-  //         <CustomAvatar skin='light' color={color} sx={{ width: 34, height: 34 }}>
-  //           <Icon icon={invoiceStatusObj[invoiceStatus].icon} fontSize='1.25rem' />
-  //         </CustomAvatar>
-  //       </Tooltip>
-  //     )
-  //   }
-  // },
-  // {
-  //   flex: 0.25,
-  //   field: 'name',
-  //   minWidth: 300,
-  //   headerName: 'Client',
-  //   renderCell: ({ row }: CellType) => {
-  //     const { name, companyEmail } = row
-  //
-  //     return (
-  //       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-  //         {renderClient(row)}
-  //         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-  //           <Typography
-  //             noWrap
-  //             variant='body2'
-  //             sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
-  //           >
-  //             {name}
-  //           </Typography>
-  //           <Typography noWrap variant='caption'>
-  //             {companyEmail}
-  //           </Typography>
-  //         </Box>
-  //       </Box>
-  //     )
-  //   }
-  // },
-  // {
-  //   flex: 0.1,
-  //   minWidth: 90,
-  //   field: 'total',
-  //   headerName: 'Total',
-  //   renderCell: ({ row }: CellType) => <Typography variant='body2'>{`$${row.total || 0}`}</Typography>
-  // },
-  // {
-  //   flex: 0.15,
-  //   minWidth: 125,
-  //   field: 'issuedDate',
-  //   headerName: 'Issued Date',
-  //   renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.issuedDate}</Typography>
-  // },
-  // {
-  //   flex: 0.1,
-  //   minWidth: 90,
-  //   field: 'balance',
-  //   headerName: 'Balance',
-  //   renderCell: ({ row }: CellType) => {
-  //     return row.balance !== 0 ? (
-  //       <Typography variant='body2' sx={{ color: 'text.primary' }}>
-  //         {row.balance}
-  //       </Typography>
-  //     ) : (
-  //       <CustomChip size='small' skin='light' color='success' label='Paid' />
-  //     )
-  //   }
-  // }
+  {
+    flex: 0.08,
+    minWidth: 80,
+    field: 'discipleshipProcess',
+    headerName: 'Discipleship Process',
+    renderCell: ({ row }: CellType) => {
+      if (!row.discipleshipProcess) {
+        return (
+          <Typography variant='body2'>{NotApplicable}</Typography>
+        )
+      }
+
+      return (
+        <CustomChip
+          skin='light'
+          size='small'
+          label={row.discipleshipProcess}
+          color={DiscipleshipProcessColor[row.discipleshipProcess || '']}
+          sx={{
+            height: 20,
+            fontWeight: 600,
+            borderRadius: '5px',
+            fontSize: '0.875rem',
+            textTransform: 'capitalize',
+            '& .MuiChip-label': { mt: -0.25 }
+          }}
+        />
+      )
+    }
+  }
 ]
 
-/* eslint-disable */
-const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
-
-  const value = `${startDate}${endDate !== null ? endDate : ''}`
-  props.start === null && props.dates?.length && props.setDates ? props.setDates([]) : null
-  const updatedProps = { ...props }
-  delete updatedProps.setDates
-
-  return <TextField fullWidth inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
-})
-/* eslint-enable */
-
-const MemberPage = () => {
-  // ** State
-
-  const [value, setValue] = useState<string>('')
+const MemberPage = () => {const [value, setValue] = useState<string>('')
+  const [formMode, setFormMode] = useState<FormMode>('create');
   const [pageSize, setPageSize] = useState<number>(10)
-  const [statusValue, setStatusValue] = useState<string>('')
-  const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
-  const [startDateRange, setStartDateRange] = useState<DateType>(null)
+  const [show, setShow] = useState<boolean>(false);
+  const [updateMember, setUpdateMember] = useState<any>(null)
 
-  // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.member)
 
@@ -267,6 +120,17 @@ const MemberPage = () => {
     setValue(val)
   }
 
+  const handleCreate = () => {
+    setUpdateMember(null);
+    setFormMode('create');
+    setShow(true);
+  }
+
+  const handleUpdate = (member: any) => {
+    setUpdateMember(member);
+    setFormMode('update')
+    setShow(true);
+  }
 
   const columns = [
     ...defaultColumns,
@@ -278,36 +142,31 @@ const MemberPage = () => {
       headerName: 'Actions',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {/*<Tooltip title='Delete Invoice'>*/}
-          {/*  <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => dispatch(deleteInvoice(row.id))}>*/}
-          {/*    <Icon icon='mdi:delete-outline' />*/}
-          {/*  </IconButton>*/}
-          {/*</Tooltip>*/}
           <Tooltip title='View'>
             <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/members/${row.id}`}>
               <Icon icon='mdi:eye-outline' />
             </IconButton>
           </Tooltip>
-          <OptionsMenu
-            iconProps={{ fontSize: 20 }}
-            iconButtonProps={{ size: 'small' }}
-            menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-            options={[
-              {
-                text: 'Download',
-                icon: <Icon icon='mdi:download' fontSize={20} />
-              },
-              {
-                text: 'Edit',
-                href: `/apps/invoice/edit/${row.id}`,
-                icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
-              },
-              {
-                text: 'Duplicate',
-                icon: <Icon icon='mdi:content-copy' fontSize={20} />
-              }
-            ]}
-          />
+          <Tooltip title='Edit'>
+            <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => handleUpdate(row)}>
+              <Icon icon='mdi:pencil-outline' />
+            </IconButton>
+          </Tooltip>
+          {/*<OptionsMenu*/}
+          {/*  iconProps={{ fontSize: 20 }}*/}
+          {/*  iconButtonProps={{ size: 'small' }}*/}
+          {/*  menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}*/}
+          {/*  options={[*/}
+          {/*    {*/}
+          {/*      text: 'Edit',*/}
+          {/*      icon: <Icon icon='mdi:pencil-outline' fontSize={20} />*/}
+          {/*    },*/}
+          {/*    {*/}
+          {/*      text: 'View',*/}
+          {/*      icon: <Icon icon='mdi:eye-outline' fontSize={20} />*/}
+          {/*    }*/}
+          {/*  ]}*/}
+          {/*/>*/}
         </Box>
       )
     }
@@ -318,7 +177,46 @@ const MemberPage = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={value} selectedRows={selectedRows} handleFilter={handleFilter} />
+            <Box
+              sx={{
+                p: 5,
+                pb: 3,
+                width: '100%',
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <Select
+                size='small'
+                displayEmpty
+                defaultValue=''
+                sx={{ mr: 4, mb: 2 }}
+                disabled={selectedRows && selectedRows.length === 0}
+                renderValue={selected => (selected.length === 0 ? 'Actions' : selected)}
+              >
+                <MenuItem disabled>Actions</MenuItem>
+                <MenuItem value='Delete'>Delete</MenuItem>
+                <MenuItem value='Edit'>Edit</MenuItem>
+              </Select>
+
+              <DialogMemberForm show={show} setShow={setShow} mode={formMode} member={updateMember}/>
+
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                <TextField
+                  size='small'
+                  value={value}
+                  placeholder='Search Member'
+                  sx={{ mr: 4, mb: 2, maxWidth: '180px' }}
+                  onChange={e => handleFilter(e.target.value)}
+                />
+                <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
+                  Create Member
+                </Button>
+              </Box>
+            </Box>
+
             <DataGrid
               autoHeight
               pagination

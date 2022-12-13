@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref } from 'react';
+import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref, useEffect } from 'react';
 
 // ** MUI Imports
 import FormHelperText from '@mui/material/FormHelperText'
@@ -25,6 +25,9 @@ import DatePicker from 'react-datepicker'
 import Icon from 'src/@core/components/icon'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
+import Cleave from 'cleave.js/react'
+import 'cleave.js/dist/addons/cleave-phone.vn'
+
 // ** Types
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
@@ -36,11 +39,17 @@ import apiClient from '../../@core/services/api.client';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { fetchData } from '../../store/member';
+import { FormMode } from '../../@core/types';
+import { DiscipleshipProcess } from '../../@core/enums';
+import CleaveWrapper from '../../@core/styles/libs/react-cleave';
 
-interface FormInputs {
-  birthday: DateType
+export interface FormInputs {
+  id: string
+  birthday: DateType | null
   email: string
+  phone: string;
   name: string
+  discipleshipProcess: string,
   address: string;
   hometown: string
   gender: string
@@ -55,10 +64,13 @@ interface CustomInputProps {
 }
 
 const defaultValues = {
+  id: '',
   birthday: null,
   email: '',
   name: '',
+  phone: '',
   address: '',
+  discipleshipProcess: '',
   hometown: '',
   gender: '',
   description: ''
@@ -77,8 +89,10 @@ const Transition = forwardRef(function Transition(
 
 
 type Props = {
-  show: boolean;
+  show: boolean
   setShow: any
+  mode: FormMode
+  member: FormInputs | null
 }
 
 const getUtcDate = (date?: DateType) => {
@@ -95,7 +109,7 @@ const getUtcDate = (date?: DateType) => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
 }
 
-const DialogEditUserInfo = ({ show, setShow }: Props) => {
+const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
   const validationSchema = yup.object().shape({
     birthday: yup.string(),
     email: yup.string().email(),
@@ -104,42 +118,71 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
     hometown: yup.string(),
     gender: yup.string(),
     description: yup.string(),
+    discipleshipProcess: yup.string()
   });
 
-  // ** Hooks
+  useEffect(() => {
+    if (member) {
+      Object.keys(defaultValues).forEach((key: any) => {
+        if ((member as any)[key]) {
+          if (key === 'birthday') {
+            setValue(key, new Date((member as any)[key]))
+            return;
+          }
+
+          setValue(key, (member as any)[key])
+        }
+      })
+    }
+
+  }, [member])
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
-    getValues
+    setValue,
+    reset
   } = useForm<FormInputs>({
-    defaultValues,
+    defaultValues: member || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
 
   const dispatch = useDispatch<AppDispatch>()
 
+  const handleCallApi = (mode: FormMode, data: FormInputs) => {
+    const { id, ..._data } = data;
+    const body: any = {
+      ..._data,
+      birthday: getUtcDate(data.birthday).toISOString()
+    }
+
+    if (mode === 'update') {
+      return apiClient.put(`/members/${id}`, body);
+    }
+
+    return  apiClient.put('/members', body);
+  }
+
   const onSubmit = (data: FormInputs) => {
-      setShow(false);
+    setShow(false);
 
-      apiClient.post('/members', {
-        ...data,
-        birthday: getUtcDate(data.birthday).toISOString()
+    handleCallApi(mode, data)
+      .then(() => {
+        reset(defaultValues);
+
+        dispatch(
+          fetchData()
+        )
+        const messageMode = mode === 'update' ? 'Update' : 'Create';
+
+        toast.success(`${messageMode} member successfully!`)
       })
-        .then(() => {
-          reset(defaultValues);
-
-          dispatch(
-            fetchData()
-          )
-          toast.success('Create member successfully!')
-        })
-        .catch((error) => {
-          reset(defaultValues)
-          toast.error(error.message)
-        })
+      .catch((error) => {
+        reset(defaultValues)
+        toast.error(error.message)
+      })
   }
 
   const handleClose = () => {
@@ -168,9 +211,11 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              Edit User Information
+              {
+                mode === 'create' ?
+                  'Create Member' : 'Update Member'
+              }
             </Typography>
-            <Typography variant='body2'>Updating user details will receive a privacy audit.</Typography>
           </Box>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -194,10 +239,65 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                   />
                   {errors.name && (
                     <FormHelperText sx={{ color: 'error.main' }} id='validate-name'>
-                      This field is required
+                      Name is required
                     </FormHelperText>
                   )}
                 </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel
+                    id='discipleship-process-select'
+                    error={Boolean(errors.discipleshipProcess)}
+                    htmlFor='discipleship-process-select'
+                  >
+                    Discipleship Process
+                  </InputLabel>
+                  <Controller
+                    name='discipleshipProcess'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <Select
+                        value={value}
+                        label='Discipleship Process'
+                        onChange={onChange}
+                        error={Boolean(errors.discipleshipProcess)}
+                        labelId='discipleship-process-select'
+                        aria-describedby='member-discipleship-process'
+                      >
+                        {
+                          Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
+                            return <MenuItem value={discipleshipProcess} key={index}>{discipleshipProcess}</MenuItem>
+                          })
+                        }
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <CleaveWrapper>
+                  <FormControl fullWidth>
+                    <Controller
+                      name='phone'
+                      control={control}
+                      rules={{ required: false }}
+                      render={({ field: { value, onChange } }) => (
+                        <Cleave
+                          id='validate-number'
+                          value={value}
+                          onChange={onChange}
+                          placeholder='Phone'
+                          aria-describedby='validate-phone'
+                          options={{ phone: true, phoneRegionCode: 'VN' }}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                </CleaveWrapper>
               </Grid>
 
               <Grid item xs={12} sm={6}>
@@ -218,11 +318,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                       />
                     )}
                   />
-                  {errors.email && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validate-email'>
-                      This field is required
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
 
@@ -235,6 +330,7 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         selected={value}
+                        openToDate={value || new Date(new Date().getFullYear() - 20, 0, 1)}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -252,11 +348,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                       />
                     )}
                   />
-                  {errors.birthday && (
-                    <FormHelperText sx={{ mx: 3.5, color: 'error.main' }} id='validate-birthday'>
-                      This field is required
-                    </FormHelperText>
-                  )}
                 </DatePickerWrapper>
 
               </Grid>
@@ -278,11 +369,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                       />
                     )}
                   />
-                  {errors.email && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validate-address'>
-                      This field is required
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
 
@@ -303,11 +389,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                       />
                     )}
                   />
-                  {errors.hometown && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validate-homwtown'>
-                      This field is required
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
 
@@ -338,11 +419,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                       </Select>
                     )}
                   />
-                  {errors.gender && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validate-gender'>
-                      This field is required
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
 
@@ -363,11 +439,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
                       />
                     )}
                   />
-                  {errors.description && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validate-description'>
-                      This field is required
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
 
@@ -378,7 +449,6 @@ const DialogEditUserInfo = ({ show, setShow }: Props) => {
               </Grid>
             </Grid>
           </form>
-
 
         </DialogContent>
 
