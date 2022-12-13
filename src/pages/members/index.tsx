@@ -15,7 +15,6 @@ import Icon from 'src/@core/components/icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from 'src/store/member'
 import { RootState, AppDispatch } from 'src/store'
-import { ThemeColor } from 'src/@core/layouts/types'
 
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { DiscipleshipProcess } from '../../@core/enums'

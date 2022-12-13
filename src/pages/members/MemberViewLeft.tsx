@@ -39,6 +39,7 @@ import { ColorsType } from '../../@core/interface'
 import { DiscipleshipProcess } from '../../@core/enums'
 import apiClient from '../../@core/services/api.client'
 import toast from 'react-hot-toast'
+import DialogMemberForm from './DialogMemberForm';
 
 const statusColors: ColorsType = {
   active: 'success',
@@ -188,112 +189,7 @@ const MemberViewLeft = () => {
               </Button>
             </CardActions>
 
-            <Dialog
-              open={openEdit}
-              onClose={handleEditClose}
-              aria-labelledby='member-edit'
-              sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 650, p: [2, 10] } }}
-              aria-describedby='member-edit-description'
-            >
-              <DialogTitle id='member-edit' sx={{ textAlign: 'center', fontSize: '1.5rem !important' }}>
-                Edit Member
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText variant='body2' id='member-edit-description' sx={{ textAlign: 'center', mb: 7 }}>
-                  Updating member details
-                </DialogContentText>
-                <form>
-                  <Grid container spacing={6}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Name' defaultValue={store.member.name} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label='Username'
-                        defaultValue={store.member.name}
-                        InputProps={{ startAdornment: <InputAdornment position='start'>@</InputAdornment> }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField fullWidth type='email' label='Email' defaultValue={store.member.email} />
-                    </Grid>
-
-                    {/*<Grid item xs={12} sm={6}>*/}
-                    {/*  <FormControl fullWidth>*/}
-                    {/*    <InputLabel id='user-view-status-label'>Status</InputLabel>*/}
-                    {/*    <Select*/}
-                    {/*      label='Status'*/}
-                    {/*      defaultValue={store.member.status}*/}
-                    {/*      id='user-view-status'*/}
-                    {/*      labelId='user-view-status-label'*/}
-                    {/*    >*/}
-                    {/*      <MenuItem value='pending'>Pending</MenuItem>*/}
-                    {/*      <MenuItem value='active'>Active</MenuItem>*/}
-                    {/*      <MenuItem value='inactive'>Inactive</MenuItem>*/}
-                    {/*    </Select>*/}
-                    {/*  </FormControl>*/}
-                    {/*</Grid>*/}
-                    <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Phone' defaultValue={store.member.phone} />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel id='member-discipleshipProcess-label'>Discipleship Progress</InputLabel>
-                        <Select
-                          defaultValue={store.member.discipleshipProcess || ''}
-                          label='Discipleship Progress'
-                          id='member-discipleshipProcess'
-                          labelId='member-discipleshipProcess-label'
-                        >
-                          {Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
-                            return (
-                              <MenuItem value={discipleshipProcess} key={index}>
-                                {discipleshipProcess}
-                              </MenuItem>
-                            )
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel id='user-view-country-label'>Country</InputLabel>
-                        <Select
-                          label='Country'
-                          defaultValue='USA'
-                          id='user-view-country'
-                          labelId='user-view-country-label'
-                        >
-                          <MenuItem value='USA'>USA</MenuItem>
-                          <MenuItem value='UK'>UK</MenuItem>
-                          <MenuItem value='Spain'>Spain</MenuItem>
-                          <MenuItem value='Russia'>Russia</MenuItem>
-                          <MenuItem value='France'>France</MenuItem>
-                          <MenuItem value='Germany'>Germany</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormControlLabel
-                        label='Use as a billing address?'
-                        control={<Switch defaultChecked />}
-                        sx={{ '& .MuiTypography-root': { fontWeight: 500 } }}
-                      />
-                    </Grid>
-                  </Grid>
-                </form>
-              </DialogContent>
-              <DialogActions sx={{ justifyContent: 'center' }}>
-                <Button variant='contained' sx={{ mr: 1 }} onClick={handleEditClose}>
-                  Submit
-                </Button>
-                <Button variant='outlined' color='secondary' onClick={handleEditClose}>
-                  Cancel
-                </Button>
-              </DialogActions>
-            </Dialog>
+            <DialogMemberForm show={openEdit} setShow={setOpenEdit} mode='update' member={store.member} fetchApi={fetchMemberData} />
           </Card>
         </Grid>
       </Grid>

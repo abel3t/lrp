@@ -91,7 +91,8 @@ type Props = {
   show: boolean
   setShow: any
   mode: FormMode
-  member: FormInputs | null
+  member: any | null,
+  fetchApi?: any;
 }
 
 const getUtcDate = (date?: DateType) => {
@@ -108,7 +109,7 @@ const getUtcDate = (date?: DateType) => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
 }
 
-const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
+const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) => {
   const validationSchema = yup.object().shape({
     birthday: yup.string(),
     email: yup.string().email(),
@@ -169,8 +170,12 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
     handleCallApi(mode, data)
       .then(() => {
         reset(defaultValues)
+        if (fetchApi && data.id) {
+          dispatch(fetchApi(data.id))
+        } else {
+          dispatch(fetchData())
+        }
 
-        dispatch(fetchData())
         const messageMode = mode === 'update' ? 'Update' : 'Create'
 
         toast.success(`${messageMode} member successfully!`)
