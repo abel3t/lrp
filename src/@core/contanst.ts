@@ -1,4 +1,4 @@
-import { DiscipleshipProcess, FriendType } from './enums';
+import { DiscipleshipProcess, FriendType } from './enums'
 import { ColorsType } from './interface'
 
 export const NotApplicable = 'N/A'

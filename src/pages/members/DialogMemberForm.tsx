@@ -91,8 +91,8 @@ type Props = {
   show: boolean
   setShow: any
   mode: FormMode
-  member: any | null,
-  fetchApi?: any;
+  member: any | null
+  fetchApi?: any
 }
 
 const getUtcDate = (date?: DateType) => {

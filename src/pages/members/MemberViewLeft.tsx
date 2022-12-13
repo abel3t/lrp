@@ -39,7 +39,7 @@ import { ColorsType } from '../../@core/interface'
 import { DiscipleshipProcess } from '../../@core/enums'
 import apiClient from '../../@core/services/api.client'
 import toast from 'react-hot-toast'
-import DialogMemberForm from './DialogMemberForm';
+import DialogMemberForm from './DialogMemberForm'
 
 const statusColors: ColorsType = {
   active: 'success',
@@ -189,7 +189,13 @@ const MemberViewLeft = () => {
               </Button>
             </CardActions>
 
-            <DialogMemberForm show={openEdit} setShow={setOpenEdit} mode='update' member={store.member} fetchApi={fetchMemberData} />
+            <DialogMemberForm
+              show={openEdit}
+              setShow={setOpenEdit}
+              mode='update'
+              member={store.member}
+              fetchApi={fetchMemberData}
+            />
           </Card>
         </Grid>
       </Grid>

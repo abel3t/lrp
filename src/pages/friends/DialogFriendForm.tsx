@@ -40,9 +40,9 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../store'
 import { fetchData } from '../../store/friend'
 import { FormMode } from '../../@core/types'
-import { FriendType } from '../../@core/enums';
+import { FriendType } from '../../@core/enums'
 import CleaveWrapper from '../../@core/styles/libs/react-cleave'
-import { FriendTypeText } from '../../@core/contanst';
+import { FriendTypeText } from '../../@core/contanst'
 
 export interface FormInputs {
   id: string
@@ -92,8 +92,8 @@ type Props = {
   show: boolean
   setShow: any
   mode: FormMode
-  friend: any | null,
-  fetchApi?: any;
+  friend: any | null
+  fetchApi?: any
 }
 
 const getUtcDate = (date?: DateType) => {
@@ -235,11 +235,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel
-                    id='friend-type-select'
-                    error={Boolean(errors.type)}
-                    htmlFor='friend-type-select'
-                  >
+                  <InputLabel id='friend-type-select' error={Boolean(errors.type)} htmlFor='friend-type-select'>
                     Relationship Process
                   </InputLabel>
                   <Controller

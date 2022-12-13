@@ -38,9 +38,9 @@ export const appFriendSlice = createSlice({
     builder.addCase(fetchData.fulfilled, (state, action) => {
       state.data = action.payload
     }),
-    builder.addCase(fetchFriendData.fulfilled, (state, action) => {
-      state.friend = action.payload
-    })
+      builder.addCase(fetchFriendData.fulfilled, (state, action) => {
+        state.friend = action.payload
+      })
   }
 })
 

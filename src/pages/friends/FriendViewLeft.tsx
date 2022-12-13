@@ -20,7 +20,7 @@ import { fetchFriendData } from '../../store/friend'
 import { useRouter } from 'next/router'
 import { NotApplicable } from '../../@core/contanst'
 import { ColorsType } from '../../@core/interface'
-import DialogFriendForm from './DialogFriendForm';
+import DialogFriendForm from './DialogFriendForm'
 
 const statusColors: ColorsType = {
   active: 'success',
@@ -151,7 +151,13 @@ const FriendViewLeft = () => {
               </Button>
             </CardActions>
 
-            <DialogFriendForm show={openEdit} setShow={setOpenEdit} mode='update' friend={store.friend} fetchApi={fetchFriendData} />
+            <DialogFriendForm
+              show={openEdit}
+              setShow={setOpenEdit}
+              mode='update'
+              friend={store.friend}
+              fetchApi={fetchFriendData}
+            />
           </Card>
         </Grid>
       </Grid>
