@@ -1,3 +1,5 @@
+import { FriendType } from './enums';
+
 export type FormMode = 'create' | 'update'
 
 export type Member = {
@@ -21,4 +23,17 @@ export type Member = {
   giveChildDay?: string
   hometown?: string
   otherRole?: string
+}
+
+export type Friend = {
+  id?: string
+  name?: string
+  phone?: string
+  gender?: string
+  birthday?: string
+  address?: string
+  email?: string
+  description?: string
+  hometown?: string;
+  type: FriendType
 }

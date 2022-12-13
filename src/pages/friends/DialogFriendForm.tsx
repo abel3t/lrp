@@ -38,10 +38,11 @@ import { useForm, Controller } from 'react-hook-form'
 import apiClient from '../../@core/services/api.client'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../store'
-import { fetchData } from '../../store/member'
+import { fetchData } from '../../store/friend'
 import { FormMode } from '../../@core/types'
-import { DiscipleshipProcess } from '../../@core/enums'
+import { FriendType } from '../../@core/enums';
 import CleaveWrapper from '../../@core/styles/libs/react-cleave'
+import { FriendTypeText } from '../../@core/contanst';
 
 export interface FormInputs {
   id: string
@@ -49,7 +50,7 @@ export interface FormInputs {
   email: string
   phone: string
   name: string
-  discipleshipProcess: string
+  type: string
   address: string
   hometown: string
   gender: string
@@ -70,7 +71,7 @@ const defaultValues = {
   name: '',
   phone: '',
   address: '',
-  discipleshipProcess: '',
+  type: '',
   hometown: '',
   gender: '',
   description: ''
@@ -91,7 +92,7 @@ type Props = {
   show: boolean
   setShow: any
   mode: FormMode
-  member: any | null,
+  friend: any | null,
   fetchApi?: any;
 }
 
@@ -109,7 +110,7 @@ const getUtcDate = (date?: DateType) => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
 }
 
-const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) => {
+const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) => {
   const validationSchema = yup.object().shape({
     birthday: yup.string(),
     email: yup.string().email(),
@@ -118,23 +119,23 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     hometown: yup.string(),
     gender: yup.string(),
     description: yup.string(),
-    discipleshipProcess: yup.string()
+    type: yup.string()
   })
 
   useEffect(() => {
-    if (member) {
+    if (friend) {
       Object.keys(defaultValues).forEach((key: any) => {
-        if ((member as any)[key]) {
+        if ((friend as any)[key]) {
           if (key === 'birthday') {
-            setValue(key, new Date((member as any)[key]))
+            setValue(key, new Date((friend as any)[key]))
             return
           }
 
-          setValue(key, (member as any)[key])
+          setValue(key, (friend as any)[key])
         }
       })
     }
-  }, [member])
+  }, [friend])
 
   const {
     control,
@@ -143,7 +144,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     setValue,
     reset
   } = useForm<FormInputs>({
-    defaultValues: member || defaultValues,
+    defaultValues: friend || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
@@ -158,10 +159,10 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     }
 
     if (mode === 'update') {
-      return apiClient.put(`/members/${id}`, body)
+      return apiClient.put(`/friends/${id}`, body)
     }
 
-    return apiClient.post('/members', body)
+    return apiClient.post('/friends', body)
   }
 
   const onSubmit = (data: FormInputs) => {
@@ -178,7 +179,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
 
         const messageMode = mode === 'update' ? 'Update' : 'Create'
 
-        toast.success(`${messageMode} member successfully!`)
+        toast.success(`${messageMode} friend successfully!`)
       })
       .catch(error => {
         reset(defaultValues)
@@ -201,7 +202,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              {mode === 'create' ? 'Create Member' : 'Update Member'}
+              {mode === 'create' ? 'Create Friend' : 'Update Friend'}
             </Typography>
           </Box>
 
@@ -235,29 +236,30 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel
-                    id='discipleship-process-select'
-                    error={Boolean(errors.discipleshipProcess)}
-                    htmlFor='discipleship-process-select'
+                    id='friend-type-select'
+                    error={Boolean(errors.type)}
+                    htmlFor='friend-type-select'
                   >
-                    Discipleship Process
+                    Relationship Process
                   </InputLabel>
                   <Controller
-                    name='discipleshipProcess'
+                    name='type'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Discipleship Process'
+                        label='Relationship Process'
                         onChange={onChange}
-                        error={Boolean(errors.discipleshipProcess)}
-                        labelId='discipleship-process-select'
-                        aria-describedby='member-discipleship-process'
+                        error={Boolean(errors.type)}
+                        labelId='friend-type-select'
+                        aria-describedby='friend-friend-type'
                       >
-                        {Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
+                        {Object.values(FriendType).map((type, index) => {
+                          console.log(type)
                           return (
-                            <MenuItem value={discipleshipProcess} key={index}>
-                              {discipleshipProcess}
+                            <MenuItem value={type} key={index}>
+                              {FriendTypeText[type]}
                             </MenuItem>
                           )
                         })}
