@@ -35,6 +35,7 @@ const AuthProvider = ({ children }: Props) => {
   // ** States
   const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
+  const [isGettingRefreshToken, setIsGettingRefreshToken] = useState(false);
 
   // ** Hooks
   const router = useRouter()
@@ -54,16 +55,32 @@ const AuthProvider = ({ children }: Props) => {
           }
 
           const nowTimestamp = new Date().getTime()
-          console.log('before send request', config.url, localStorage.getItem('token') || '')
           apiClient.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token') || ''}`
+          const refreshToken = localStorage.getItem(authConfig.refreshToken);
+          const expiredTime = Number.parseInt(localStorage.getItem(authConfig.expiredTime) || '0');
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-          // if (expiredTime < nowTimestamp) {
-          //   if (!refreshToken) {
-          //     return Promise.reject(new Error('Invalid refresh token'));
-          //   }
-          //
-          //   instance.post('/refresh-token').then()
-          // }
+          if (expiredTime < nowTimestamp && !isGettingRefreshToken) {
+            if (!refreshToken || !user?.username) {
+              return Promise.reject(new Error('Invalid refresh token'));
+            }
+            setIsGettingRefreshToken(true);
+
+            apiClient.post('/refresh-token', { username: user.username, refreshToken } )
+              .then(async response => {
+                apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`
+
+                localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token);
+                localStorage.setItem(authConfig.refreshToken, response.data.accessToken?.refreshToken);
+                localStorage.setItem(authConfig.expiredTime, `${new Date().getTime() + 55 * 60 * 60}`);
+                localStorage.setItem('user', JSON.stringify(response.data.user))
+                setIsGettingRefreshToken(false)
+              })
+              .catch(err => {
+                console.log(err);
+                setIsGettingRefreshToken(false);
+              })
+          }
 
           return config
         },
@@ -87,7 +104,7 @@ const AuthProvider = ({ children }: Props) => {
       if (storedToken) {
         apiClient.defaults.headers['Authorization'] = `Bearer ${storedToken}`
 
-        const user = JSON.parse(localStorage.getItem('userData') || '')
+        const user = JSON.parse(localStorage.getItem('user') || '')
         if (user) {
           setUser(user)
         }
@@ -100,20 +117,23 @@ const AuthProvider = ({ children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
+
   const handleLogin = ({ username, password, rememberMe }: LoginParams, errorCallback?: ErrCallbackType) => {
     apiClient
       .post(authConfig.loginEndpoint, { username, password })
       .then(async response => {
         apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`
 
-        rememberMe
-          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token)
-          : null
+        if (rememberMe) {
+          localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token);
+          localStorage.setItem(authConfig.expiredTime, `${new Date().getTime() + 55 * 60 * 60}`);
+          localStorage.setItem(authConfig.refreshToken, response.data.accessToken?.refreshToken);
+          localStorage.setItem('user', JSON.stringify(response.data.user))
+        }
 
+        setUser({ ...response.data.user })
         const returnUrl = router.query.returnUrl
-
-        setUser({ ...response.data.userData })
-        rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
@@ -127,7 +147,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const handleLogout = () => {
     setUser(null)
-    window.localStorage.removeItem('userData')
+    window.localStorage.removeItem('user')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
 
     apiClient.defaults.headers['Authorization'] = null
