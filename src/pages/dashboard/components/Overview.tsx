@@ -19,74 +19,74 @@ import { ThemeColor } from 'src/@core/layouts/types'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 
-interface SaleDataType {
+interface OverviewDataType {
   stats: string
   title: string
   color: ThemeColor
   icon: ReactElement
 }
 
-const salesData: SaleDataType[] = [
+const OverviewsData: OverviewDataType[] = [
   {
-    stats: '8,458',
+    stats: '28',
     color: 'primary',
-    title: 'Customers',
+    title: 'Members',
     icon: <Icon icon='mdi:account-outline' />
   },
   {
-    stats: '$28.5k',
+    stats: '5',
     color: 'warning',
-    title: 'Total Profit',
-    icon: <Icon icon='mdi:poll' />
+    title: 'Friends',
+    icon: <Icon icon='mdi:account-outline' />
   },
   {
     color: 'info',
-    stats: '2,450k',
-    title: 'Transactions',
-    icon: <Icon icon='mdi:trending-up' />
+    stats: '2',
+    title: 'Unbelievers',
+    icon: <Icon icon='mdi:account-outline' />
   }
 ]
 
 const renderStats = () => {
-  return salesData.map((sale: SaleDataType, index: number) => (
+  return OverviewsData.map((Overview: OverviewDataType, index: number) => (
     <Grid item xs={12} sm={4} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-        <CustomAvatar skin='light' variant='rounded' color={sale.color} sx={{ mr: 4 }}>
-          {sale.icon}
+        <CustomAvatar skin='light' variant='rounded' color={Overview.color} sx={{ mr: 4 }}>
+          {Overview.icon}
         </CustomAvatar>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant='h6' sx={{ fontWeight: 600 }}>
-            {sale.stats}
+            {Overview.stats}
           </Typography>
-          <Typography variant='caption'>{sale.title}</Typography>
+          <Typography variant='caption'>{Overview.title}</Typography>
         </Box>
       </Box>
     </Grid>
   ))
 }
 
-const SalesOverview = () => {
+const Overview = () => {
   return (
     <Card>
       <CardHeader
         sx={{ pb: 3.25 }}
-        title='Sales Overview'
+        title='Overview'
         titleTypographyProps={{ variant: 'h6' }}
         action={
           <OptionsMenu
-            options={['Last 28 Days', 'Last Month', 'Last Year']}
+            options={['Last Month', 'Last Year']}
             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
           />
         }
         subheader={
           <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
             <Typography variant='caption' sx={{ mr: 1.5 }}>
-              Total 42.5k Sales
+              Total 35 people
             </Typography>
-            <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-              +18%
-            </Typography>
-            <Icon icon='mdi:chevron-up' fontSize={20} />
+            {/*<Typography variant='subtitle2' sx={{ color: 'success.main' }}>*/}
+            {/*  +18%*/}
+            {/*</Typography>*/}
+            {/*<Icon icon='mdi:chevron-up' fontSize={20} />*/}
           </Box>
         }
       />
@@ -99,4 +99,4 @@ const SalesOverview = () => {
   )
 }
 
-export default SalesOverview
+export default Overview

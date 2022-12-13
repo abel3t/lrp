@@ -114,7 +114,7 @@ const defaultColumns = [
     field: 'id',
     minWidth: 80,
     headerName: '#',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/members/view/${row?.id}`}>{`#${row.id}`}</StyledLink>
+    renderCell: ({ row }: CellType) => <StyledLink href={`/members/${row?.id}`}>{`#${row.id}`}</StyledLink>
   },
   {
     flex: 0.15,
@@ -284,7 +284,7 @@ const MemberPage = () => {
           {/*  </IconButton>*/}
           {/*</Tooltip>*/}
           <Tooltip title='View'>
-            <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/apps/invoice/preview/${row.id}`}>
+            <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/members/${row.id}`}>
               <Icon icon='mdi:eye-outline' />
             </IconButton>
           </Tooltip>

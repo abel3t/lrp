@@ -9,13 +9,9 @@ import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import RechartsWrapper from 'src/@core/styles/libs/recharts'
 
 // ** Demo Components Imports
-import Table from './components/Table'
-import TotalVisits from './components/TotalVisits'
-import SalesOverview from './components/SalesOverview'
-import WeeklySalesBg from './components/WeeklySalesBg'
-import MarketingSales from './components/MarketingSales'
-import ActivityTimeline from './components/ActivityTimeline'
-import SalesOverviewWithTabs from './components/SalesOverviewWithTabs'
+import Overview from './components/Overview'
+import NeedingMoreCare from './components/NeedingMoreCare'
+import TopCaringPeople from './components/TopCaringPeople'
 
 const Dashboard = () => {
   return (
@@ -23,50 +19,36 @@ const Dashboard = () => {
       <KeenSliderWrapper>
         <Grid container spacing={6} className='match-height'>
           <Grid item xs={12} md={6}>
-            <SalesOverview />
+            <Overview />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CardStatisticsCharacter
               data={{
-                stats: '8.14k',
-                title: 'Ratings',
+                stats: '25',
+                title: 'Members',
                 chipColor: 'primary',
                 trendNumber: '+15.6%',
-                chipText: 'Year of 2022',
-                src: '/images/cards/card-stats-img-1.png'
+                chipText: 'This Week'
               }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CardStatisticsCharacter
               data={{
-                stats: '12.2k',
+                stats: '20',
                 trend: 'negative',
-                title: 'Sessions',
+                title: 'Members',
                 chipColor: 'success',
                 trendNumber: '-25.5%',
                 chipText: 'Last Month',
-                src: '/images/cards/card-stats-img-2.png'
               }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <WeeklySalesBg />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TotalVisits />
+            <NeedingMoreCare />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ActivityTimeline />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <SalesOverviewWithTabs />
-          </Grid>
-          <Grid item xs={12} md={5} sx={{ order: [2, 2, 1] }}>
-            <MarketingSales />
-          </Grid>
-          <Grid item xs={12} md={8} sx={{ order: 3 }}>
-            <Table />
+            <TopCaringPeople />
           </Grid>
         </Grid>
       </KeenSliderWrapper>

@@ -73,7 +73,7 @@ const data: DataType[] = [
   }
 ]
 
-const UserViewSecurity = () => {
+const MemberMinistry = () => {
   // ** States
   const [defaultValues, setDefaultValues] = useState<any>({ mobile: '+1(968) 819-2547' })
   const [mobileNumber, setMobileNumber] = useState<string>(defaultValues.mobile)
@@ -228,7 +228,7 @@ const UserViewSecurity = () => {
             <Typography variant='body2'>
               Two-factor authentication adds an additional layer of security to your account by requiring more than just
               a password to log in.{' '}
-              <Link href='/' onClick={(e: SyntheticEvent) => e.preventDefault()}>
+              <Link href='/src/pages' onClick={(e: SyntheticEvent) => e.preventDefault()}>
                 Learn more
               </Link>
               .
@@ -275,47 +275,8 @@ const UserViewSecurity = () => {
           </Dialog>
         </Card>
       </Grid>
-
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Recent devices' />
-
-          <Divider sx={{ m: '0 !important' }} />
-
-          <TableContainer>
-            <Table sx={{ minWidth: 500 }}>
-              <TableHead
-                sx={{ backgroundColor: theme => (theme.palette.mode === 'light' ? 'grey.50' : 'background.default') }}
-              >
-                <TableRow>
-                  <TableCell>Browser</TableCell>
-                  <TableCell>Device</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Recent Activity</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {data.map((item: DataType, index: number) => (
-                  <TableRow hover key={index} sx={{ '&:last-of-type td': { border: 0 } }}>
-                    <TableCell>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <img width='22' height='22' alt='Chrome' src='/images/logos/chrome.png' />
-                        <Typography sx={{ ml: 2, fontWeight: 500, fontSize: '0.875rem' }}>{item.browser}</Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{item.device}</TableCell>
-                    <TableCell>{item.location}</TableCell>
-                    <TableCell>{item.recentActivity}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Card>
-      </Grid>
     </Grid>
   )
 }
 
-export default UserViewSecurity
+export default MemberMinistry

@@ -18,10 +18,10 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import UserViewOverview from './UserViewOverview'
-import UserViewSecurity from './UserViewSecurity'
-import UserViewConnection from './UserViewConnection'
-import UserViewNotification from './UserViewNotification'
+import MemberOverview from './MemberOverview'
+import MemberMinistry from './MemberMinistry'
+import MemberNetwork from './MemberNetwork'
+import MemberTeam from './MemberTeam'
 
 // ** Types
 import { InvoiceType } from 'src/types/apps/invoiceTypes'
@@ -41,7 +41,7 @@ const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, invoiceData }: Props) => {
+const MemberViewRight = ({ tab, invoiceData }: Props) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -77,9 +77,9 @@ const UserViewRight = ({ tab, invoiceData }: Props) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='Overview' icon={<Icon icon='mdi:account-outline' />} />
-        <Tab value='security' label='Security' icon={<Icon icon='mdi:lock-outline' />} />
-        <Tab value='notification' label='Notification' icon={<Icon icon='mdi:bell-outline' />} />
-        <Tab value='connection' label='Connection' icon={<Icon icon='mdi:link-variant' />} />
+        {/*<Tab value='ministry' label='Ministry' icon={<Icon icon='mdi:lock-outline' />} />*/}
+        {/*<Tab value='team' label='Team' icon={<Icon icon='mdi:bell-outline' />} />*/}
+        <Tab value='network' label='Network' icon={<Icon icon='mdi:link-variant' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -90,16 +90,16 @@ const UserViewRight = ({ tab, invoiceData }: Props) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <UserViewOverview invoiceData={invoiceData} />
+              <MemberOverview invoiceData={invoiceData} />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='security'>
-              <UserViewSecurity />
+            <TabPanel sx={{ p: 0 }} value='ministry'>
+              <MemberMinistry />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='notification'>
-              <UserViewNotification />
+            <TabPanel sx={{ p: 0 }} value='team'>
+              <MemberTeam />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='connection'>
-              <UserViewConnection />
+            <TabPanel sx={{ p: 0 }} value='network'>
+              <MemberNetwork />
             </TabPanel>
           </>
         )}
@@ -108,4 +108,4 @@ const UserViewRight = ({ tab, invoiceData }: Props) => {
   )
 }
 
-export default UserViewRight
+export default MemberViewRight

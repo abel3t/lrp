@@ -17,7 +17,7 @@ interface Props {
 
 const CardStatsCharacter = ({ data }: Props) => {
   // ** Vars
-  const { title, chipText, src, stats, trendNumber, trend = 'positive', chipColor = 'primary' } = data
+  const { title, chipText, stats, trendNumber, trend = 'positive', chipColor = 'primary' } = data
 
   return (
     <Card sx={{ overflow: 'visible', position: 'relative' }}>
@@ -36,13 +36,10 @@ const CardStatsCharacter = ({ data }: Props) => {
               <Typography variant='h5' sx={{ mr: 1.5 }}>
                 {stats}
               </Typography>
-              <Typography variant='caption' sx={{ color: trend === 'negative' ? 'error.main' : 'success.main' }}>
-                {trendNumber}
-              </Typography>
+              {/*<Typography variant='caption' sx={{ color: trend === 'negative' ? 'error.main' : 'success.main' }}>*/}
+              {/*  {trendNumber}*/}
+              {/*</Typography>*/}
             </Box>
-          </Grid>
-          <Grid item xs={6} sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-            <img src={src} alt={title} height={134} />
           </Grid>
         </Grid>
       </CardContent>

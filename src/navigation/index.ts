@@ -18,28 +18,28 @@ const navigation = (): VerticalNavItemsType => {
       path: '/cares',
       icon: 'mdi:calendar-plus-outline'
     },
-    {
-      title: 'Friends',
-      path: '/friends',
-      icon: 'mdi:account-multiple-outline'
-    },
-    {
-      title: 'Ministry',
-      path: '/ministries',
-      icon: 'mdi:church-outline'
-    },
-    {
-      title: 'Teams',
-      path: '/teams',
-      icon: 'mdi:account-group-outline'
-    },
-    {
-      path: '/acl',
-      action: 'read',
-      subject: 'acl-page',
-      title: 'Access Control',
-      icon: 'mdi:shield-outline'
-    }
+    // {
+    //   title: 'Friends',
+    //   path: '/friends',
+    //   icon: 'mdi:account-multiple-outline'
+    // },
+    // {
+    //   title: 'Ministry',
+    //   path: '/ministries',
+    //   icon: 'mdi:church-outline'
+    // },
+    // {
+    //   title: 'Teams',
+    //   path: '/teams',
+    //   icon: 'mdi:account-group-outline'
+    // },
+    // {
+    //   path: '/acl',
+    //   action: 'read',
+    //   subject: 'acl-page',
+    //   title: 'Access Control',
+    //   icon: 'mdi:shield-outline'
+    // }
   ]
 }
 

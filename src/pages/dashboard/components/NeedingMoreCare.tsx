@@ -28,14 +28,14 @@ const Timeline = styled(MuiTimeline)<TimelineProps>({
   }
 })
 
-const ActivityTimeline = () => {
+const NeedingMoreCare = () => {
   return (
     <Card>
       <CardHeader
-        title='Activity Timeline'
+        title='Needing More Care'
         action={
           <OptionsMenu
-            options={['Last 28 Days', 'Last Month', 'Last Year']}
+            options={['This Month', 'Last Month']}
             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
           />
         }
@@ -65,12 +65,6 @@ const ActivityTimeline = () => {
               <Typography variant='body2' sx={{ mb: 2 }}>
                 Invoices have been paid to the company.
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <img width={24} height={24} alt='invoice.pdf' src='/images/icons/file-icons/pdf.png' />
-                <Typography variant='subtitle2' sx={{ ml: 2, fontWeight: 600 }}>
-                  bookingCard.pdf
-                </Typography>
-              </Box>
             </TimelineContent>
           </TimelineItem>
 
@@ -135,4 +129,4 @@ const ActivityTimeline = () => {
   )
 }
 
-export default ActivityTimeline
+export default NeedingMoreCare
