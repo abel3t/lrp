@@ -17,7 +17,6 @@ import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
 // ** Types
 import { InvoiceType } from 'src/types/apps/invoiceTypes'
 
-
 interface Props {
   invoiceData: InvoiceType[]
 }

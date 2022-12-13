@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref, useEffect } from 'react';
+import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref, useEffect } from 'react'
 
 // ** MUI Imports
 import FormHelperText from '@mui/material/FormHelperText'
@@ -35,22 +35,22 @@ import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
-import apiClient from '../../@core/services/api.client';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
-import { fetchData } from '../../store/member';
-import { FormMode } from '../../@core/types';
-import { DiscipleshipProcess } from '../../@core/enums';
-import CleaveWrapper from '../../@core/styles/libs/react-cleave';
+import apiClient from '../../@core/services/api.client'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../store'
+import { fetchData } from '../../store/member'
+import { FormMode } from '../../@core/types'
+import { DiscipleshipProcess } from '../../@core/enums'
+import CleaveWrapper from '../../@core/styles/libs/react-cleave'
 
 export interface FormInputs {
   id: string
   birthday: DateType | null
   email: string
-  phone: string;
+  phone: string
   name: string
-  discipleshipProcess: string,
-  address: string;
+  discipleshipProcess: string
+  address: string
   hometown: string
   gender: string
   description: string
@@ -87,7 +87,6 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-
 type Props = {
   show: boolean
   setShow: any
@@ -96,15 +95,15 @@ type Props = {
 }
 
 const getUtcDate = (date?: DateType) => {
-  let d = new Date();
+  let d = new Date()
 
   if (date) {
-    d = new Date(date);
+    d = new Date(date)
   }
 
-  const day = d.getDate();
-  const month = d.getMonth();
-  const year = d.getFullYear();
+  const day = d.getDate()
+  const month = d.getMonth()
+  const year = d.getFullYear()
 
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
 }
@@ -119,7 +118,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
     gender: yup.string(),
     description: yup.string(),
     discipleshipProcess: yup.string()
-  });
+  })
 
   useEffect(() => {
     if (member) {
@@ -127,14 +126,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
         if ((member as any)[key]) {
           if (key === 'birthday') {
             setValue(key, new Date((member as any)[key]))
-            return;
+            return
           }
 
           setValue(key, (member as any)[key])
         }
       })
     }
-
   }, [member])
 
   const {
@@ -152,69 +150,53 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
   const dispatch = useDispatch<AppDispatch>()
 
   const handleCallApi = (mode: FormMode, data: FormInputs) => {
-    const { id, ..._data } = data;
+    const { id, ..._data } = data
     const body: any = {
       ..._data,
       birthday: getUtcDate(data.birthday).toISOString()
     }
 
     if (mode === 'update') {
-      return apiClient.put(`/members/${id}`, body);
+      return apiClient.put(`/members/${id}`, body)
     }
 
-    return  apiClient.put('/members', body);
+    return apiClient.put('/members', body)
   }
 
   const onSubmit = (data: FormInputs) => {
-    setShow(false);
+    setShow(false)
 
     handleCallApi(mode, data)
       .then(() => {
-        reset(defaultValues);
+        reset(defaultValues)
 
-        dispatch(
-          fetchData()
-        )
-        const messageMode = mode === 'update' ? 'Update' : 'Create';
+        dispatch(fetchData())
+        const messageMode = mode === 'update' ? 'Update' : 'Create'
 
         toast.success(`${messageMode} member successfully!`)
       })
-      .catch((error) => {
+      .catch(error => {
         reset(defaultValues)
         toast.error(error.message)
       })
   }
 
   const handleClose = () => {
-    setShow(false);
+    setShow(false)
 
-    reset(defaultValues);
+    reset(defaultValues)
   }
 
   return (
     <Card>
-      <Dialog
-        fullWidth
-        open={show}
-        maxWidth='md'
-        scroll='body'
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
+      <Dialog fullWidth open={show} maxWidth='md' scroll='body' onClose={handleClose} TransitionComponent={Transition}>
         <DialogContent sx={{ pb: 6, px: { xs: 8, sm: 15 }, pt: { xs: 8, sm: 12.5 }, position: 'relative' }}>
-          <IconButton
-            size='small'
-            onClick={handleClose}
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-          >
+          <IconButton size='small' onClick={handleClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
             <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              {
-                mode === 'create' ?
-                  'Create Member' : 'Update Member'
-              }
+              {mode === 'create' ? 'Create Member' : 'Update Member'}
             </Typography>
           </Box>
 
@@ -267,11 +249,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
                         labelId='discipleship-process-select'
                         aria-describedby='member-discipleship-process'
                       >
-                        {
-                          Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
-                            return <MenuItem value={discipleshipProcess} key={index}>{discipleshipProcess}</MenuItem>
-                          })
-                        }
+                        {Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
+                          return (
+                            <MenuItem value={discipleshipProcess} key={index}>
+                              {discipleshipProcess}
+                            </MenuItem>
+                          )
+                        })}
                       </Select>
                     )}
                   />
@@ -335,7 +319,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
                         showYearDropdown
                         onChange={e => onChange(e)}
                         placeholderText='dd/MM/yyyy'
-                        dateFormat="dd/MM/yyyy"
+                        dateFormat='dd/MM/yyyy'
                         customInput={
                           <CustomInput
                             value={value}
@@ -349,7 +333,6 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
                     )}
                   />
                 </DatePickerWrapper>
-
               </Grid>
 
               <Grid item xs={12} sm={6}>
@@ -449,9 +432,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member }: Props) => {
               </Grid>
             </Grid>
           </form>
-
         </DialogContent>
-
       </Dialog>
     </Card>
   )

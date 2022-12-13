@@ -39,9 +39,9 @@ interface StatusObj {
 }
 
 const statusObj: StatusObj = {
-  'Good': { text: 'Good', color: 'success' },
-  'Normal': { text: 'Normal', color: 'primary' },
-  'NotGood': { text: 'Not Good', color: 'warning' },
+  Good: { text: 'Good', color: 'success' },
+  Normal: { text: 'Normal', color: 'primary' },
+  NotGood: { text: 'Not Good', color: 'warning' }
 }
 
 const data = [
@@ -70,10 +70,10 @@ const data = [
     product: 'Oneplus 9 Pro',
     imgSrc: '/images/cards/oneplus-9-pro.png'
   }
-];
+]
 
 const TopCaringPeople = () => {
-    return (
+  return (
     <Card>
       <CardHeader
         title='Top Caring People'

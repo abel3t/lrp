@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"],
   "rules": {
     "react/display-name": "off",
     "@next/next/no-img-element": "off",
@@ -44,30 +40,21 @@
       }
     ]
   },
-  "plugins": [
-    "import"
-  ],
+  "plugins": ["import"],
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "project": [
-          "./tsconfig.json"
-        ]
+        "project": ["./tsconfig.json"]
       }
     }
   },
   "overrides": [
     {
-      "files": [
-        "src/iconify-bundle/*"
-      ],
+      "files": ["src/iconify-bundle/*"],
       "rules": {
         "@typescript-eslint/no-var-requires": "off"
       }

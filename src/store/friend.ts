@@ -1,7 +1,7 @@
 // ** Redux Imports
 import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import apiClient from '../@core/services/api.client';
+import apiClient from '../@core/services/api.client'
 
 interface DataParams {
   q: string
@@ -29,7 +29,6 @@ export const deleteFriend = createAsyncThunk(
     })
     await dispatch(fetchData(getState().friend.params))
 
-
     return response.data
   }
 )
@@ -42,7 +41,7 @@ export const appFriendSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.data = action.payload
     })
   }
 })

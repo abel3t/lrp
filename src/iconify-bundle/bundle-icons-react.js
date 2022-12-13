@@ -23,11 +23,11 @@ const utils_1 = require('@iconify/utils')
 const sources = {
   json: [
     // Iconify JSON file (@iconify/json is a package name, /json/ is directory where files are, then filename)
-    require.resolve('@iconify/json/json/mdi.json'),
+    require.resolve('@iconify/json/json/mdi.json')
 
     // Custom file with only few icons
 
-/* 
+    /* 
      {
       filename: require.resolve('@iconify/json/json/line-md.json'),
       icons: ['home-twotone-alt', 'github', 'document-list', 'document-code', 'image-twotone']
@@ -38,7 +38,7 @@ const sources = {
     // 'json/gg.json'
   ],
 
-/* 
+  /* 
    icons: [
     'bx:basket',
     'bi:airplane-engines',

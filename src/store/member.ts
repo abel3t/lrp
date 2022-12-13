@@ -1,8 +1,8 @@
 // ** Redux Imports
 import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import apiClient from '../@core/services/api.client';
-import { Member } from '../@core/types';
+import apiClient from '../@core/services/api.client'
+import { Member } from '../@core/types'
 
 interface DataParams {
   q: string
@@ -50,11 +50,11 @@ export const appMemberSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.data = action.payload
     }),
-    builder.addCase(fetchMemberData.fulfilled, (state, action) => {
-      state.member = action.payload;
-    })
+      builder.addCase(fetchMemberData.fulfilled, (state, action) => {
+        state.member = action.payload
+      })
   }
 })
 

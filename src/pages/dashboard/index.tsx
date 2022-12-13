@@ -40,7 +40,7 @@ const Dashboard = () => {
                 title: 'Members',
                 chipColor: 'success',
                 trendNumber: '-25.5%',
-                chipText: 'Last Month',
+                chipText: 'Last Month'
               }}
             />
           </Grid>

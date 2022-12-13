@@ -12,7 +12,7 @@ const UserView = () => {
         <MemberViewLeft />
       </Grid>
       <Grid item xs={12} md={7} lg={8}>
-        <MemberViewRight tab={"overview"} invoiceData={[]} />
+        <MemberViewRight tab={'overview'} invoiceData={[]} />
       </Grid>
     </Grid>
   )

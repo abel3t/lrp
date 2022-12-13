@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import Box from '@mui/material/Box'
@@ -30,16 +30,15 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
-import { fetchData, fetchMemberData } from '../../store/member';
-import { useRouter } from 'next/router';
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst';
-import { ColorsType } from '../../@core/interface';
-import { DiscipleshipProcess } from '../../@core/enums';
-import apiClient from '../../@core/services/api.client';
-import toast from 'react-hot-toast';
-
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store'
+import { fetchData, fetchMemberData } from '../../store/member'
+import { useRouter } from 'next/router'
+import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
+import { ColorsType } from '../../@core/interface'
+import { DiscipleshipProcess } from '../../@core/enums'
+import apiClient from '../../@core/services/api.client'
+import toast from 'react-hot-toast'
 
 const statusColors: ColorsType = {
   active: 'success',
@@ -58,7 +57,7 @@ const MemberViewLeft = () => {
   const handleEditClose = () => setOpenEdit(false)
 
   const handleSubmit = () => {
-    setOpenEdit(false);
+    setOpenEdit(false)
     // return apiClient.put(`/members/${id}`, body)
     //   .then(() => {
     //     reset(defaultValues);
@@ -75,7 +74,7 @@ const MemberViewLeft = () => {
     //   })
   }
 
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     if (router.isReady) {
@@ -102,27 +101,24 @@ const MemberViewLeft = () => {
                 {store.member.name}
               </Typography>
 
-              {
-                !store.member.discipleshipProcess && NotApplicable
-              }
+              {!store.member.discipleshipProcess && NotApplicable}
 
-              {
-                !!store.member.discipleshipProcess &&
-                  <CustomChip
-                    skin='light'
-                    size='small'
-                    label={store.member.discipleshipProcess}
-                    color={DiscipleshipProcessColor[store.member.discipleshipProcess || '']}
-                    sx={{
-                      height: 20,
-                      fontWeight: 600,
-                      borderRadius: '5px',
-                      fontSize: '0.875rem',
-                      textTransform: 'capitalize',
-                      '& .MuiChip-label': { mt: -0.25 }
-                    }}
-                  />
-              }
+              {!!store.member.discipleshipProcess && (
+                <CustomChip
+                  skin='light'
+                  size='small'
+                  label={store.member.discipleshipProcess}
+                  color={DiscipleshipProcessColor[store.member.discipleshipProcess || '']}
+                  sx={{
+                    height: 20,
+                    fontWeight: 600,
+                    borderRadius: '5px',
+                    fontSize: '0.875rem',
+                    textTransform: 'capitalize',
+                    '& .MuiChip-label': { mt: -0.25 }
+                  }}
+                />
+              )}
             </CardContent>
 
             <CardContent>
@@ -140,25 +136,25 @@ const MemberViewLeft = () => {
                   <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                     Phone:
                   </Typography>
-                  {
-                    !store.member.phone && <Typography variant='body2'>{NotApplicable}</Typography>
-                  }
+                  {!store.member.phone && <Typography variant='body2'>{NotApplicable}</Typography>}
 
-                  {
-                    !!store.member.phone && <Typography variant='body2' component={Link} color="primary" href={`tel:${store.member.phone}`}>{store.member.phone}</Typography>
-                  }
+                  {!!store.member.phone && (
+                    <Typography variant='body2' component={Link} color='primary' href={`tel:${store.member.phone}`}>
+                      {store.member.phone}
+                    </Typography>
+                  )}
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                     Email:
                   </Typography>
-                  {
-                    !store.member.email && <Typography variant='body2'>{NotApplicable}</Typography>
-                  }
+                  {!store.member.email && <Typography variant='body2'>{NotApplicable}</Typography>}
 
-                  {
-                    !!store.member.email && <Typography variant='body2' component={Link} color="primary" href={`email:${store.member.email}`}>{store.member.email}</Typography>
-                  }
+                  {!!store.member.email && (
+                    <Typography variant='body2' component={Link} color='primary' href={`email:${store.member.email}`}>
+                      {store.member.email}
+                    </Typography>
+                  )}
                 </Box>
 
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
@@ -183,7 +179,6 @@ const MemberViewLeft = () => {
 
                   <Typography variant='body2'>{store.member.description || NotApplicable}</Typography>
                 </Box>
-
               </Box>
             </CardContent>
 
@@ -252,11 +247,13 @@ const MemberViewLeft = () => {
                           id='member-discipleshipProcess'
                           labelId='member-discipleshipProcess-label'
                         >
-                          {
-                            Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
-                              return <MenuItem value={discipleshipProcess} key={index}>{discipleshipProcess}</MenuItem>
-                            })
-                          }
+                          {Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
+                            return (
+                              <MenuItem value={discipleshipProcess} key={index}>
+                                {discipleshipProcess}
+                              </MenuItem>
+                            )
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>

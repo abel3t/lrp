@@ -17,7 +17,7 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Cares',
       path: '/cares',
       icon: 'mdi:calendar-plus-outline'
-    },
+    }
     // {
     //   title: 'Friends',
     //   path: '/friends',

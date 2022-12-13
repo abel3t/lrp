@@ -41,7 +41,6 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-
 const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
@@ -98,8 +97,8 @@ const LoginPage = () => {
   const { skin } = settings
 
   interface FormInputs {
-    username: string;
-    password: string;
+    username: string
+    password: string
   }
 
   const defaultValues = {
@@ -164,7 +163,9 @@ const LoginPage = () => {
                     />
                   )}
                 />
-                {errors.username && <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>}
+                {errors.username && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>
+                )}
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>

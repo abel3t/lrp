@@ -18,21 +18,21 @@ import { RootState, AppDispatch } from 'src/store'
 import { ThemeColor } from 'src/@core/layouts/types'
 
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DiscipleshipProcess } from '../../@core/enums';
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import DialogMemberForm from './DialogMemberForm';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { FormMode } from '../../@core/types';
-import CustomChip from '../../@core/components/mui/chip';
+import { DiscipleshipProcess } from '../../@core/enums'
+import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import DialogMemberForm from './DialogMemberForm'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import { FormMode } from '../../@core/types'
+import CustomChip from '../../@core/components/mui/chip'
 
 export type Member = {
-  id: string;
-  name: string;
-  phone?: string;
-  discipleshipProcess?: DiscipleshipProcess;
+  id: string
+  name: string
+  phone?: string
+  discipleshipProcess?: DiscipleshipProcess
 }
 
 interface CellType {
@@ -44,7 +44,6 @@ const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   color: theme.palette.primary.main
 }))
-
 
 const defaultColumns = [
   {
@@ -75,9 +74,7 @@ const defaultColumns = [
     headerName: 'Discipleship Process',
     renderCell: ({ row }: CellType) => {
       if (!row.discipleshipProcess) {
-        return (
-          <Typography variant='body2'>{NotApplicable}</Typography>
-        )
+        return <Typography variant='body2'>{NotApplicable}</Typography>
       }
 
       return (
@@ -100,20 +97,19 @@ const defaultColumns = [
   }
 ]
 
-const MemberPage = () => {const [value, setValue] = useState<string>('')
-  const [formMode, setFormMode] = useState<FormMode>('create');
+const MemberPage = () => {
+  const [value, setValue] = useState<string>('')
+  const [formMode, setFormMode] = useState<FormMode>('create')
   const [pageSize, setPageSize] = useState<number>(10)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false)
   const [updateMember, setUpdateMember] = useState<any>(null)
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.member)
 
   useEffect(() => {
-    dispatch(
-      fetchData()
-    )
+    dispatch(fetchData())
   }, [dispatch])
 
   const handleFilter = (val: string) => {
@@ -121,15 +117,15 @@ const MemberPage = () => {const [value, setValue] = useState<string>('')
   }
 
   const handleCreate = () => {
-    setUpdateMember(null);
-    setFormMode('create');
-    setShow(true);
+    setUpdateMember(null)
+    setFormMode('create')
+    setShow(true)
   }
 
   const handleUpdate = (member: any) => {
-    setUpdateMember(member);
+    setUpdateMember(member)
     setFormMode('update')
-    setShow(true);
+    setShow(true)
   }
 
   const columns = [
@@ -201,7 +197,7 @@ const MemberPage = () => {const [value, setValue] = useState<string>('')
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 
-              <DialogMemberForm show={show} setShow={setShow} mode={formMode} member={updateMember}/>
+              <DialogMemberForm show={show} setShow={setShow} mode={formMode} member={updateMember} />
 
               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                 <TextField

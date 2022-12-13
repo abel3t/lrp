@@ -50,9 +50,9 @@ import TableHeader from './TableHeader'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 export type Friend = {
-  id: string;
-  name: string;
-  email?: string;
+  id: string
+  name: string
+  email?: string
 }
 
 interface InvoiceStatusObj {
@@ -128,7 +128,7 @@ const defaultColumns = [
     field: 'email',
     headerName: 'Email',
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.email}</Typography>
-  },
+  }
   // {
   //   flex: 0.1,
   //   minWidth: 80,
