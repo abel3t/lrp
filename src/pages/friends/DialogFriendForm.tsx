@@ -252,7 +252,6 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         aria-describedby='friend-friend-type'
                       >
                         {Object.values(FriendType).map((type, index) => {
-                          console.log(type)
                           return (
                             <MenuItem value={type} key={index}>
                               {FriendTypeText[type]}

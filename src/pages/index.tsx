@@ -31,7 +31,6 @@ const Home = () => {
     if (auth.user && auth.user.role) {
       const homeRoute = getHomeRoute(auth.user.role)
 
-      console.log(auth.user, 'ser')
       // Redirect user to Home URL
       router.replace(homeRoute)
     }

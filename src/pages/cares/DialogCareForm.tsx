@@ -36,26 +36,25 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import apiClient from '../../@core/services/api.client'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../store'
-import { fetchData } from '../../store/member'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store'
+import { fetchData } from '../../store/care'
+import { fetchData as fetchMembersData } from '../../store/member'
+
 import { FormMode } from '../../@core/types'
-import { DiscipleshipProcess } from '../../@core/enums'
-import CleaveWrapper from '../../@core/styles/libs/react-cleave'
-import { DiscipleshipProcessColor } from '../../@core/contanst'
+import { CarePriority, CareType } from '../../@core/enums'
+import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../@core/contanst'
+import { Autocomplete } from '@mui/material'
 import CustomChip from '../../@core/components/mui/chip'
 
 export interface FormInputs {
   id: string
-  birthday: DateType | null
-  email: string
-  phone: string
-  name: string
-  discipleshipProcess: string
-  address: string
-  hometown: string
-  gender: string
-  description: string
+  member: any
+  type: string
+  priority: string
+  date?: Date
+  description?: string
+  imageUrl?: string
 }
 
 interface CustomInputProps {
@@ -67,15 +66,12 @@ interface CustomInputProps {
 
 const defaultValues = {
   id: '',
-  birthday: null,
-  email: '',
-  name: '',
-  phone: '',
-  address: '',
-  discipleshipProcess: '',
-  hometown: '',
-  gender: '',
-  description: ''
+  member: null,
+  type: '',
+  priority: '',
+  date: '',
+  description: '',
+  imageUrl: ''
 }
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
@@ -93,7 +89,7 @@ type Props = {
   show: boolean
   setShow: any
   mode: FormMode
-  member: any | null
+  care: any | null
   fetchApi?: any
 }
 
@@ -111,28 +107,34 @@ const getUtcDate = (date?: DateType) => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
 }
 
-const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) => {
+const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+  const memberStore = useSelector((state: RootState) => state.member)
+  const careStore = useSelector((state: RootState) => state.care)
+
   const validationSchema = yup.object().shape({
-    birthday: yup.string(),
-    email: yup.string().email(),
-    name: yup.string().required('Name is required'),
-    address: yup.string(),
-    hometown: yup.string(),
-    gender: yup.string(),
+    member: yup.object().shape({ id: yup.string(), name: yup.string() }),
+    type: yup.string(),
+    priority: yup.string(),
+    date: yup.string(),
     description: yup.string(),
-    discipleshipProcess: yup.string()
+    imageUrl: yup.string()
   })
 
   useEffect(() => {
-    if (member && show) {
+    if (show) {
+      dispatch(fetchMembersData())
+    }
+
+    if (care && show) {
       Object.keys(defaultValues).forEach((key: any) => {
-        if ((member as any)[key]) {
-          if (key === 'birthday') {
-            setValue(key, new Date((member as any)[key]))
+        if ((care as any)[key]) {
+          if (key === 'date') {
+            setValue(key, new Date((care as any)[key]))
             return
           }
 
-          setValue(key, (member as any)[key])
+          setValue(key, (care as any)[key])
         }
       })
     }
@@ -143,27 +145,26 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
     reset
   } = useForm<FormInputs>({
-    defaultValues: member || defaultValues,
+    defaultValues: care || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
-
-  const dispatch = useDispatch<AppDispatch>()
 
   const handleCallApi = (mode: FormMode, data: FormInputs) => {
     const { id, ..._data } = data
     const body: any = {
       ..._data,
-      birthday: getUtcDate(data.birthday).toISOString()
+      date: getUtcDate(data.date).toISOString()
     }
 
     if (mode === 'update') {
-      return apiClient.put(`/members/${id}`, body)
+      return apiClient.put(`/cares/${id}`, body)
     }
 
-    return apiClient.post('/members', body)
+    return apiClient.post('/cares', body)
   }
 
   const onSubmit = (data: FormInputs) => {
@@ -171,7 +172,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
 
     handleCallApi(mode, data)
       .then(() => {
-        reset(defaultValues)
+        // reset(defaultValues)
         if (fetchApi && data.id) {
           dispatch(fetchApi(data.id))
         } else {
@@ -180,7 +181,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
 
         const messageMode = mode === 'update' ? 'Update' : 'Create'
 
-        toast.success(`${messageMode} member successfully!`)
+        toast.success(`${messageMode} care successfully!`)
       })
       .catch(error => {
         reset(defaultValues)
@@ -203,7 +204,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              {mode === 'create' ? 'Create Member' : 'Update Member'}
+              {mode === 'create' ? 'Create Care' : 'Update Care'}
             </Typography>
           </Box>
 
@@ -212,58 +213,50 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
-                    name='name'
+                    name='member'
                     control={control}
-                    rules={{ required: true }}
+                    rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label='Name'
-                        onChange={onChange}
-                        placeholder='Name'
-                        error={Boolean(errors.name)}
-                        aria-describedby='validate-name'
+                      <Autocomplete
+                        openOnFocus
+                        options={memberStore.data?.map(member => ({ id: member.id, name: member.name }))}
+                        id='autocomplete-care-name'
+                        getOptionLabel={option => option.name}
+                        defaultValue={value}
+                        onChange={(v, data) => onChange(data)}
+                        renderInput={params => <TextField {...params} label='Member' />}
                       />
                     )}
                   />
-                  {errors.name && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validate-name'>
-                      Name is required
-                    </FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel
-                    id='discipleship-process-select'
-                    error={Boolean(errors.discipleshipProcess)}
-                    htmlFor='discipleship-process-select'
-                  >
-                    Discipleship Process
+                  <InputLabel id='care-type-select' error={Boolean(errors.type)} htmlFor='care-type-select'>
+                    Care Type
                   </InputLabel>
                   <Controller
-                    name='discipleshipProcess'
+                    name='type'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Discipleship Process'
+                        label='Care Type'
                         onChange={onChange}
-                        error={Boolean(errors.discipleshipProcess)}
-                        labelId='discipleship-process-select'
-                        aria-describedby='member-discipleship-process'
+                        error={Boolean(errors.type)}
+                        labelId='care-type-select'
+                        aria-describedby='care-type'
                       >
-                        {Object.values(DiscipleshipProcess).map((discipleshipProcess, index) => {
+                        {Object.values(CareType).map((type, index) => {
                           return (
-                            <MenuItem value={discipleshipProcess} key={index}>
+                            <MenuItem value={type} key={index}>
                               <CustomChip
                                 skin='light'
                                 size='small'
-                                label={discipleshipProcess}
-                                color={DiscipleshipProcessColor[discipleshipProcess || '']}
+                                label={CareTypeText[type]}
+                                color={CareTypeColor[type || '']}
                                 sx={{
                                   height: 20,
                                   fontWeight: 600,
@@ -283,43 +276,44 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <CleaveWrapper>
-                  <FormControl fullWidth>
-                    <Controller
-                      name='phone'
-                      control={control}
-                      rules={{ required: false }}
-                      render={({ field: { value, onChange } }) => (
-                        <Cleave
-                          id='validate-number'
-                          value={value}
-                          onChange={onChange}
-                          placeholder='Phone'
-                          aria-describedby='validate-phone'
-                          options={{ phone: true, phoneRegionCode: 'VN' }}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                </CleaveWrapper>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
+                  <InputLabel id='care-priority-select' error={Boolean(errors.type)} htmlFor='care-priority-select'>
+                    Care Priority
+                  </InputLabel>
                   <Controller
-                    name='email'
+                    name='priority'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
-                      <TextField
-                        type='email'
+                      <Select
                         value={value}
-                        label='Email'
+                        label='Care Priority'
                         onChange={onChange}
-                        error={Boolean(errors.email)}
-                        placeholder='Email'
-                        aria-describedby='validate-email'
-                      />
+                        error={Boolean(errors.type)}
+                        labelId='care-priority-select'
+                        aria-describedby='care-priority'
+                      >
+                        {Object.values(CarePriority).map((priority, index) => {
+                          return (
+                            <MenuItem value={priority} key={index}>
+                              <CustomChip
+                                skin='light'
+                                size='small'
+                                label={priority}
+                                color={CarePriorityColor[priority || '']}
+                                sx={{
+                                  height: 20,
+                                  fontWeight: 600,
+                                  borderRadius: '5px',
+                                  fontSize: '0.875rem',
+                                  textTransform: 'capitalize',
+                                  '& .MuiChip-label': { mt: -0.25 }
+                                }}
+                              />
+                            </MenuItem>
+                          )
+                        })}
+                      </Select>
                     )}
                   />
                 </FormControl>
@@ -328,13 +322,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
               <Grid item xs={12} sm={6}>
                 <DatePickerWrapper>
                   <Controller
-                    name='birthday'
+                    name='date'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         selected={value}
-                        openToDate={value || new Date(new Date().getFullYear() - 20, 0, 1)}
+                        openToDate={value || new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -344,85 +338,15 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                           <CustomInput
                             value={value}
                             onChange={onChange}
-                            label='Date of Birth'
-                            error={Boolean(errors.birthday)}
-                            aria-describedby='validate-birthday'
+                            label='Date'
+                            error={Boolean(errors.date)}
+                            aria-describedby='validate-care-date'
                           />
                         }
                       />
                     )}
                   />
                 </DatePickerWrapper>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <Controller
-                    name='address'
-                    control={control}
-                    rules={{ required: false }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label='Address'
-                        onChange={onChange}
-                        placeholder='address'
-                        error={Boolean(errors.email)}
-                        aria-describedby='validate-address'
-                      />
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <Controller
-                    name='hometown'
-                    control={control}
-                    rules={{ required: false }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label='Hometown'
-                        onChange={onChange}
-                        placeholder='Hometown'
-                        error={Boolean(errors.hometown)}
-                        aria-describedby='validate-homwtown'
-                      />
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel
-                    id='validation-basic-select'
-                    error={Boolean(errors.gender)}
-                    htmlFor='validation-basic-select'
-                  >
-                    Gender
-                  </InputLabel>
-                  <Controller
-                    name='gender'
-                    control={control}
-                    rules={{ required: false }}
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        value={value}
-                        label='Country'
-                        onChange={onChange}
-                        error={Boolean(errors.gender)}
-                        labelId='validation-basic-select'
-                        aria-describedby='validate-gender'
-                      >
-                        <MenuItem value='Male'>Male</MenuItem>
-                        <MenuItem value='Female'>Female</MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
               </Grid>
 
               <Grid item xs={12}>
@@ -455,6 +379,33 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
         </DialogContent>
       </Dialog>
     </Card>
+  )
+}
+
+const AutocompletePeople = (people: any) => {
+  return (
+    <Autocomplete
+      autoHighlight
+      sx={{ width: 250 }}
+      id='autocomplete-care-name-select'
+      options={people as any}
+      getOptionLabel={(option: any) => option.name}
+      renderOption={(props, option) => (
+        <Box component='li' sx={{ '& > img': { mr: 4, flexShrink: 0 } }} {...props}>
+          {option.name}
+        </Box>
+      )}
+      renderInput={params => (
+        <TextField
+          {...params}
+          label='Choose a Member'
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: 'new-password'
+          }}
+        />
+      )}
+    />
   )
 }
 

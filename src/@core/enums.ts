@@ -12,3 +12,16 @@ export enum FriendType {
   NewLife = 'NewLife',
   AWalkWithGodClass = 'WalkWithGodClass'
 }
+
+export enum CareType {
+  Message = 'Message',
+  Call = 'Call',
+  FaceToFace = 'FaceToFace',
+  Visit = 'Visit'
+}
+
+export enum CarePriority {
+  Good = 'Good',
+  Normal = 'Normal',
+  Warning = 'Warning'
+}

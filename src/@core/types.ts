@@ -1,4 +1,4 @@
-import { FriendType } from './enums'
+import { CarePriority, CareType, FriendType } from './enums'
 
 export type FormMode = 'create' | 'update'
 
@@ -36,4 +36,16 @@ export type Friend = {
   description?: string
   hometown?: string
   type: FriendType
+}
+
+export type Care = {
+  id?: string
+  member?: Member
+  curator?: any
+  memberId: string
+  type: CareType
+  priority: CarePriority
+  date?: Date
+  description?: string
+  imageUrl?: string
 }
