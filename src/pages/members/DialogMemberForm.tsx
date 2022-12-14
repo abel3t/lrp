@@ -122,7 +122,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
   })
 
   useEffect(() => {
-    if (member) {
+    if (member && show) {
       Object.keys(defaultValues).forEach((key: any) => {
         if ((member as any)[key]) {
           if (key === 'birthday') {
@@ -134,7 +134,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
         }
       })
     }
-  }, [member])
+  }, [show])
 
   const {
     control,
