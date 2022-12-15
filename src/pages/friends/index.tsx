@@ -46,11 +46,11 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 const defaultColumns = [
   {
-    flex: 0.1,
-    field: 'id',
-    minWidth: 95,
+    flex: 0.03,
+    minWidth: 30,
+    field: 'index',
     headerName: 'ID',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/friends/${row?.id}`}>{`${row.id}`}</StyledLink>
+    renderCell: ({ row }: CellType) => <StyledLink href={`/friends/${row?.id}`}>#{row.index}</StyledLink>
   },
   {
     flex: 0.15,
@@ -130,8 +130,8 @@ const FriendPage = () => {
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.1,
-      minWidth: 130,
+      flex: 0.055,
+      minWidth: 80,
       sortable: false,
       field: 'actions',
       headerName: 'Actions',

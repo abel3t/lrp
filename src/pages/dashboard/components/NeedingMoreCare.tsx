@@ -15,6 +15,15 @@ import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../../store'
+import { useEffect } from 'react'
+import { fetchNeedingMoreCareMembers } from '../../../store/dashboard'
+import { CarePriorityColor, CareTypeColor } from '../../../@core/contanst'
+import { formatRelativeDate } from '../../../@core/utils/date'
+import { format } from 'date-fns'
+import { Paper } from '@mui/material'
+import CustomChip from '../../../@core/components/mui/chip'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
@@ -29,6 +38,13 @@ const Timeline = styled(MuiTimeline)<TimelineProps>({
 })
 
 const NeedingMoreCare = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.dashboard)
+
+  useEffect(() => {
+    dispatch(fetchNeedingMoreCareMembers())
+  }, [dispatch])
+
   return (
     <Card>
       <CardHeader
@@ -40,89 +56,58 @@ const NeedingMoreCare = () => {
           />
         }
       />
-      <CardContent sx={{ pt: theme => `${theme.spacing(2.5)} !important` }}>
+      <CardContent
+        sx={{ pt: theme => `${theme.spacing(2.5)} !important` }}
+        style={{ maxHeight: 350, overflow: 'auto' }}
+      >
         <Timeline sx={{ my: 0, py: 0 }}>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='error' />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(3)} !important` }}>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography sx={{ mr: 2, fontWeight: 600 }}>8 Invoices have been paid</Typography>
-                <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                  Wednesday
-                </Typography>
-              </Box>
-              <Typography variant='body2' sx={{ mb: 2 }}>
-                Invoices have been paid to the company.
-              </Typography>
-            </TimelineContent>
-          </TimelineItem>
+          {store.needingMoreCareMembers?.map((careMember: any, index) => (
+            <TimelineItem key={index}>
+              <TimelineSeparator>
+                <TimelineDot color={CarePriorityColor[careMember.priority]} />
+                <TimelineConnector />
+              </TimelineSeparator>
 
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='primary' />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(3)} !important` }}>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography sx={{ mr: 2, fontWeight: 600 }}>Create a new project for client 😎</Typography>
-                <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                  April, 18
-                </Typography>
-              </Box>
-              <Typography variant='body2' sx={{ mb: 2 }}>
-                Invoices have been paid to the company.
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar src='/images/avatars/1.png' sx={{ mr: 2.5, width: 24, height: 24 }} />
-                <Typography variant='body2' sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                  John Doe (Client)
-                </Typography>
-              </Box>
-            </TimelineContent>
-          </TimelineItem>
+              <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(3)} !important` }}>
+                <Box
+                  sx={{
+                    mb: 3,
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <Typography sx={{ mr: 2, fontWeight: 600 }}>
+                    {careMember.member?.name}
+                    &nbsp; &nbsp;
+                    <CustomChip
+                      skin='light'
+                      size='small'
+                      label={careMember?.type}
+                      color={CareTypeColor[careMember?.type || '']}
+                      sx={{
+                        height: 20,
+                        fontWeight: 600,
+                        borderRadius: '5px',
+                        fontSize: '0.875rem',
+                        textTransform: 'capitalize',
+                        '& .MuiChip-label': { mt: -0.25 }
+                      }}
+                    />
+                  </Typography>
 
-          <TimelineItem sx={{ minHeight: 0 }}>
-            <TimelineSeparator>
-              <TimelineDot color='info' />
-              <TimelineConnector sx={{ mb: 3 }} />
-            </TimelineSeparator>
-            <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(0.5)} !important` }}>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography sx={{ mr: 2, fontWeight: 600 }}>Order #37745 from September</Typography>
-                <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                  January, 10
+                  <Typography variant='caption' sx={{ color: 'text.disabled' }}>
+                    {formatRelativeDate(careMember.date)}&nbsp; - &nbsp;
+                    {format(new Date(careMember.date), 'dd/MM/yyyy')}
+                  </Typography>
+                </Box>
+                <Typography variant='body2' sx={{ mb: 2 }}>
+                  {careMember.description}
                 </Typography>
-              </Box>
-              <Typography variant='body2'>Invoices have been paid to the company.</Typography>
-            </TimelineContent>
-          </TimelineItem>
+              </TimelineContent>
+            </TimelineItem>
+          ))}
         </Timeline>
       </CardContent>
     </Card>

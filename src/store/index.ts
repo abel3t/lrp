@@ -5,12 +5,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import member from 'src/store/member'
 import friend from 'src/store/friend'
 import care from 'src/store/care'
+import dashboard from 'src/store/dashboard'
 
 export const store = configureStore({
   reducer: {
     member,
     friend,
-    care
+    care,
+    dashboard
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

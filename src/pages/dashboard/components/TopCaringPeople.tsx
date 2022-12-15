@@ -1,5 +1,5 @@
 // ** React Imports
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 
 // ** MUI Import
 import Box from '@mui/material/Box'
@@ -30,6 +30,10 @@ import OptionsMenu from 'src/@core/components/option-menu'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../../store'
+import { fetchTopCaringPeople } from '../../../store/dashboard'
+import { NotApplicable } from '../../../@core/contanst'
 
 interface StatusObj {
   [ke: string]: {
@@ -38,41 +42,28 @@ interface StatusObj {
   }
 }
 
-const statusObj: StatusObj = {
-  Good: { text: 'Good', color: 'success' },
-  Normal: { text: 'Normal', color: 'primary' },
-  NotGood: { text: 'Not Good', color: 'warning' }
+const CareTitleText = {
+  Excellent: 'Excellent',
+  Good: 'Good',
+  Normal: 'Normal',
+  NotGood: 'Not Good'
 }
 
-const data = [
-  {
-    revenue: '$12.5k',
-    conversion: '+24',
-    imgAlt: 'samsung-s22',
-    status: 'NotGood',
-    product: 'Samsung s22',
-    imgSrc: '/images/cards/samsung-s22.png'
-  },
-  {
-    revenue: '$45k',
-    conversion: '-18',
-    status: 'Good',
-    imgAlt: 'apple-iPhone-13-pro',
-    product: 'Apple iPhone 13 Pro',
-    conversionDifference: 'negative',
-    imgSrc: '/images/cards/apple-iPhone-13-pro.png'
-  },
-  {
-    revenue: '$98.2k',
-    conversion: '+55',
-    status: 'Normal',
-    imgAlt: 'oneplus-9-pro',
-    product: 'Oneplus 9 Pro',
-    imgSrc: '/images/cards/oneplus-9-pro.png'
-  }
-]
+const CareTitleColor = {
+  Excellent: 'primary',
+  Good: 'success',
+  Normal: 'warning',
+  NotGood: 'error'
+}
 
 const TopCaringPeople = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.dashboard)
+
+  useEffect(() => {
+    dispatch(fetchTopCaringPeople())
+  }, [dispatch])
+
   return (
     <Card>
       <CardHeader
@@ -90,15 +81,15 @@ const TopCaringPeople = () => {
         <Table>
           <TableHead>
             <TableRow sx={{ '& .MuiTableCell-root': { py: theme => `${theme.spacing(2.5)} !important` } }}>
-              <TableCell>Image</TableCell>
-              <TableCell sx={{ whiteSpace: 'nowrap' }}>Product Name</TableCell>
-              <TableCell align='right'>Status</TableCell>
-              <TableCell align='right'>Revenue</TableCell>
-              <TableCell align='right'>Conversion</TableCell>
+              <TableCell>ID</TableCell>
+              <TableCell align='left'>Role</TableCell>
+              <TableCell align='left'>Name</TableCell>
+              <TableCell align='left'>Title</TableCell>
+              <TableCell align='center'>Care Times</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row: any, index: number) => (
+            {store.topCaringPeople?.map((row: any, index: number) => (
               <TableRow
                 key={index}
                 sx={{
@@ -115,40 +106,72 @@ const TopCaringPeople = () => {
                 }}
               >
                 <TableCell>
-                  <Avatar alt={row.imgAlt} src={row.imgSrc} variant='rounded' sx={{ width: 34, height: 34 }} />
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap' }} color='primary'>
+                    #{index + 1}
+                  </Typography>
                 </TableCell>
+
+                {/*<TableCell>*/}
+                {/*  <Avatar alt={row.imgAlt} src={row.imgSrc} variant='rounded' sx={{ width: 34, height: 34 }} />*/}
+                {/*</TableCell>*/}
+
+                <TableCell>
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap' }} color='primary'>
+                    {row.role}
+                  </Typography>
+                </TableCell>
+
                 <TableCell>
                   <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
-                    {row.product}
+                    {row.name || NotApplicable}
                   </Typography>
                 </TableCell>
-                <TableCell align='right'>
-                  <CustomChip
-                    skin='light'
-                    size='small'
-                    label={statusObj[row.status].text}
-                    color={statusObj[row.status].color}
-                    sx={{ height: 20, fontWeight: 500, '& .MuiChip-label': { px: 1.625, lineHeight: 1.539 } }}
-                  />
-                </TableCell>
+
                 <TableCell>
-                  <Typography
-                    variant='body2'
-                    sx={{ fontWeight: 600, textAlign: 'right', whiteSpace: 'nowrap', color: 'text.primary' }}
-                  >
-                    {row.revenue}
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
+                    <CustomChip
+                      skin='light'
+                      size='small'
+                      label={CareTitleText[row.title || '']}
+                      color={CareTitleColor[row.title || '']}
+                      sx={{ height: 20, fontWeight: 500, '& .MuiChip-label': { px: 1.625, lineHeight: 1.539 } }}
+                    />
                   </Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography
-                    variant='body2'
-                    sx={{
-                      fontWeight: 600,
-                      textAlign: 'right',
-                      color: row.conversionDifference === 'negative' ? 'error.main' : 'success.main'
-                    }}
-                  >{`${row.conversion}%`}</Typography>
+
+                <TableCell align='center'>
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
+                    {row.careTimes ?? NotApplicable}
+                  </Typography>
                 </TableCell>
+
+                {/*<TableCell align='right'>*/}
+                {/*  <CustomChip*/}
+                {/*    skin='light'*/}
+                {/*    size='small'*/}
+                {/*    label={statusObj[row.status].text}*/}
+                {/*    color={statusObj[row.status].color}*/}
+                {/*    sx={{ height: 20, fontWeight: 500, '& .MuiChip-label': { px: 1.625, lineHeight: 1.539 } }}*/}
+                {/*  />*/}
+                {/*</TableCell>*/}
+                {/*<TableCell>*/}
+                {/*  <Typography*/}
+                {/*    variant='body2'*/}
+                {/*    sx={{ fontWeight: 600, textAlign: 'right', whiteSpace: 'nowrap', color: 'text.primary' }}*/}
+                {/*  >*/}
+                {/*    {row.revenue}*/}
+                {/*  </Typography>*/}
+                {/*</TableCell>*/}
+                {/*<TableCell>*/}
+                {/*  <Typography*/}
+                {/*    variant='body2'*/}
+                {/*    sx={{*/}
+                {/*      fontWeight: 600,*/}
+                {/*      textAlign: 'right',*/}
+                {/*      color: row.conversionDifference === 'negative' ? 'error.main' : 'success.main'*/}
+                {/*    }}*/}
+                {/*  >{`${row.conversion}%`}</Typography>*/}
+                {/*</TableCell>*/}
               </TableRow>
             ))}
           </TableBody>

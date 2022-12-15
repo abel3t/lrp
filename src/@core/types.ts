@@ -4,6 +4,7 @@ export type FormMode = 'create' | 'update'
 
 export type Member = {
   id?: string
+  index?: number
   name?: string
   phone?: string
   gender?: string
@@ -27,6 +28,7 @@ export type Member = {
 
 export type Friend = {
   id?: string
+  index?: number
   name?: string
   phone?: string
   gender?: string

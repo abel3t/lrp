@@ -19,7 +19,7 @@ interface Redux {
 export const fetchData = createAsyncThunk('member/fetchData', async () => {
   const response = await apiClient.get('/members')
 
-  return response.data
+  return response.data.map((member: Member, index: number) => ({ index: index + 1, ...member }))
 })
 
 export const fetchMemberData = createAsyncThunk('member/fetchMemberData', async (memberId: string) => {

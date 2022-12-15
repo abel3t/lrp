@@ -14,6 +14,12 @@ export const fetchCareData = createAsyncThunk('care/fetchCareData', async (careI
   return response.data
 })
 
+export const fetchMemberCaresData = createAsyncThunk('care/fetchMemberCaresData', async (memberId: string) => {
+  const response = await apiClient.get(`/cares/members/${memberId}`)
+
+  return response.data
+})
+
 // export const deleteCare = createAsyncThunk(
 //   'appCare/deleteData',
 //   async (id: number | string, { getState, dispatch }: Redux) => {
@@ -31,7 +37,8 @@ export const appCareSlice = createSlice({
   name: 'care',
   initialState: {
     data: [],
-    care: {} as Care
+    care: {} as Care,
+    memberCares: []
   },
   reducers: {},
   extraReducers: builder => {
@@ -40,6 +47,9 @@ export const appCareSlice = createSlice({
     }),
       builder.addCase(fetchCareData.fulfilled, (state, action) => {
         state.care = action.payload
+      }),
+      builder.addCase(fetchMemberCaresData.fulfilled, (state, action) => {
+        state.memberCares = action.payload
       })
   }
 })
