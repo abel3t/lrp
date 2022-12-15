@@ -1,7 +1,6 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
 import TimelineDot from '@mui/lab/TimelineDot'
 import TimelineItem from '@mui/lab/TimelineItem'
@@ -22,7 +21,6 @@ import { fetchNeedingMoreCareMembers } from '../../../store/dashboard'
 import { CarePriorityColor, CareTypeColor } from '../../../@core/contanst'
 import { formatRelativeDate } from '../../../@core/utils/date'
 import { format } from 'date-fns'
-import { Paper } from '@mui/material'
 import CustomChip from '../../../@core/components/mui/chip'
 
 // Styled Timeline component

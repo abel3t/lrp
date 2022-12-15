@@ -46,6 +46,7 @@ import { CarePriority, CareType } from '../../@core/enums'
 import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../@core/contanst'
 import { Autocomplete } from '@mui/material'
 import CustomChip from '../../@core/components/mui/chip'
+import UploadImage from './UploadImage';
 
 export interface FormInputs {
   id: string
@@ -110,7 +111,8 @@ const getUtcDate = (date?: DateType) => {
 const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
   const dispatch = useDispatch<AppDispatch>()
   const memberStore = useSelector((state: RootState) => state.member)
-  const careStore = useSelector((state: RootState) => state.care)
+
+  const [image, setImage] = useState<File>(null)
 
   const validationSchema = yup.object().shape({
     member: yup.object().shape({ id: yup.string(), name: yup.string() }),
@@ -167,7 +169,26 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
     return apiClient.post('/cares', body)
   }
 
-  const onSubmit = (data: FormInputs) => {
+  const getImageUrl = () => {
+    const formData = new FormData();
+    formData.append('file', new File([image], `care-${getValues('member')?.id || 'unknown'}-${image.name}`))
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }
+
+    return apiClient.post('uploadFile', formData, config)
+      .then(res => res.data?.link)
+      .catch(error => {
+        console.log(error);
+        toast.error('Can not upload image')
+      })
+  }
+
+  const onSubmit = async (data: FormInputs) => {
+    data.imageUrl =  await getImageUrl();
+
     setShow(false)
 
     handleCallApi(mode, data)
@@ -348,6 +369,11 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                   />
                 </DatePickerWrapper>
               </Grid>
+
+              <Grid item xs={12}>
+               <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')}/>
+              </Grid>
+
 
               <Grid item xs={12}>
                 <FormControl fullWidth>

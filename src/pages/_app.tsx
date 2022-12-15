@@ -23,9 +23,6 @@ import themeConfig from 'src/configs/themeConfig'
 import { store } from 'src/store'
 import { Provider } from 'react-redux'
 
-// ** Fake-DB Import
-import 'src/@fake-db'
-
 // ** Third Party Import
 import { Toaster } from 'react-hot-toast'
 
