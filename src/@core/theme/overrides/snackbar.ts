@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { Skin } from 'src/@core/layouts/types'
-
-import { Theme } from '@mui/material/styles'
+import { Skin } from '@core/layouts/types';
 
 const Snackbar = (theme: Theme, skin: Skin) => {
   return {
@@ -19,7 +17,7 @@ const Snackbar = (theme: Theme, skin: Skin) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Snackbar
+export default Snackbar;

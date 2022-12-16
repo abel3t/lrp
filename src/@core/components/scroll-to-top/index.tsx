@@ -1,14 +1,12 @@
+import { ReactNode } from 'react';
 
-import { ReactNode } from 'react'
-
-
-import Zoom from '@mui/material/Zoom'
-import { styled } from '@mui/material/styles'
-import useScrollTrigger from '@mui/material/useScrollTrigger'
+import Zoom from '@mui/material/Zoom';
+import { styled } from '@mui/material/styles';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 interface ScrollToTopProps {
-  className?: string
-  children: ReactNode
+  className?: string;
+  children: ReactNode;
 }
 
 const ScrollToTopStyled = styled('div')(({ theme }) => ({
@@ -16,24 +14,24 @@ const ScrollToTopStyled = styled('div')(({ theme }) => ({
   position: 'fixed',
   right: theme.spacing(6),
   bottom: theme.spacing(10)
-}))
+}));
 
 const ScrollToTop = (props: ScrollToTopProps) => {
   // ** Props
-  const { children, className } = props
+  const { children, className } = props;
 
   // ** init trigger
   const trigger = useScrollTrigger({
     threshold: 400,
     disableHysteresis: true
-  })
+  });
 
   const handleClick = () => {
-    const anchor = document.querySelector('body')
+    const anchor = document.querySelector('body');
     if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth' })
+      anchor.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
 
   return (
     <Zoom in={trigger}>
@@ -41,7 +39,7 @@ const ScrollToTop = (props: ScrollToTopProps) => {
         {children}
       </ScrollToTopStyled>
     </Zoom>
-  )
-}
+  );
+};
 
-export default ScrollToTop
+export default ScrollToTop;

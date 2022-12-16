@@ -1,40 +1,41 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import CustomChip from 'src/@core/components/mui/chip'
-import { getInitials } from 'src/@core/utils/get-initials'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import Divider from '@mui/material/Divider'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
-import { AppDispatch, RootState } from '../../store'
-import { fetchMemberData } from '../../store/member'
-import DialogMemberForm from './DialogMemberForm'
+import CustomAvatar from '@core/components/mui/avatar';
+import CustomChip from '@core/components/mui/chip';
+import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
+import { getInitials } from '@core/utils/get-initials';
+
+import { AppDispatch, RootState } from '../../store';
+import { fetchMemberData } from '../../store/member';
+import DialogMemberForm from './DialogMemberForm';
 
 const MemberViewLeft = () => {
-  const [openEdit, setOpenEdit] = useState<boolean>(false)
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.member)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.member);
 
-  const handleEditClickOpen = () => setOpenEdit(true)
-  const router = useRouter()
+  const handleEditClickOpen = () => setOpenEdit(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchMemberData(router.query?.id as string))
+      dispatch(fetchMemberData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch])
+  }, [router.isReady, dispatch]);
 
   if (store.member.id) {
     return (
@@ -152,10 +153,10 @@ const MemberViewLeft = () => {
           </Card>
         </Grid>
       </Grid>
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 
-export default MemberViewLeft
+export default MemberViewLeft;

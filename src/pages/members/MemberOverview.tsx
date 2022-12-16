@@ -1,29 +1,30 @@
-import { formatRelativeDate } from 'src/@core/utils/date'
-import { format } from 'date-fns'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { format } from 'date-fns';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
-import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
-import TimelineConnector from '@mui/lab/TimelineConnector'
-import TimelineContent from '@mui/lab/TimelineContent'
-import TimelineDot from '@mui/lab/TimelineDot'
-import TimelineItem from '@mui/lab/TimelineItem'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
+import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-import CustomChip from '../../@core/components/mui/chip'
-import { CarePriorityColor, CareTypeColor } from '../../@core/contanst'
-import { AppDispatch, RootState } from '../../store'
-import { fetchMemberCaresData } from '../../store/care'
+import CustomChip from '@core/components/mui/chip';
+import { CarePriorityColor, CareTypeColor } from '@core/contanst';
+import { formatRelativeDate } from '@core/utils/date';
+
+import { AppDispatch, RootState } from '../../store';
+import { fetchMemberCaresData } from '../../store/care';
 
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   margin: 0,
@@ -37,7 +38,7 @@ const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
       minHeight: 60
     }
   }
-}))
+}));
 
 const MemberOverview = () => {
   return (
@@ -45,20 +46,20 @@ const MemberOverview = () => {
       <CaringOverview />
       <SundayServiceOverview />
     </Grid>
-  )
-}
+  );
+};
 
 const CaringOverview = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.care)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.care);
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchMemberCaresData(router.query?.id as string))
+      dispatch(fetchMemberCaresData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch])
+  }, [router.isReady, dispatch]);
 
   return (
     <Grid item xs={12}>
@@ -117,8 +118,8 @@ const CaringOverview = () => {
         </CardContent>
       </Card>
     </Grid>
-  )
-}
+  );
+};
 
 const SundayServiceOverview = () => {
   return (
@@ -245,7 +246,7 @@ const SundayServiceOverview = () => {
         </CardContent>
       </Card>
     </Grid>
-  )
-}
+  );
+};
 
-export default MemberOverview
+export default MemberOverview;

@@ -1,14 +1,12 @@
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
-
-import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled } from '@mui/material/styles'
+import useBgColor, { UseBgColorType } from '@core/hooks/useBgColor';
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const CalendarWrapper = styled(Box)<BoxProps>(({ theme }) => {
   // ** Hook
-  const bgColors: UseBgColorType = useBgColor()
+  const bgColors: UseBgColorType = useBgColor();
 
   return {
     display: 'flex',
@@ -476,7 +474,7 @@ const CalendarWrapper = styled(Box)<BoxProps>(({ theme }) => {
         }
       }
     }
-  }
-})
+  };
+});
 
-export default CalendarWrapper
+export default CalendarWrapper;

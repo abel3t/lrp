@@ -1,23 +1,23 @@
-import { Skin } from 'src/@core/layouts/types'
+import { PaletteMode } from '@mui/material';
 
-import { PaletteMode } from '@mui/material'
+import { Skin } from '@core/layouts/types';
 
 const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
   // ** Vars
-  const whiteColor = '#FFF'
-  const lightColor = '76, 78, 100'
-  const darkColor = '234, 234, 255'
-  const mainColor = mode === 'light' ? lightColor : darkColor
+  const whiteColor = '#FFF';
+  const lightColor = '76, 78, 100';
+  const darkColor = '234, 234, 255';
+  const mainColor = mode === 'light' ? lightColor : darkColor;
 
   const defaultBgColor = () => {
     if (skin === 'bordered' && mode === 'light') {
-      return whiteColor
+      return whiteColor;
     } else if (skin === 'bordered' && mode === 'dark') {
-      return '#30334E'
+      return '#30334E';
     } else if (mode === 'light') {
-      return '#F7F7F9'
-    } else return '#282A42'
-  }
+      return '#F7F7F9';
+    } else return '#282A42';
+  };
 
   return {
     customColors: {
@@ -107,7 +107,7 @@ const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
       disabledBackground: `rgba(${mainColor}, 0.12)`,
       focus: `rgba(${mainColor}, 0.12)`
     }
-  }
-}
+  };
+};
 
-export default DefaultPalette
+export default DefaultPalette;

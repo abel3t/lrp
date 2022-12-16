@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { Skin } from 'src/@core/layouts/types'
-
-import { Theme } from '@mui/material/styles'
+import { Skin } from '@core/layouts/types';
 
 const Autocomplete = (theme: Theme, skin: Skin) => {
   return {
@@ -14,7 +12,7 @@ const Autocomplete = (theme: Theme, skin: Skin) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Autocomplete
+export default Autocomplete;

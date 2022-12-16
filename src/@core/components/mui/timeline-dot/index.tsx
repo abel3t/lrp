@@ -1,22 +1,18 @@
+import MuiTimelineDot from '@mui/lab/TimelineDot';
+import { useTheme } from '@mui/material/styles';
 
+import useBgColor, { UseBgColorType } from '@core/hooks/useBgColor';
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
-import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import MuiTimelineDot from '@mui/lab/TimelineDot'
-import { useTheme } from '@mui/material/styles'
-
-
-import { ColorsType, CustomTimelineDotProps } from './types'
+import { ColorsType, CustomTimelineDotProps } from './types';
 
 const TimelineDot = (props: CustomTimelineDotProps) => {
   // ** Props
-  const { sx, skin, color, variant } = props
+  const { sx, skin, color, variant } = props;
 
   // ** Hook
-  const theme = useTheme()
-  const bgColors: UseBgColorType = useBgColor()
+  const theme = useTheme();
+  const bgColors: UseBgColorType = useBgColor();
 
   const colors: ColorsType = {
     primary: {
@@ -54,19 +50,19 @@ const TimelineDot = (props: CustomTimelineDotProps) => {
       color: theme.palette.grey[500],
       backgroundColor: hexToRGBA(theme.palette.grey[500], 0.12)
     }
-  }
+  };
 
   return (
     <MuiTimelineDot
       {...props}
       sx={color && skin === 'light' && variant === 'filled' ? Object.assign(colors[color], sx) : sx}
     />
-  )
-}
+  );
+};
 
 TimelineDot.defaultProps = {
   color: 'grey',
   variant: 'filled'
-}
+};
 
-export default TimelineDot
+export default TimelineDot;

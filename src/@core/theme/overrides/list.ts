@@ -1,5 +1,4 @@
-
-import { Theme } from '@mui/material/styles'
+import { Theme } from '@mui/material/styles';
 
 const List = (theme: Theme) => {
   return {
@@ -41,7 +40,7 @@ const List = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default List
+export default List;

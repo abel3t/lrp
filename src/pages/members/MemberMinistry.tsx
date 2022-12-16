@@ -1,79 +1,80 @@
-import { ChangeEvent, MouseEvent, SyntheticEvent, useState } from 'react'
-import Icon from 'src/@core/components/icon'
+import { ChangeEvent, MouseEvent, SyntheticEvent, useState } from 'react';
 
-import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import Divider from '@mui/material/Divider'
-import FormControl from '@mui/material/FormControl'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import InputLabel from '@mui/material/InputLabel'
-import Link from '@mui/material/Link'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import Link from '@mui/material/Link';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+
+import Icon from '@core/components/icon';
 
 interface State {
-  newPassword: string
-  showNewPassword: boolean
-  confirmNewPassword: string
-  showConfirmNewPassword: boolean
+  newPassword: string;
+  showNewPassword: boolean;
+  confirmNewPassword: string;
+  showConfirmNewPassword: boolean;
 }
 
 const MemberMinistry = () => {
-  const [defaultValues, setDefaultValues] = useState<any>({ mobile: '+1(968) 819-2547' })
-  const [mobileNumber, setMobileNumber] = useState<string>(defaultValues.mobile)
-  const [openEditMobileNumber, setOpenEditMobileNumber] = useState<boolean>(false)
+  const [defaultValues, setDefaultValues] = useState<any>({ mobile: '+1(968) 819-2547' });
+  const [mobileNumber, setMobileNumber] = useState<string>(defaultValues.mobile);
+  const [openEditMobileNumber, setOpenEditMobileNumber] = useState<boolean>(false);
   const [values, setValues] = useState<State>({
     newPassword: '',
     showNewPassword: false,
     confirmNewPassword: '',
     showConfirmNewPassword: false
-  })
+  });
 
   const handleNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
   const handleClickShowNewPassword = () => {
-    setValues({ ...values, showNewPassword: !values.showNewPassword })
-  }
+    setValues({ ...values, showNewPassword: !values.showNewPassword });
+  };
   const handleMouseDownNewPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   // Handle Confirm Password
   const handleConfirmNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
   const handleClickShowConfirmNewPassword = () => {
-    setValues({ ...values, showConfirmNewPassword: !values.showConfirmNewPassword })
-  }
+    setValues({ ...values, showConfirmNewPassword: !values.showConfirmNewPassword });
+  };
   const handleMouseDownConfirmNewPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   // Handle edit mobile number dialog
-  const handleEditMobileNumberClickOpen = () => setOpenEditMobileNumber(true)
-  const handleEditMobileNumberClose = () => setOpenEditMobileNumber(false)
+  const handleEditMobileNumberClickOpen = () => setOpenEditMobileNumber(true);
+  const handleEditMobileNumberClose = () => setOpenEditMobileNumber(false);
 
   // Handle button click inside the dialog
   const handleCancelClick = () => {
-    setMobileNumber(defaultValues.mobile)
-    handleEditMobileNumberClose()
-  }
+    setMobileNumber(defaultValues.mobile);
+    handleEditMobileNumberClose();
+  };
   const handleSubmitClick = () => {
-    setDefaultValues({ ...defaultValues, mobile: mobileNumber })
-    handleEditMobileNumberClose()
-  }
+    setDefaultValues({ ...defaultValues, mobile: mobileNumber });
+    handleEditMobileNumberClose();
+  };
 
   return (
     <Grid container spacing={6}>
@@ -230,7 +231,7 @@ const MemberMinistry = () => {
         </Card>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default MemberMinistry
+export default MemberMinistry;

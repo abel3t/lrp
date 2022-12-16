@@ -1,24 +1,25 @@
-import { SyntheticEvent, useEffect, useState } from 'react'
-import Icon from 'src/@core/components/icon'
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { InvoiceType } from 'types/apps/invoiceTypes';
 
-import TabContext from '@mui/lab/TabContext'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import Box from '@mui/material/Box'
-import CircularProgress from '@mui/material/CircularProgress'
-import MuiTab, { TabProps } from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import MuiTab, { TabProps } from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-import MemberMinistry from './MemberMinistry'
-import MemberNetwork from './MemberNetwork'
-import MemberOverview from './MemberOverview'
-import MemberTeam from './MemberTeam'
+import Icon from '@core/components/icon';
+
+import MemberMinistry from './MemberMinistry';
+import MemberNetwork from './MemberNetwork';
+import MemberOverview from './MemberOverview';
+import MemberTeam from './MemberTeam';
 
 interface Props {
-  tab: string
-  invoiceData: InvoiceType[]
+  tab: string;
+  invoiceData: InvoiceType[];
 }
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
@@ -28,29 +29,29 @@ const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
     marginBottom: '0 !important',
     marginRight: theme.spacing(1)
   }
-}))
+}));
 
 const MemberViewRight = ({ tab, invoiceData }: Props) => {
-  const [activeTab, setActiveTab] = useState<string>(tab)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [activeTab, setActiveTab] = useState<string>(tab);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleChange = (event: SyntheticEvent, value: string) => {
-    setActiveTab(value)
-  }
+    setActiveTab(value);
+  };
 
   useEffect(() => {
     if (tab && tab !== activeTab) {
-      setActiveTab(tab)
+      setActiveTab(tab);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab])
+  }, [tab]);
 
   useEffect(() => {
     if (invoiceData) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [invoiceData])
+  }, [invoiceData]);
 
   return (
     <TabContext value={activeTab}>
@@ -90,7 +91,7 @@ const MemberViewRight = ({ tab, invoiceData }: Props) => {
         )}
       </Box>
     </TabContext>
-  )
-}
+  );
+};
 
-export default MemberViewRight
+export default MemberViewRight;

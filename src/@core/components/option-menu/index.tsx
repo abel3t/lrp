@@ -1,21 +1,17 @@
+import { MouseEvent, ReactNode, useState } from 'react';
 
-import { MouseEvent, ReactNode, useState } from 'react'
+import Link from 'next/link';
 
-import Icon from 'src/@core/components/icon'
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-import { useSettings } from 'src/@core/hooks/useSettings'
+import Icon from '@core/components/icon';
+import { useSettings } from '@core/hooks/useSettings';
 
-
-import Link from 'next/link'
-
-
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-
-import { OptionMenuItemType, OptionType, OptionsMenuType } from './types'
+import { OptionMenuItemType, OptionType, OptionsMenuType } from './types';
 
 const MenuItemWrapper = ({ children, option }: { children: ReactNode; option: OptionMenuItemType }) => {
   if (option.href) {
@@ -36,30 +32,30 @@ const MenuItemWrapper = ({ children, option }: { children: ReactNode; option: Op
       >
         {children}
       </Box>
-    )
+    );
   } else {
-    return <>{children}</>
+    return <>{children}</>;
   }
-}
+};
 
 const OptionsMenu = (props: OptionsMenuType) => {
   // ** Props
-  const { icon, options, menuProps, iconProps, leftAlignMenu, iconButtonProps } = props
+  const { icon, options, menuProps, iconProps, leftAlignMenu, iconButtonProps } = props;
 
   // ** State
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   // ** Hook & Var
-  const { settings } = useSettings()
-  const { direction } = settings
+  const { settings } = useSettings();
+  const { direction } = settings;
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -83,9 +79,9 @@ const OptionsMenu = (props: OptionsMenuType) => {
               <MenuItem key={index} onClick={handleClose}>
                 {option}
               </MenuItem>
-            )
+            );
           } else if ('divider' in option) {
-            return option.divider && <Divider key={index} {...option.dividerProps} />
+            return option.divider && <Divider key={index} {...option.dividerProps} />;
           } else {
             return (
               <MenuItem
@@ -93,8 +89,8 @@ const OptionsMenu = (props: OptionsMenuType) => {
                 {...option.menuItemProps}
                 {...(option.href && { sx: { p: 0 } })}
                 onClick={e => {
-                  handleClose()
-                  option.menuItemProps && option.menuItemProps.onClick ? option.menuItemProps.onClick(e) : null
+                  handleClose();
+                  option.menuItemProps && option.menuItemProps.onClick ? option.menuItemProps.onClick(e) : null;
                 }}
               >
                 <MenuItemWrapper option={option}>
@@ -102,12 +98,12 @@ const OptionsMenu = (props: OptionsMenuType) => {
                   {option.text}
                 </MenuItemWrapper>
               </MenuItem>
-            )
+            );
           }
         })}
       </Menu>
     </>
-  )
-}
+  );
+};
 
-export default OptionsMenu
+export default OptionsMenu;

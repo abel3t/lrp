@@ -1,27 +1,23 @@
+import { useAuth } from 'hooks/useAuth';
+import { Fragment, SyntheticEvent, useState } from 'react';
 
-import { Fragment, SyntheticEvent, useState } from 'react'
+import { useRouter } from 'next/router';
 
-import Icon from 'src/@core/components/icon'
-import { Settings } from 'src/@core/context/settingsContext'
-import { useAuth } from 'src/hooks/useAuth'
+import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-
-import { useRouter } from 'next/router'
-
-import Avatar from '@mui/material/Avatar'
-import Badge from '@mui/material/Badge'
-
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
+import Icon from '@core/components/icon';
+import { Settings } from '@core/context/settingsContext';
 
 interface Props {
-  settings: Settings
+  settings: Settings;
 }
-
 
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -29,32 +25,31 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
   borderRadius: '50%',
   backgroundColor: theme.palette.success.main,
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-}))
+}));
 
 const UserDropdown = (props: Props) => {
   // ** Props
-  const { settings } = props
+  const { settings } = props;
 
   // ** States
-  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
-
-  const router = useRouter()
-  const { logout } = useAuth()
+  const router = useRouter();
+  const { logout } = useAuth();
 
   // ** Vars
-  const { direction } = settings
+  const { direction } = settings;
 
   const handleDropdownOpen = (event: SyntheticEvent) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleDropdownClose = (url?: string) => {
     if (url) {
-      router.push(url)
+      router.push(url);
     }
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   const styles = {
     py: 2,
@@ -69,12 +64,12 @@ const UserDropdown = (props: Props) => {
       fontSize: '1.375rem',
       color: 'text.primary'
     }
-  }
+  };
 
   const handleLogout = () => {
-    logout()
-    handleDropdownClose()
-  }
+    logout();
+    handleDropdownClose();
+  };
 
   return (
     <Fragment>
@@ -143,7 +138,7 @@ const UserDropdown = (props: Props) => {
         </MenuItem>
       </Menu>
     </Fragment>
-  )
-}
+  );
+};
 
-export default UserDropdown
+export default UserDropdown;

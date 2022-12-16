@@ -1,19 +1,16 @@
+import { useContext } from 'react';
 
-import { useContext } from 'react'
-import Translations from 'src/layouts/components/Translations'
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { AbilityContext } from 'src/layouts/components/acl/Can'
-
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import Translations from 'layouts/components/Translations';
+import { AbilityContext } from 'layouts/components/acl/Can';
 
 const ACLPage = () => {
-
-  const ability = useContext(AbilityContext)
+  const ability = useContext(AbilityContext);
 
   return (
     <Grid container spacing={6}>
@@ -40,12 +37,12 @@ const ACLPage = () => {
         </Grid>
       ) : null}
     </Grid>
-  )
-}
+  );
+};
 
 ACLPage.acl = {
   action: 'read',
   subject: 'acl-page'
-}
+};
 
-export default ACLPage
+export default ACLPage;

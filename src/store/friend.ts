@@ -1,19 +1,19 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import apiClient from '../@core/services/api.client'
-import { Friend } from '../@core/types'
+import apiClient from '@core/services/api.client';
+import { Friend } from '@core/types';
 
 export const fetchData = createAsyncThunk('friend/fetchData', async () => {
-  const response = await apiClient.get('/friends')
+  const response = await apiClient.get('/friends');
 
-  return response.data.map((friend: Friend, index: number) => ({ index: index + 1, ...friend }))
-})
+  return response.data.map((friend: Friend, index: number) => ({ index: index + 1, ...friend }));
+});
 
 export const fetchFriendData = createAsyncThunk('friend/fetchFriendData', async (friendId: string) => {
-  const response = await apiClient.get(`/friends/${friendId}`)
+  const response = await apiClient.get(`/friends/${friendId}`);
 
-  return response.data
-})
+  return response.data;
+});
 
 // export const deleteFriend = createAsyncThunk(
 //   'appFriend/deleteData',
@@ -37,12 +37,12 @@ export const appFriendSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload
+      state.data = action.payload;
     }),
       builder.addCase(fetchFriendData.fulfilled, (state, action) => {
-        state.friend = action.payload
-      })
+        state.friend = action.payload;
+      });
   }
-})
+});
 
-export default appFriendSlice.reducer
+export default appFriendSlice.reducer;

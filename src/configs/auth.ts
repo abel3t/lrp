@@ -6,4 +6,4 @@ export default {
   onTokenExpiration: 'refreshToken', // logout | refreshToken
   refreshToken: 'refreshToken',
   expiredTime: 'expiredTime'
-}
+};

@@ -1,4 +1,3 @@
+import { ChipProps } from '@mui/material/Chip';
 
-import { ChipProps } from '@mui/material/Chip'
-
-export type CustomChipProps = ChipProps & { skin?: 'light'; rounded?: boolean }
+export type CustomChipProps = ChipProps & { skin?: 'light'; rounded?: boolean };

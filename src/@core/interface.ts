@@ -1,5 +1,5 @@
-import { ThemeColor } from './layouts/types'
+import { ThemeColor } from './layouts/types';
 
 export interface ColorsType {
-  [key: string]: ThemeColor
+  [key: string]: ThemeColor;
 }

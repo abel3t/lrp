@@ -1,16 +1,16 @@
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Grid from '@mui/material/Grid'
-import Switch from '@mui/material/Switch'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
 
 interface ConnectedAccountsType {
-  title: string
-  logo: string
-  checked: boolean
-  subtitle: string
+  title: string;
+  logo: string;
+  checked: boolean;
+  subtitle: string;
 }
 
 const connectedAccountsArr: ConnectedAccountsType[] = [
@@ -44,7 +44,7 @@ const connectedAccountsArr: ConnectedAccountsType[] = [
     subtitle: 'Communication',
     logo: '/images/logos/asana.png'
   }
-]
+];
 
 const MemberNetwork = () => {
   return (
@@ -83,13 +83,13 @@ const MemberNetwork = () => {
                   </Box>
                   <Switch defaultChecked={account.checked} />
                 </Box>
-              )
+              );
             })}
           </CardContent>
         </Card>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default MemberNetwork
+export default MemberNetwork;

@@ -1,17 +1,15 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { Skin } from 'src/@core/layouts/types'
-
-import { Theme } from '@mui/material/styles'
+import { Skin } from '@core/layouts/types';
 
 const Menu = (theme: Theme, skin: Skin) => {
   const boxShadow = () => {
     if (skin === 'bordered') {
-      return theme.shadows[0]
+      return theme.shadows[0];
     } else if (theme.palette.mode === 'light') {
-      return theme.shadows[8]
-    } else return theme.shadows[9]
-  }
+      return theme.shadows[8];
+    } else return theme.shadows[9];
+  };
 
   return {
     MuiMenu: {
@@ -25,7 +23,7 @@ const Menu = (theme: Theme, skin: Skin) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Menu
+export default Menu;

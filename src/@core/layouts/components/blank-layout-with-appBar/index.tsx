@@ -1,27 +1,25 @@
+import Link from 'next/link';
 
-import { useSettings } from 'src/@core/hooks/useSettings'
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
 
-import themeConfig from 'src/configs/themeConfig'
+import { useSettings } from '@core/hooks/useSettings';
 
-import Link from 'next/link'
-
-
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
+import themeConfig from 'configs/themeConfig';
 
 const StyledLink = styled(Link)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none',
   marginRight: theme.spacing(8)
-}))
+}));
 
 const BlankLayoutAppBar = () => {
-  const theme = useTheme()
-  const { settings } = useSettings()
-  const { skin } = settings
+  const theme = useTheme();
+  const { settings } = useSettings();
+  const { skin } = settings;
 
   return (
     <AppBar
@@ -117,7 +115,7 @@ const BlankLayoutAppBar = () => {
         </StyledLink>
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
-export default BlankLayoutAppBar
+export default BlankLayoutAppBar;

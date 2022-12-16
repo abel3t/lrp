@@ -26,7 +26,6 @@ export enum CarePriority {
   Warning = 'Warning'
 }
 
-
 export enum CareTitle {
   Excellent = 'Excellent',
   Good = 'Good',

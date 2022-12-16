@@ -1,29 +1,31 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { ReactNode, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import Icon from 'src/@core/components/icon'
-import { useSettings } from 'src/@core/hooks/useSettings'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
-import themeConfig from 'src/configs/themeConfig'
-import { useAuth } from 'src/hooks/useAuth'
-import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAuth } from 'hooks/useAuth';
+import { ReactNode, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
-import Box, { BoxProps } from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
-import FormControl from '@mui/material/FormControl'
-import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import InputLabel from '@mui/material/InputLabel'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import TextField from '@mui/material/TextField'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import Box, { BoxProps } from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import TextField from '@mui/material/TextField';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+import Icon from '@core/components/icon';
+import { useSettings } from '@core/hooks/useSettings';
+import BlankLayout from '@core/layouts/BlankLayout';
+
+import themeConfig from 'configs/themeConfig';
 
 const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -33,61 +35,60 @@ const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     maxWidth: 450
   }
-}))
+}));
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.down('md')]: {
     maxWidth: 400
   }
-}))
+}));
 
 const TypographyStyled = styled(Typography)<TypographyProps>(({ theme }) => ({
   fontWeight: 600,
   letterSpacing: '0.18px',
   marginBottom: theme.spacing(1.5),
   [theme.breakpoints.down('md')]: { marginTop: theme.spacing(8) }
-}))
+}));
 
 const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ theme }) => ({
   '& .MuiFormControlLabel-label': {
     fontSize: '0.875rem',
     color: theme.palette.text.secondary
   }
-}))
+}));
 
 const schema = yup.object().shape({
   username: yup.string().required(),
   password: yup.string().min(5).required()
-})
+});
 
 interface FormData {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 
 const LoginPage = () => {
-  const [rememberMe, setRememberMe] = useState<boolean>(true)
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [rememberMe, setRememberMe] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-
-  const auth = useAuth()
-  const theme = useTheme()
-  const { settings } = useSettings()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const auth = useAuth();
+  const theme = useTheme();
+  const { settings } = useSettings();
+  const hidden = useMediaQuery(theme.breakpoints.down('md'));
 
   // ** Vars
-  const { skin } = settings
+  const { skin } = settings;
 
   interface FormInputs {
-    username: string
-    password: string
+    username: string;
+    password: string;
   }
 
   const defaultValues = {
     username: '',
     password: ''
-  }
+  };
 
   const {
     control,
@@ -98,17 +99,17 @@ const LoginPage = () => {
     defaultValues: defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  })
+  });
 
   const onSubmit = (data: FormData) => {
-    const { username, password } = data
+    const { username, password } = data;
     auth.login({ username, password, rememberMe }, () => {
       setError('username', {
         type: 'manual',
         message: 'Username or Password is invalid'
-      })
-    })
-  }
+      });
+    });
+  };
 
   return (
     <Box className='content-center'>
@@ -211,11 +212,11 @@ const LoginPage = () => {
         </Box>
       </ContentWrapper>
     </Box>
-  )
-}
+  );
+};
 
-LoginPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+LoginPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
 
-LoginPage.guestGuard = true
+LoginPage.guestGuard = true;
 
-export default LoginPage
+export default LoginPage;

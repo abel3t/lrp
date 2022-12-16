@@ -1,9 +1,8 @@
+import { Theme } from '@mui/material/styles';
 
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import themeConfig from 'src/configs/themeConfig'
-
-import { Theme } from '@mui/material/styles'
+import themeConfig from 'configs/themeConfig';
 
 const Button = (theme: Theme) => {
   return {
@@ -88,7 +87,7 @@ const Button = (theme: Theme) => {
         disableRipple: themeConfig.disableRipple
       }
     }
-  }
-}
+  };
+};
 
-export default Button
+export default Button;

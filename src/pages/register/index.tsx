@@ -1,46 +1,47 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAuth } from 'hooks/useAuth';
+import { Fragment, MouseEvent, ReactNode, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Fragment, MouseEvent, ReactNode, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import Icon from 'src/@core/components/icon'
-import { useSettings } from 'src/@core/hooks/useSettings'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
-import themeConfig from 'src/configs/themeConfig'
-import { useAuth } from 'src/hooks/useAuth'
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import * as yup from 'yup'
+import Link from 'next/link';
 
-import Link from 'next/link'
+import Box, { BoxProps } from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import TextField from '@mui/material/TextField';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Box, { BoxProps } from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
-import Divider from '@mui/material/Divider'
-import FormControl from '@mui/material/FormControl'
-import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import InputLabel from '@mui/material/InputLabel'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import TextField from '@mui/material/TextField'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import Icon from '@core/components/icon';
+import { useSettings } from '@core/hooks/useSettings';
+import BlankLayout from '@core/layouts/BlankLayout';
+
+import themeConfig from 'configs/themeConfig';
+
+import FooterIllustrationsV2 from 'views/pages/auth/FooterIllustrationsV2';
 
 const defaultValues = {
   email: '',
   username: '',
   password: '',
   terms: false
-}
+};
 interface FormData {
-  email: string
-  terms: boolean
-  username: string
-  password: string
+  email: string;
+  terms: boolean;
+  username: string;
+  password: string;
 }
-
 
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(20),
@@ -48,7 +49,7 @@ const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   [theme.breakpoints.down('lg')]: {
     padding: theme.spacing(10)
   }
-}))
+}));
 
 const RegisterIllustration = styled('img')(({ theme }) => ({
   maxWidth: '48rem',
@@ -58,7 +59,7 @@ const RegisterIllustration = styled('img')(({ theme }) => ({
   [theme.breakpoints.down('lg')]: {
     maxWidth: '30rem'
   }
-}))
+}));
 
 const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -68,21 +69,21 @@ const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     maxWidth: 450
   }
-}))
+}));
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.down('md')]: {
     maxWidth: 400
   }
-}))
+}));
 
 const TypographyStyled = styled(Typography)<TypographyProps>(({ theme }) => ({
   fontWeight: 600,
   letterSpacing: '0.18px',
   marginBottom: theme.spacing(1.5),
   [theme.breakpoints.down('md')]: { marginTop: theme.spacing(8) }
-}))
+}));
 
 const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ theme }) => ({
   marginBottom: theme.spacing(4),
@@ -90,25 +91,24 @@ const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ t
     fontSize: '0.875rem',
     color: theme.palette.text.secondary
   }
-}))
+}));
 const Register = () => {
   // ** States
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-
-  const theme = useTheme()
-  const { register } = useAuth()
-  const { settings } = useSettings()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const theme = useTheme();
+  const { register } = useAuth();
+  const { settings } = useSettings();
+  const hidden = useMediaQuery(theme.breakpoints.down('md'));
 
   // ** Vars
-  const { skin } = settings
+  const { skin } = settings;
   const schema = yup.object().shape({
     password: yup.string().min(5).required(),
     username: yup.string().min(3).required(),
     email: yup.string().email().required(),
     terms: yup.bool().oneOf([true], 'You must accept the privacy policy & terms')
-  })
+  });
 
   const {
     control,
@@ -119,27 +119,27 @@ const Register = () => {
     defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
-  })
+  });
 
   const onSubmit = (data: FormData) => {
-    const { email, username, password } = data
+    const { email, username, password } = data;
     register({ email, username, password }, err => {
       if (err.email) {
         setError('email', {
           type: 'manual',
           message: err.email
-        })
+        });
       }
       if (err.username) {
         setError('username', {
           type: 'manual',
           message: err.username
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
-  const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'
+  const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration';
 
   return (
     <Box className='content-right'>
@@ -370,7 +370,7 @@ const Register = () => {
                           </Fragment>
                         }
                       />
-                    )
+                    );
                   }}
                 />
                 {errors.terms && (
@@ -434,11 +434,11 @@ const Register = () => {
         </Box>
       </ContentWrapper>
     </Box>
-  )
-}
+  );
+};
 
-Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
 
-Register.guestGuard = true
+Register.guestGuard = true;
 
-export default Register
+export default Register;

@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { Skin } from 'src/@core/layouts/types'
-
-import { Theme } from '@mui/material/styles'
+import { Skin } from '@core/layouts/types';
 
 const Popover = (theme: Theme, skin: Skin) => {
   return {
@@ -16,7 +14,7 @@ const Popover = (theme: Theme, skin: Skin) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Popover
+export default Popover;

@@ -5,16 +5,10 @@ import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-
-import Icon from 'src/@core/components/icon';
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker';
-
-import { DateType } from 'src/types/forms/reactDatepickerTypes';
-
+import { DateType } from 'types/forms/reactDatepickerTypes';
 import * as yup from 'yup';
 
 import { Autocomplete } from '@mui/material';
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -30,16 +24,19 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import CustomChip from '../../@core/components/mui/chip';
-import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../@core/contanst';
-import { CarePriority, CareType } from '../../@core/enums';
-import apiClient from '../../@core/services/api.client';
-import { FormMode, Member } from '../../@core/types';
+import Icon from '@core/components/icon';
+import CustomChip from '@core/components/mui/chip';
+import { CarePriorityColor, CareTypeColor, CareTypeText } from '@core/contanst';
+import { CarePriority, CareType } from '@core/enums';
+import apiClient from '@core/services/api.client';
+import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import { FormMode, Member } from '@core/types';
+import { standardDate } from '@core/utils/date';
+
 import { AppDispatch, RootState } from '../../store';
 import { fetchData } from '../../store/care';
 import { fetchData as fetchMembersData } from '../../store/member';
 import UploadImage from './UploadImage';
-import { standardDate } from '../../@core/utils/date';
 
 export interface FormInputs {
   id?: string;
@@ -69,7 +66,7 @@ const defaultValues = {
 };
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
-  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }}/>;
+  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />;
 });
 
 const Transition = forwardRef(function Transition(
@@ -80,12 +77,12 @@ const Transition = forwardRef(function Transition(
 });
 
 type Props = {
-  show: boolean
-  setShow: any
-  mode: FormMode
-  care: any | null
-  fetchApi?: any
-}
+  show: boolean;
+  setShow: any;
+  mode: FormMode;
+  care: any | null;
+  fetchApi?: any;
+};
 
 const getUtcDate = (date?: DateType) => {
   let d = new Date();
@@ -217,13 +214,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
   return (
     <Card>
-      <Dialog fullWidth open={show} maxWidth="md" scroll="body" onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog fullWidth open={show} maxWidth='md' scroll='body' onClose={handleClose} TransitionComponent={Transition}>
         <DialogContent sx={{ pb: 6, px: { xs: 8, sm: 15 }, pt: { xs: 8, sm: 12.5 }, position: 'relative' }}>
-          <IconButton size="small" onClick={handleClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
-            <Icon icon="mdi:close"/>
+          <IconButton size='small' onClick={handleClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
+            <Icon icon='mdi:close' />
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
-            <Typography variant="h5" sx={{ mb: 3, lineHeight: '2rem' }}>
+            <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
               {mode === 'create' ? 'Create Care' : 'Update Care'}
             </Typography>
           </Box>
@@ -233,18 +230,18 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
-                    name="member"
+                    name='member'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Autocomplete
                         openOnFocus
                         options={memberStore.data?.map((member: Member) => ({ id: member.id, name: member.name }))}
-                        id="autocomplete-care-name"
+                        id='autocomplete-care-name'
                         getOptionLabel={option => option.name}
                         defaultValue={value}
                         onChange={(_, data) => onChange(data)}
-                        renderInput={params => <TextField {...params} label="Member"/>}
+                        renderInput={params => <TextField {...params} label='Member' />}
                       />
                     )}
                   />
@@ -253,28 +250,28 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="care-type-select" error={Boolean(errors.type)} htmlFor="care-type-select">
+                  <InputLabel id='care-type-select' error={Boolean(errors.type)} htmlFor='care-type-select'>
                     Care Type
                   </InputLabel>
                   <Controller
-                    name="type"
+                    name='type'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label="Care Type"
+                        label='Care Type'
                         onChange={onChange}
                         error={Boolean(errors.type)}
-                        labelId="care-type-select"
-                        aria-describedby="care-type"
+                        labelId='care-type-select'
+                        aria-describedby='care-type'
                       >
                         {Object.values(CareType).map((type, index) => {
                           return (
                             <MenuItem value={type} key={index}>
                               <CustomChip
-                                skin="light"
-                                size="small"
+                                skin='light'
+                                size='small'
                                 label={CareTypeText[type]}
                                 color={CareTypeColor[type || '']}
                                 sx={{
@@ -297,28 +294,28 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="care-priority-select" error={Boolean(errors.type)} htmlFor="care-priority-select">
+                  <InputLabel id='care-priority-select' error={Boolean(errors.type)} htmlFor='care-priority-select'>
                     Care Priority
                   </InputLabel>
                   <Controller
-                    name="priority"
+                    name='priority'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label="Care Priority"
+                        label='Care Priority'
                         onChange={onChange}
                         error={Boolean(errors.type)}
-                        labelId="care-priority-select"
-                        aria-describedby="care-priority"
+                        labelId='care-priority-select'
+                        aria-describedby='care-priority'
                       >
                         {Object.values(CarePriority).map((priority, index) => {
                           return (
                             <MenuItem value={priority} key={index}>
                               <CustomChip
-                                skin="light"
-                                size="small"
+                                skin='light'
+                                size='small'
                                 label={priority}
                                 color={CarePriorityColor[priority || '']}
                                 sx={{
@@ -342,7 +339,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <DatePickerWrapper>
                   <Controller
-                    name="date"
+                    name='date'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
@@ -352,15 +349,15 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
-                        placeholderText="dd/MM/yyyy"
-                        dateFormat="dd/MM/yyyy"
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
                         customInput={
                           <CustomInput
                             value={value}
                             onChange={onChange}
-                            label="Date"
+                            label='Date'
                             error={Boolean(errors.date)}
-                            aria-describedby="validate-care-date"
+                            aria-describedby='validate-care-date'
                           />
                         }
                       />
@@ -370,13 +367,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               </Grid>
 
               <Grid item xs={12}>
-                <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')}/>
+                <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')} />
               </Grid>
 
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <Controller
-                    name="description"
+                    name='description'
                     control={control}
                     rules={{ required: false }}
                     render={({ field }) => (
@@ -384,9 +381,9 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                         rows={4}
                         multiline
                         {...field}
-                        label="Description"
+                        label='Description'
                         error={Boolean(errors.description)}
-                        aria-describedby="validate-description"
+                        aria-describedby='validate-description'
                       />
                     )}
                   />
@@ -394,7 +391,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               </Grid>
 
               <Grid item xs={12}>
-                <Button size="large" type="submit" variant="contained">
+                <Button size='large' type='submit' variant='contained'>
                   Submit
                 </Button>
               </Grid>

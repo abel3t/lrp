@@ -1,10 +1,9 @@
+import { IconProps } from '@iconify/react';
 
-import { IconProps } from '@iconify/react'
-
-import Icon from 'src/@core/components/icon'
+import Icon from '@core/components/icon';
 
 const UserIcon = ({ icon, ...rest }: IconProps) => {
-  return <Icon icon={icon} {...rest} />
-}
+  return <Icon icon={icon} {...rest} />;
+};
 
-export default UserIcon
+export default UserIcon;

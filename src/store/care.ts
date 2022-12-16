@@ -1,31 +1,31 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import apiClient from '../@core/services/api.client'
-import { Care } from '../@core/types'
-import { convertObjectToQueryString } from '../@core/utils/string.util'
+import apiClient from '@core/services/api.client';
+import { Care } from '@core/types';
+import { convertObjectToQueryString } from '@core/utils/string.util';
 
 interface IQueryCare {
-  search?: string
-  curatorId?: string
+  search?: string;
+  curatorId?: string;
 }
 
 export const fetchData = createAsyncThunk('care/fetchData', async (query?: IQueryCare) => {
-  const response = await apiClient.get('/cares' + convertObjectToQueryString(query))
+  const response = await apiClient.get('/cares' + convertObjectToQueryString(query));
 
-  return response.data
-})
+  return response.data;
+});
 
 export const fetchCareData = createAsyncThunk('care/fetchCareData', async (careId: string) => {
-  const response = await apiClient.get(`/cares/${careId}`)
+  const response = await apiClient.get(`/cares/${careId}`);
 
-  return response.data
-})
+  return response.data;
+});
 
 export const fetchMemberCaresData = createAsyncThunk('care/fetchMemberCaresData', async (memberId: string) => {
-  const response = await apiClient.get(`/cares/members/${memberId}`)
+  const response = await apiClient.get(`/cares/members/${memberId}`);
 
-  return response.data
-})
+  return response.data;
+});
 
 // export const deleteCare = createAsyncThunk(
 //   'appCare/deleteData',
@@ -50,15 +50,15 @@ export const appCareSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload
+      state.data = action.payload;
     }),
       builder.addCase(fetchCareData.fulfilled, (state, action) => {
-        state.care = action.payload
+        state.care = action.payload;
       }),
       builder.addCase(fetchMemberCaresData.fulfilled, (state, action) => {
-        state.memberCares = action.payload
-      })
+        state.memberCares = action.payload;
+      });
   }
-})
+});
 
-export default appCareSlice.reducer
+export default appCareSlice.reducer;

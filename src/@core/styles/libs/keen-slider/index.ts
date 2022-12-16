@@ -1,8 +1,7 @@
-
 // ** KeenSlider CSS
-import 'keen-slider/keen-slider.min.css'
+import 'keen-slider/keen-slider.min.css';
 
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles';
 
 const KeenSliderWrapper = styled('div')(({ theme }) => ({
   '& .keen-slider': {
@@ -109,6 +108,6 @@ const KeenSliderWrapper = styled('div')(({ theme }) => ({
       }
     }
   }
-}))
+}));
 
-export default KeenSliderWrapper
+export default KeenSliderWrapper;

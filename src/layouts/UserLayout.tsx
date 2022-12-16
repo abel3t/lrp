@@ -1,27 +1,21 @@
+import VerticalNavItems from 'navigation';
+import { ReactNode } from 'react';
 
-import { ReactNode } from 'react'
+import { Theme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { useSettings } from 'src/@core/hooks/useSettings'
+import { useSettings } from '@core/hooks/useSettings';
+import Layout from '@core/layouts/Layout';
 
-import Layout from 'src/@core/layouts/Layout'
-
-import VerticalNavItems from 'src/navigation'
-
-
-import { Theme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-
-
-import VerticalAppBarContent from './components/vertical/AppBarContent'
+import VerticalAppBarContent from './components/vertical/AppBarContent';
 
 interface Props {
-  children: ReactNode
-  contentHeightFixed?: boolean
+  children: ReactNode;
+  contentHeightFixed?: boolean;
 }
 
 const UserLayout = ({ children, contentHeightFixed }: Props) => {
-
-  const { settings, saveSettings } = useSettings()
+  const { settings, saveSettings } = useSettings();
 
   // ** Vars for server side navigation
   // const { menuItems: verticalMenuItems } = ServerSideVerticalNavItems()
@@ -35,10 +29,10 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
    *  to know more about what values can be passed to this hook.
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
-  const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
+  const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
 
   if (hidden && settings.layout === 'horizontal') {
-    settings.layout = 'vertical'
+    settings.layout = 'vertical';
   }
 
   return (
@@ -68,7 +62,7 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
     >
       {children}
     </Layout>
-  )
-}
+  );
+};
 
-export default UserLayout
+export default UserLayout;

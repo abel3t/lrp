@@ -1,8 +1,7 @@
+import Grid from '@mui/material/Grid';
 
-import Grid from '@mui/material/Grid'
-
-import MemberViewLeft from './MemberViewLeft'
-import MemberViewRight from './MemberViewRight'
+import MemberViewLeft from './MemberViewLeft';
+import MemberViewRight from './MemberViewRight';
 
 const UserView = () => {
   return (
@@ -14,7 +13,7 @@ const UserView = () => {
         <MemberViewRight tab={'overview'} invoiceData={[]} />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default UserView
+export default UserView;

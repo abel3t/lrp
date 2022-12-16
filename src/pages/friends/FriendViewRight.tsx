@@ -1,17 +1,18 @@
-import { SyntheticEvent, useEffect, useState } from 'react'
-import Icon from 'src/@core/components/icon'
+import { SyntheticEvent, useEffect, useState } from 'react';
 
-import TabContext from '@mui/lab/TabContext'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import Box from '@mui/material/Box'
-import MuiTab, { TabProps } from '@mui/material/Tab'
-import { styled } from '@mui/material/styles'
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Box from '@mui/material/Box';
+import MuiTab, { TabProps } from '@mui/material/Tab';
+import { styled } from '@mui/material/styles';
 
-import FriendOverview from './FriendOverview'
+import Icon from '@core/components/icon';
+
+import FriendOverview from './FriendOverview';
 
 interface Props {
-  tab: string
+  tab: string;
 }
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
@@ -21,22 +22,22 @@ const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
     marginBottom: '0 !important',
     marginRight: theme.spacing(1)
   }
-}))
+}));
 
 const FriendViewRight = ({ tab }: Props) => {
-  const [activeTab, setActiveTab] = useState<string>(tab)
+  const [activeTab, setActiveTab] = useState<string>(tab);
 
   const handleChange = (event: SyntheticEvent, value: string) => {
-    setActiveTab(value)
-  }
+    setActiveTab(value);
+  };
 
   useEffect(() => {
     if (tab && tab !== activeTab) {
-      setActiveTab(tab)
+      setActiveTab(tab);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab])
+  }, [tab]);
 
   return (
     <TabContext value={activeTab}>
@@ -71,7 +72,7 @@ const FriendViewRight = ({ tab }: Props) => {
         </TabPanel>
       </Box>
     </TabContext>
-  )
-}
+  );
+};
 
-export default FriendViewRight
+export default FriendViewRight;

@@ -1,5 +1,4 @@
-
-import { Theme } from '@mui/material/styles'
+import { Theme } from '@mui/material/styles';
 
 const select = (theme: Theme) => {
   return {
@@ -16,7 +15,7 @@ const select = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default select
+export default select;

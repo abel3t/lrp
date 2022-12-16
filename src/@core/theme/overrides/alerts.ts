@@ -1,12 +1,10 @@
+import { Theme } from '@mui/material/styles';
+import { darken, lighten } from '@mui/material/styles';
 
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import { Theme } from '@mui/material/styles'
-import { darken, lighten } from '@mui/material/styles'
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const Alert = (theme: Theme) => {
-  const getColor = theme.palette.mode === 'light' ? darken : lighten
+  const getColor = theme.palette.mode === 'light' ? darken : lighten;
 
   return {
     MuiAlert: {
@@ -107,7 +105,7 @@ const Alert = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Alert
+export default Alert;

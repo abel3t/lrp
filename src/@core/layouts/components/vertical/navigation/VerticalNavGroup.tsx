@@ -1,48 +1,43 @@
+import clsx from 'clsx';
+import { Fragment, useEffect } from 'react';
 
+import { useRouter } from 'next/router';
 
-import clsx from 'clsx'
-import { Fragment, useEffect } from 'react'
+import Box, { BoxProps } from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Collapse from '@mui/material/Collapse';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
 
-import Icon from 'src/@core/components/icon'
+import Icon from '@core/components/icon';
+import { LayoutProps, NavGroup } from '@core/layouts/types';
+import { hasActiveChild, removeChildren } from '@core/layouts/utils';
 
-import { LayoutProps, NavGroup } from 'src/@core/layouts/types'
+import themeConfig from 'configs/themeConfig';
 
-import { hasActiveChild, removeChildren } from 'src/@core/layouts/utils'
+import Translations from 'layouts/components/Translations';
+import UserIcon from 'layouts/components/UserIcon';
+import CanViewNavGroup from 'layouts/components/acl/CanViewNavGroup';
 
-import themeConfig from 'src/configs/themeConfig'
-import Translations from 'src/layouts/components/Translations'
-import UserIcon from 'src/layouts/components/UserIcon'
-import CanViewNavGroup from 'src/layouts/components/acl/CanViewNavGroup'
-
-import { useRouter } from 'next/router'
-
-import Box, { BoxProps } from '@mui/material/Box'
-
-import Chip from '@mui/material/Chip'
-import Collapse from '@mui/material/Collapse'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import Typography from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
-
-
-import VerticalNavItems from './VerticalNavItems'
+import VerticalNavItems from './VerticalNavItems';
 
 interface Props {
-  item: NavGroup
-  navHover: boolean
-  parent?: NavGroup
-  navVisible?: boolean
-  groupActive: string[]
-  collapsedNavWidth: number
-  currentActiveGroup: string[]
-  navigationBorderWidth: number
-  settings: LayoutProps['settings']
-  isSubToSub?: NavGroup | undefined
-  saveSettings: LayoutProps['saveSettings']
-  setGroupActive: (values: string[]) => void
-  setCurrentActiveGroup: (items: string[]) => void
+  item: NavGroup;
+  navHover: boolean;
+  parent?: NavGroup;
+  navVisible?: boolean;
+  groupActive: string[];
+  collapsedNavWidth: number;
+  currentActiveGroup: string[];
+  navigationBorderWidth: number;
+  settings: LayoutProps['settings'];
+  isSubToSub?: NavGroup | undefined;
+  saveSettings: LayoutProps['saveSettings'];
+  setGroupActive: (values: string[]) => void;
+  setCurrentActiveGroup: (items: string[]) => void;
 }
 
 const MenuItemTextWrapper = styled(Box)<BoxProps>(() => ({
@@ -51,7 +46,7 @@ const MenuItemTextWrapper = styled(Box)<BoxProps>(() => ({
   justifyContent: 'space-between',
   transition: 'opacity .25s ease-in-out',
   ...(themeConfig.menuTextTruncate && { overflow: 'hidden' })
-}))
+}));
 
 const VerticalNavGroup = (props: Props) => {
   const {
@@ -67,127 +62,127 @@ const VerticalNavGroup = (props: Props) => {
     currentActiveGroup,
     setCurrentActiveGroup,
     navigationBorderWidth
-  } = props
+  } = props;
 
-  const theme = useTheme()
-  const router = useRouter()
-  const currentURL = router.asPath
-  const { direction, mode, navCollapsed, verticalNavToggleType } = settings
+  const theme = useTheme();
+  const router = useRouter();
+  const currentURL = router.asPath;
+  const { direction, mode, navCollapsed, verticalNavToggleType } = settings;
 
   // ** Accordion menu group open toggle
   const toggleActiveGroup = (item: NavGroup, parent: NavGroup | undefined) => {
-    let openGroup = groupActive
+    let openGroup = groupActive;
 
     // ** If Group is already open and clicked, close the group
     if (openGroup.includes(item.title)) {
-      openGroup.splice(openGroup.indexOf(item.title), 1)
+      openGroup.splice(openGroup.indexOf(item.title), 1);
 
       // If clicked Group has open group children, Also remove those children to close those groups
       if (item.children) {
-        removeChildren(item.children, openGroup, currentActiveGroup)
+        removeChildren(item.children, openGroup, currentActiveGroup);
       }
     } else if (parent) {
       // ** If Group clicked is the child of an open group, first remove all the open groups under that parent
       if (parent.children) {
-        removeChildren(parent.children, openGroup, currentActiveGroup)
+        removeChildren(parent.children, openGroup, currentActiveGroup);
       }
 
       // ** After removing all the open groups under that parent, add the clicked group to open group array
       if (!openGroup.includes(item.title)) {
-        openGroup.push(item.title)
+        openGroup.push(item.title);
       }
     } else {
       // ** If clicked on another group that is not active or open, create openGroup array from scratch
 
       // ** Empty Open Group array
-      openGroup = []
+      openGroup = [];
 
       // ** push Current Active Group To Open Group array
       if (currentActiveGroup.every(elem => groupActive.includes(elem))) {
-        openGroup.push(...currentActiveGroup)
+        openGroup.push(...currentActiveGroup);
       }
 
       // ** Push current clicked group item to Open Group array
       if (!openGroup.includes(item.title)) {
-        openGroup.push(item.title)
+        openGroup.push(item.title);
       }
     }
-    setGroupActive([...openGroup])
-  }
+    setGroupActive([...openGroup]);
+  };
 
   // ** Menu Group Click
   const handleGroupClick = () => {
-    const openGroup = groupActive
+    const openGroup = groupActive;
     if (verticalNavToggleType === 'collapse') {
       if (openGroup.includes(item.title)) {
-        openGroup.splice(openGroup.indexOf(item.title), 1)
+        openGroup.splice(openGroup.indexOf(item.title), 1);
       } else {
-        openGroup.push(item.title)
+        openGroup.push(item.title);
       }
-      setGroupActive([...openGroup])
+      setGroupActive([...openGroup]);
     } else {
-      toggleActiveGroup(item, parent)
+      toggleActiveGroup(item, parent);
     }
-  }
+  };
 
   useEffect(() => {
     if (hasActiveChild(item, currentURL)) {
-      if (!groupActive.includes(item.title)) groupActive.push(item.title)
+      if (!groupActive.includes(item.title)) groupActive.push(item.title);
     } else {
-      const index = groupActive.indexOf(item.title)
-      if (index > -1) groupActive.splice(index, 1)
+      const index = groupActive.indexOf(item.title);
+      if (index > -1) groupActive.splice(index, 1);
     }
-    setGroupActive([...groupActive])
-    setCurrentActiveGroup([...groupActive])
+    setGroupActive([...groupActive]);
+    setCurrentActiveGroup([...groupActive]);
 
     // Empty Active Group When Menu is collapsed and not hovered, to fix issue route change
     if (navCollapsed && !navHover) {
-      setGroupActive([])
+      setGroupActive([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.asPath])
+  }, [router.asPath]);
 
   useEffect(() => {
     if (navCollapsed && !navHover) {
-      setGroupActive([])
+      setGroupActive([]);
     }
 
     if ((navCollapsed && navHover) || (groupActive.length === 0 && !navCollapsed)) {
-      setGroupActive([...currentActiveGroup])
+      setGroupActive([...currentActiveGroup]);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navCollapsed, navHover])
+  }, [navCollapsed, navHover]);
 
   useEffect(() => {
     if (groupActive.length === 0 && !navCollapsed) {
-      setGroupActive([])
+      setGroupActive([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navHover])
+  }, [navHover]);
 
-  const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
+  const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon;
 
-  const menuGroupCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
+  const menuGroupCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 };
 
   const conditionalIconColor = () => {
     if (mode === 'semi-dark') {
       return {
         color: `rgba(${theme.palette.customColors.dark}, ${parent && item.children ? 0.6 : 0.87})`
-      }
+      };
     } else
       return {
         color: parent && item.children ? 'text.secondary' : 'text.primary'
-      }
-  }
+      };
+  };
 
   const conditionalArrowIconColor = () => {
     if (mode === 'semi-dark') {
       return {
         color: `rgba(${theme.palette.customColors.dark}, 0.6)`
-      }
-    } else return {}
-  }
+      };
+    } else return {};
+  };
 
   const conditionalBgColor = () => {
     if (mode === 'semi-dark') {
@@ -201,7 +196,7 @@ const VerticalNavGroup = (props: Props) => {
             backgroundColor: `rgba(${theme.palette.customColors.dark}, 0.08)`
           }
         }
-      }
+      };
     } else {
       return {
         '&.Mui-selected': {
@@ -210,9 +205,9 @@ const VerticalNavGroup = (props: Props) => {
             backgroundColor: 'action.selected'
           }
         }
-      }
+      };
     }
-  }
+  };
 
   return (
     <CanViewNavGroup navGroup={item}>
@@ -321,7 +316,7 @@ const VerticalNavGroup = (props: Props) => {
         </ListItem>
       </Fragment>
     </CanViewNavGroup>
-  )
-}
+  );
+};
 
-export default VerticalNavGroup
+export default VerticalNavGroup;

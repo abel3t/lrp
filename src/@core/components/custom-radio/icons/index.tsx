@@ -1,18 +1,16 @@
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Radio from '@mui/material/Radio';
+import Typography from '@mui/material/Typography';
 
-import { CustomRadioIconsProps } from 'src/@core/components/custom-radio/types'
-
-import Icon from 'src/@core/components/icon'
-
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Radio from '@mui/material/Radio'
-import Typography from '@mui/material/Typography'
+import { CustomRadioIconsProps } from '@core/components/custom-radio/types';
+import Icon from '@core/components/icon';
 
 const CustomRadioIcons = (props: CustomRadioIconsProps) => {
   // ** Props
-  const { data, icon, name, selected, gridProps, iconProps, handleChange, color = 'primary' } = props
+  const { data, icon, name, selected, gridProps, iconProps, handleChange, color = 'primary' } = props;
 
-  const { title, value, content } = data
+  const { title, value, content } = data;
 
   const renderComponent = () => {
     return (
@@ -62,10 +60,10 @@ const CustomRadioIcons = (props: CustomRadioIconsProps) => {
           />
         </Box>
       </Grid>
-    )
-  }
+    );
+  };
 
-  return data ? renderComponent() : null
-}
+  return data ? renderComponent() : null;
+};
 
-export default CustomRadioIcons
+export default CustomRadioIcons;

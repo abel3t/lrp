@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import { Theme } from '@mui/material/styles'
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const Progress = (theme: Theme) => {
   return {
@@ -35,7 +33,7 @@ const Progress = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Progress
+export default Progress;

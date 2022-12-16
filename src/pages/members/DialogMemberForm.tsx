@@ -1,63 +1,63 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import 'cleave.js/dist/addons/cleave-phone.vn';
+import Cleave from 'cleave.js/react';
+import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { DateType } from 'types/forms/reactDatepickerTypes';
+import * as yup from 'yup';
 
-import { yupResolver } from '@hookform/resolvers/yup'
-import 'cleave.js/dist/addons/cleave-phone.vn'
-import Cleave from 'cleave.js/react'
-import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react'
-import DatePicker from 'react-datepicker'
-import { Controller, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import { useDispatch, useSelector } from 'react-redux'
-import Icon from 'src/@core/components/icon'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import * as yup from 'yup'
+import { Autocomplete } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Fade, { FadeProps } from '@mui/material/Fade';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import { Autocomplete } from '@mui/material'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import Fade, { FadeProps } from '@mui/material/Fade'
-import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+import Icon from '@core/components/icon';
+import CustomChip from '@core/components/mui/chip';
+import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
+import { DiscipleshipProcess } from '@core/enums';
+import apiClient from '@core/services/api.client';
+import CleaveWrapper from '@core/styles/libs/react-cleave';
+import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import { Account, FormMode } from '@core/types';
+import { standardDate } from '@core/utils/date';
 
-import CustomChip from '../../@core/components/mui/chip'
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst';
-import { DiscipleshipProcess } from '../../@core/enums'
-import apiClient from '../../@core/services/api.client'
-import CleaveWrapper from '../../@core/styles/libs/react-cleave'
-import { Account, FormMode } from '../../@core/types'
-import { AppDispatch, RootState } from '../../store'
-import { fetchData } from '../../store/member'
-import { standardDate } from '../../@core/utils/date';
+import { AppDispatch, RootState } from '../../store';
+import { fetchData } from '../../store/member';
 
 export interface FormInputs {
-  id: string
-  curator?: Account | null
-  birthday?: DateType | null
-  email?: string
-  name: string
-  phone?: string
-  discipleshipProcess?: string
-  address?: string
-  hometown?: string
-  gender?: string
-  description?: string
+  id: string;
+  curator?: Account | null;
+  birthday?: DateType | null;
+  email?: string;
+  name: string;
+  phone?: string;
+  discipleshipProcess?: string;
+  address?: string;
+  hometown?: string;
+  gender?: string;
+  description?: string;
 }
 
 interface CustomInputProps {
-  value: DateType
-  label: string
-  error: boolean
-  onChange: (event: ChangeEvent) => void
+  value: DateType;
+  label: string;
+  error: boolean;
+  onChange: (event: ChangeEvent) => void;
 }
 
 const defaultValues = {
@@ -72,42 +72,44 @@ const defaultValues = {
   hometown: '',
   gender: '',
   description: ''
-}
+};
 
-const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />)
+const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => (
+  <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
+));
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
 ) {
-  return <Fade ref={ref} {...props} />
-})
+  return <Fade ref={ref} {...props} />;
+});
 
 type Props = {
-  show: boolean
-  setShow: any
-  mode: FormMode
-  member: any | null
-  fetchApi?: any
-}
+  show: boolean;
+  setShow: any;
+  mode: FormMode;
+  member: any | null;
+  fetchApi?: any;
+};
 
 const getUtcDate = (date?: DateType) => {
-  let d = new Date()
+  let d = new Date();
 
   if (date) {
-    d = new Date(date)
+    d = new Date(date);
   }
 
-  const day = d.getDate()
-  const month = d.getMonth()
-  const year = d.getFullYear()
+  const day = d.getDate();
+  const month = d.getMonth();
+  const year = d.getFullYear();
 
-  return new Date(Date.UTC(year, month, day, 0, 0, 0))
-}
+  return new Date(Date.UTC(year, month, day, 0, 0, 0));
+};
 
 const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) => {
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.account)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.account);
 
   const validationSchema = yup.object().shape({
     birthday: yup.string(),
@@ -118,23 +120,23 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     gender: yup.string(),
     description: yup.string(),
     discipleshipProcess: yup.string()
-  })
+  });
 
   useEffect(() => {
     if (member && show) {
       Object.keys(defaultValues).forEach((key: any) => {
         if ((member as any)[key]) {
           if (key === 'birthday') {
-            setValue(key, new Date((member as any)[key]))
+            setValue(key, new Date((member as any)[key]));
 
-            return
+            return;
           }
 
-          setValue(key, (member as any)[key])
+          setValue(key, (member as any)[key]);
         }
-      })
+      });
     }
-  }, [show])
+  }, [show]);
 
   const {
     control,
@@ -146,49 +148,49 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     defaultValues: member || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
-  })
+  });
 
   const handleCallApi = (mode: FormMode, data: FormInputs) => {
-    const { id, ..._data } = data
+    const { id, ..._data } = data;
     const body: any = {
       ..._data,
       birthday: getUtcDate(data.birthday).toISOString()
-    }
+    };
 
     if (mode === 'update') {
-      return apiClient.put(`/members/${id}`, body)
+      return apiClient.put(`/members/${id}`, body);
     }
 
-    return apiClient.post('/members', body)
-  }
+    return apiClient.post('/members', body);
+  };
 
   const onSubmit = (data: FormInputs) => {
-    setShow(false)
+    setShow(false);
 
     handleCallApi(mode, data)
       .then(() => {
-        reset(defaultValues)
+        reset(defaultValues);
         if (fetchApi && data.id) {
-          dispatch(fetchApi(data.id))
+          dispatch(fetchApi(data.id));
         } else {
-          dispatch(fetchData())
+          dispatch(fetchData());
         }
 
-        const messageMode = mode === 'update' ? 'Update' : 'Create'
+        const messageMode = mode === 'update' ? 'Update' : 'Create';
 
-        toast.success(`${messageMode} member successfully!`)
+        toast.success(`${messageMode} member successfully!`);
       })
       .catch(error => {
-        reset(defaultValues)
-        toast.error(error.message)
-      })
-  }
+        reset(defaultValues);
+        toast.error(error.message);
+      });
+  };
 
   const handleClose = () => {
-    setShow(false)
+    setShow(false);
 
-    reset(defaultValues)
-  }
+    reset(defaultValues);
+  };
 
   return (
     <Card>
@@ -270,7 +272,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                                 }}
                               />
                             </MenuItem>
-                          )
+                          );
                         })}
                       </Select>
                     )}
@@ -472,7 +474,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
         </DialogContent>
       </Dialog>
     </Card>
-  )
-}
+  );
+};
 
-export default DialogEditUserInfo
+export default DialogEditUserInfo;

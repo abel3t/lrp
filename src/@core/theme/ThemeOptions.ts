@@ -1,28 +1,27 @@
+import { ThemeOptions } from '@mui/material';
+import { deepmerge } from '@mui/utils';
 
-import { Settings } from 'src/@core/context/settingsContext'
-import UserThemeOptions from 'src/layouts/UserThemeOptions'
+import { Settings } from '@core/context/settingsContext';
 
-import { ThemeOptions } from '@mui/material'
-import { deepmerge } from '@mui/utils'
+import UserThemeOptions from 'layouts/UserThemeOptions';
 
-import breakpoints from './breakpoints'
-
-import palette from './palette'
-import shadows from './shadows'
-import spacing from './spacing'
+import breakpoints from './breakpoints';
+import palette from './palette';
+import shadows from './shadows';
+import spacing from './spacing';
 
 const themeOptions = (settings: Settings): ThemeOptions => {
   // ** Vars
-  const { skin, mode, direction, themeColor } = settings
+  const { skin, mode, direction, themeColor } = settings;
 
   // ** Create New object before removing user component overrides and typography objects from userThemeOptions
-  const userThemeConfig: any = Object.assign({}, UserThemeOptions())
+  const userThemeConfig: any = Object.assign({}, UserThemeOptions());
 
-  const userFontFamily = userThemeConfig.typography?.fontFamily
+  const userFontFamily = userThemeConfig.typography?.fontFamily;
 
   // ** Remove component overrides and typography objects from userThemeOptions
-  delete userThemeConfig.components
-  delete userThemeConfig.typography
+  delete userThemeConfig.components;
+  delete userThemeConfig.typography;
 
   const mergedThemeConfig = deepmerge(
     {
@@ -59,7 +58,7 @@ const themeOptions = (settings: Settings): ThemeOptions => {
       }
     },
     userThemeConfig
-  )
+  );
 
   return deepmerge(mergedThemeConfig, {
     palette: {
@@ -67,7 +66,7 @@ const themeOptions = (settings: Settings): ThemeOptions => {
         ...mergedThemeConfig.palette[themeColor]
       }
     }
-  })
-}
+  });
+};
 
-export default themeOptions
+export default themeOptions;

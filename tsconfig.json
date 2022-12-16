@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "rootDir": "src",
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -21,6 +21,6 @@
       "apexcharts/*": ["./node_modules/apexcharts-clevision/*"]
     }
   },
-  "include": ["src", "declaration.d.ts"],
+  "include": ["src", "declaration.d.ts", "next.d.ts"],
   "exclude": ["node_modules"]
 }

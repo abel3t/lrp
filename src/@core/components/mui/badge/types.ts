@@ -1,4 +1,3 @@
+import { BadgeProps } from '@mui/material/Badge';
 
-import { BadgeProps } from '@mui/material/Badge'
-
-export type CustomBadgeProps = BadgeProps & { skin?: 'light' }
+export type CustomBadgeProps = BadgeProps & { skin?: 'light' };

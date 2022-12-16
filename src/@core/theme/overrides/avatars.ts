@@ -1,5 +1,4 @@
-
-import { Theme } from '@mui/material/styles'
+import { Theme } from '@mui/material/styles';
 
 const Avatar = (theme: Theme) => {
   return {
@@ -35,7 +34,7 @@ const Avatar = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Avatar
+export default Avatar;

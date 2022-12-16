@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-import account from 'src/store/account'
-import care from 'src/store/care'
-import dashboard from 'src/store/dashboard'
-import friend from 'src/store/friend'
-import member from 'src/store/member'
+import { configureStore } from '@reduxjs/toolkit';
+
+import account from './account';
+import care from './care';
+import dashboard from './dashboard';
+import friend from './friend';
+import member from './member';
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false
     })
-})
+});
 
-export type AppDispatch = typeof store.dispatch
-export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

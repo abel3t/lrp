@@ -1,39 +1,40 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import { getInitials } from 'src/@core/utils/get-initials'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import Divider from '@mui/material/Divider'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { NotApplicable } from '../../@core/contanst'
-import { AppDispatch, RootState } from '../../store'
-import { fetchFriendData } from '../../store/friend'
-import DialogFriendForm from './DialogFriendForm'
+import CustomAvatar from '@core/components/mui/avatar';
+import { NotApplicable } from '@core/contanst';
+import { getInitials } from '@core/utils/get-initials';
+
+import { AppDispatch, RootState } from '../../store';
+import { fetchFriendData } from '../../store/friend';
+import DialogFriendForm from './DialogFriendForm';
 
 const FriendViewLeft = () => {
-  const [openEdit, setOpenEdit] = useState<boolean>(false)
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.friend)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.friend);
 
-  const handleEditClickOpen = () => setOpenEdit(true)
-  const router = useRouter()
+  const handleEditClickOpen = () => setOpenEdit(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchFriendData(router.query?.id as string))
+      dispatch(fetchFriendData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch])
+  }, [router.isReady, dispatch]);
 
   if (store.friend.id) {
     return (
@@ -132,10 +133,10 @@ const FriendViewLeft = () => {
           </Card>
         </Grid>
       </Grid>
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 
-export default FriendViewLeft
+export default FriendViewLeft;

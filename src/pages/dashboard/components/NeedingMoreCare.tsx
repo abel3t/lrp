@@ -1,29 +1,27 @@
+import { format } from 'date-fns';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'store';
+import { fetchNeedingMoreCareMembers } from 'store/dashboard';
 
-import { format } from 'date-fns'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-import OptionsMenu from 'src/@core/components/option-menu'
-
-import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
-import TimelineConnector from '@mui/lab/TimelineConnector'
-import TimelineContent from '@mui/lab/TimelineContent'
-import TimelineDot from '@mui/lab/TimelineDot'
-import TimelineItem from '@mui/lab/TimelineItem'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-
-import CustomChip from '../../../@core/components/mui/chip'
-import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '../../../@core/contanst'
-import { CareType } from '../../../@core/enums'
-import { formatRelativeDate } from '../../../@core/utils/date'
-import { AppDispatch, RootState } from '../../../store'
-import { fetchNeedingMoreCareMembers } from '../../../store/dashboard'
+import CustomChip from '@core/components/mui/chip';
+import OptionsMenu from '@core/components/option-menu';
+import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '@core/contanst';
+import { CareType } from '@core/enums';
+import { formatRelativeDate } from '@core/utils/date';
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
@@ -35,15 +33,15 @@ const Timeline = styled(MuiTimeline)<TimelineProps>({
       display: 'none'
     }
   }
-})
+});
 
 const NeedingMoreCare = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.dashboard)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
-    dispatch(fetchNeedingMoreCareMembers())
-  }, [dispatch])
+    dispatch(fetchNeedingMoreCareMembers());
+  }, [dispatch]);
 
   return (
     <Card>
@@ -61,7 +59,7 @@ const NeedingMoreCare = () => {
         style={{ maxHeight: 350, overflow: 'auto' }}
       >
         <Timeline sx={{ my: 0, py: 0 }}>
-          {store.needingMoreCareMembers?.map((careMember: any, index) => (
+          {store.needingMoreCareMembers?.map((careMember: any, index: number) => (
             <TimelineItem key={index}>
               <TimelineSeparator>
                 <TimelineDot color={CarePriorityColor[careMember.priority]} />
@@ -111,7 +109,7 @@ const NeedingMoreCare = () => {
         </Timeline>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default NeedingMoreCare
+export default NeedingMoreCare;

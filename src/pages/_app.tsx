@@ -1,97 +1,94 @@
+import type { EmotionCache } from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import 'iconify-bundle/icons-bundle-react';
+import type { NextPage } from 'next';
+import NProgress from 'nprogress';
+import 'prismjs';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-tsx';
+import 'prismjs/themes/prism-tomorrow.css';
+import { ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import { Provider } from 'react-redux';
 
-import type { EmotionCache } from '@emotion/cache'
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { Router } from 'next/router';
 
-import { CacheProvider } from '@emotion/react'
-import type { NextPage } from 'next'
-import NProgress from 'nprogress'
-import 'prismjs'
-import 'prismjs/components/prism-jsx'
-import 'prismjs/components/prism-tsx'
-import 'prismjs/themes/prism-tomorrow.css'
-import { ReactNode } from 'react'
+import AclGuard from '@core/components/auth/AclGuard';
+import AuthGuard from '@core/components/auth/AuthGuard';
+import GuestGuard from '@core/components/auth/GuestGuard';
+import Spinner from '@core/components/spinner';
+import WindowWrapper from '@core/components/window-wrapper';
+import { SettingsConsumer, SettingsProvider } from '@core/context/settingsContext';
+import ReactHotToast from '@core/styles/libs/react-hot-toast';
+import ThemeComponent from '@core/theme/ThemeComponent';
+import { createEmotionCache } from '@core/utils/create-emotion-cache';
 
-import { Toaster } from 'react-hot-toast'
-import 'react-perfect-scrollbar/dist/css/styles.css'
-import { Provider } from 'react-redux'
-import AclGuard from 'src/@core/components/auth/AclGuard'
-import AuthGuard from 'src/@core/components/auth/AuthGuard'
-import GuestGuard from 'src/@core/components/auth/GuestGuard'
-import Spinner from 'src/@core/components/spinner'
-import WindowWrapper from 'src/@core/components/window-wrapper'
-import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
+import { defaultACLObj } from 'configs/acl';
+import 'configs/i18n';
+import themeConfig from 'configs/themeConfig';
 
-import ReactHotToast from 'src/@core/styles/libs/react-hot-toast'
-import ThemeComponent from 'src/@core/theme/ThemeComponent'
+import { AuthProvider } from 'context/AuthContext';
 
-import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
-import { defaultACLObj } from 'src/configs/acl'
-import 'src/configs/i18n'
-import themeConfig from 'src/configs/themeConfig'
+import UserLayout from 'layouts/UserLayout';
 
-import { AuthProvider } from 'src/context/AuthContext'
-import 'src/iconify-bundle/icons-bundle-react'
-
-import UserLayout from 'src/layouts/UserLayout'
-import { store } from 'src/store'
-
-import type { AppProps } from 'next/app'
-
-import Head from 'next/head'
-import { Router } from 'next/router'
-import '../../styles/globals.css'
+import '../../styles/globals.css';
+import { store } from '../store';
 
 type ExtendedAppProps = AppProps & {
-  Component: NextPage
-  emotionCache: EmotionCache
-}
+  Component: NextPage;
+  emotionCache: EmotionCache;
+};
 
 type GuardProps = {
-  authGuard: boolean
-  guestGuard: boolean
-  children: ReactNode
-}
+  authGuard: boolean;
+  guestGuard: boolean;
+  children: ReactNode;
+};
 
-const clientSideEmotionCache = createEmotionCache()
+const clientSideEmotionCache = createEmotionCache();
 
 // ** Pace Loader
 if (themeConfig.routingLoader) {
   Router.events.on('routeChangeStart', () => {
-    NProgress.start()
-  })
+    NProgress.start();
+  });
   Router.events.on('routeChangeError', () => {
-    NProgress.done()
-  })
+    NProgress.done();
+  });
   Router.events.on('routeChangeComplete', () => {
-    NProgress.done()
-  })
+    NProgress.done();
+  });
 }
 
 const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
   if (guestGuard) {
-    return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
+    return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>;
   } else if (!guestGuard && !authGuard) {
-    return <>{children}</>
+    return <>{children}</>;
   } else {
-    return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
+    return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>;
   }
-}
+};
 
 // ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   // Variables
-  const contentHeightFixed = Component.contentHeightFixed ?? false
+  const contentHeightFixed = Component.contentHeightFixed ?? false;
   const getLayout =
-    Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
+    Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>);
 
-  const setConfig = Component.setConfig ?? undefined
+  const setConfig = Component.setConfig ?? undefined;
 
-  const authGuard = Component.authGuard ?? true
+  const authGuard = Component.authGuard ?? true;
 
-  const guestGuard = Component.guestGuard ?? false
+  const guestGuard = Component.guestGuard ?? false;
 
-  const aclAbilities = Component.acl ?? defaultACLObj
+  const aclAbilities = Component.acl ?? defaultACLObj;
 
   return (
     <Provider store={store}>
@@ -120,14 +117,14 @@ const App = (props: ExtendedAppProps) => {
                       <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
                     </ReactHotToast>
                   </ThemeComponent>
-                )
+                );
               }}
             </SettingsConsumer>
           </SettingsProvider>
         </AuthProvider>
       </CacheProvider>
     </Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

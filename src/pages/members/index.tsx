@@ -1,41 +1,42 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Icon from 'src/@core/components/icon'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { AppDispatch, RootState } from 'src/store'
-import { fetchData } from 'src/store/member'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
-import { Autocomplete } from '@mui/material'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import TextField from '@mui/material/TextField'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-import { DataGrid, GridRowId } from '@mui/x-data-grid'
+import { Autocomplete } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
-import CustomChip from '../../@core/components/mui/chip'
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
-import { Account, FormMode, Member } from '../../@core/types'
-import { fetchCurators } from '../../store/account'
-import DialogMemberForm from './DialogMemberForm'
+import Icon from '@core/components/icon';
+import CustomChip from '@core/components/mui/chip';
+import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
+import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import { Account, FormMode, Member } from '@core/types';
+
+import { AppDispatch, RootState } from '../../store';
+import { fetchCurators } from '../../store/account';
+import { fetchData } from '../../store/member';
+import DialogMemberForm from './DialogMemberForm';
 
 interface CellType {
-  row: Member
+  row: Member;
 }
 
 // ** Styled component for the link in the dataTable
 const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   color: theme.palette.primary.main
-}))
+}));
 
 const defaultColumns = [
   {
@@ -66,7 +67,7 @@ const defaultColumns = [
     headerName: 'Discipleship Process',
     renderCell: ({ row }: CellType) => {
       if (!row.discipleshipProcess) {
-        return <Typography variant='body2'>{NotApplicable}</Typography>
+        return <Typography variant='body2'>{NotApplicable}</Typography>;
       }
 
       return (
@@ -84,7 +85,7 @@ const defaultColumns = [
             '& .MuiChip-label': { mt: -0.25 }
           }}
         />
-      )
+      );
     }
   },
   {
@@ -94,56 +95,56 @@ const defaultColumns = [
     headerName: 'Curator',
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.curator?.name || NotApplicable}</Typography>
   }
-]
+];
 
 const MemberPage = () => {
-  const [pageSize, setPageSize] = useState<number>(10)
-  const [formMode, setFormMode] = useState<FormMode>('create')
-  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
-  const [show, setShow] = useState<boolean>(false)
-  const [updateMember, setUpdateMember] = useState<any>(null)
-  const [search, setSearch] = useState('')
-  const [timer, setTimer] = useState<any>(null)
-  const [curator, setCurator] = useState<Account | null>(null)
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [formMode, setFormMode] = useState<FormMode>('create');
+  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
+  const [show, setShow] = useState<boolean>(false);
+  const [updateMember, setUpdateMember] = useState<any>(null);
+  const [search, setSearch] = useState('');
+  const [timer, setTimer] = useState<any>(null);
+  const [curator, setCurator] = useState<Account | null>(null);
 
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.member)
-  const accountStore = useSelector((state: RootState) => state.account)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.member);
+  const accountStore = useSelector((state: RootState) => state.account);
 
   useEffect(() => {
-    dispatch(fetchData())
-    dispatch(fetchCurators())
-  }, [dispatch])
+    dispatch(fetchData());
+    dispatch(fetchCurators());
+  }, [dispatch]);
 
   const handleChangeCurator = (curator: Account | null) => {
-    setCurator(curator)
-    dispatch(fetchData({ search, curatorId: curator?.id }))
-  }
+    setCurator(curator);
+    dispatch(fetchData({ search, curatorId: curator?.id }));
+  };
 
   const handleSearch = (search: string) => {
-    setSearch(search)
+    setSearch(search);
     if (timer) {
-      clearTimeout(timer)
+      clearTimeout(timer);
     }
 
     const newTimer = setTimeout(() => {
-      dispatch(fetchData({ search, curatorId: curator?.id }))
-    }, 500)
+      dispatch(fetchData({ search, curatorId: curator?.id }));
+    }, 500);
 
-    setTimer(newTimer)
-  }
+    setTimer(newTimer);
+  };
 
   const handleCreate = () => {
-    setUpdateMember(null)
-    setFormMode('create')
-    setShow(true)
-  }
+    setUpdateMember(null);
+    setFormMode('create');
+    setShow(true);
+  };
 
   const handleUpdate = (member: any) => {
-    setUpdateMember(member)
-    setFormMode('update')
-    setShow(true)
-  }
+    setUpdateMember(member);
+    setFormMode('update');
+    setShow(true);
+  };
 
   const columns = [
     ...defaultColumns,
@@ -183,7 +184,7 @@ const MemberPage = () => {
         </Box>
       )
     }
-  ]
+  ];
 
   return (
     <DatePickerWrapper>
@@ -257,7 +258,7 @@ const MemberPage = () => {
         </Grid>
       </Grid>
     </DatePickerWrapper>
-  )
-}
+  );
+};
 
-export default MemberPage
+export default MemberPage;

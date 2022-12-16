@@ -1,19 +1,16 @@
+import 'react-datepicker/dist/react-datepicker.css';
 
-import 'react-datepicker/dist/react-datepicker.css'
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
-import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
-
-import { useSettings } from 'src/@core/hooks/useSettings'
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled } from '@mui/material/styles'
+import useBgColor, { UseBgColorType } from '@core/hooks/useBgColor';
+import { useSettings } from '@core/hooks/useSettings';
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const DatePickerWrapper = styled(Box)<BoxProps>(({ theme }) => {
   // ** Hook
-  const { settings } = useSettings()
-  const bgColors: UseBgColorType = useBgColor()
+  const { settings } = useSettings();
+  const bgColors: UseBgColorType = useBgColor();
 
   return {
     '& .react-datepicker-popper': {
@@ -461,7 +458,7 @@ const DatePickerWrapper = styled(Box)<BoxProps>(({ theme }) => {
         backgroundColor: 'transparent !important'
       }
     }
-  }
-})
+  };
+});
 
-export default DatePickerWrapper
+export default DatePickerWrapper;

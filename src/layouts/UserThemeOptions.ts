@@ -1,11 +1,10 @@
-
-import { ThemeOptions } from '@mui/system'
+import { ThemeOptions } from '@mui/system';
 
 // ** To use core palette, uncomment the below import
-// import corePalette from 'src/@core/theme/palette'
+// import corePalette from '@core/theme/palette'
 
 // ** To use mode (light/dark/semi-dark), skin(default/bordered), direction(ltr/rtl), etc. for conditional styles, uncomment below line
-// import { useSettings } from 'src/@core/hooks/useSettings'
+// import { useSettings } from '@core/hooks/useSettings'
 
 const UserThemeOptions = (): ThemeOptions => {
   // ** To use mode (light/dark/semi-dark), skin(default/bordered), direction(ltr/rtl), etc. for conditional styles, uncomment below line
@@ -176,7 +175,7 @@ const UserThemeOptions = (): ThemeOptions => {
       appBar: 1200,
       drawer: 1100
     } */
-  }
-}
+  };
+};
 
-export default UserThemeOptions
+export default UserThemeOptions;

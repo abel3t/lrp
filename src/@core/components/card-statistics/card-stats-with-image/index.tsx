@@ -1,18 +1,18 @@
-import CustomChip from 'src/@core/components/mui/chip'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import CustomChip from '@core/components/mui/chip';
 
 interface Props {
-  data: any
+  data: any;
 }
 
 const CardStatsCharacter = ({ data }: Props) => {
   // ** Vars
-  const { title, chipText, stats, chipColor = 'primary' } = data
+  const { title, chipText, stats, chipColor = 'primary' } = data;
 
   return (
     <Card sx={{ overflow: 'visible', position: 'relative' }}>
@@ -39,7 +39,7 @@ const CardStatsCharacter = ({ data }: Props) => {
         </Grid>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default CardStatsCharacter
+export default CardStatsCharacter;

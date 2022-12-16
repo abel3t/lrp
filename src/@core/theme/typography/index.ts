@@ -1,5 +1,4 @@
-
-import { Theme } from '@mui/material/styles'
+import { Theme } from '@mui/material/styles';
 
 const Typography = (theme: Theme) => {
   return {
@@ -62,7 +61,7 @@ const Typography = (theme: Theme) => {
       letterSpacing: '1px',
       color: theme.palette.text.secondary
     }
-  }
-}
+  };
+};
 
-export default Typography
+export default Typography;

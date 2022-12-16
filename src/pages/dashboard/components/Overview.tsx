@@ -1,26 +1,27 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Icon from 'src/@core/components/icon'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { AppDispatch, RootState } from '../../../store'
-import { fetchOverview } from '../../../store/dashboard'
+import Icon from '@core/components/icon';
+import CustomAvatar from '@core/components/mui/avatar';
+import OptionsMenu from '@core/components/option-menu';
+
+import { AppDispatch, RootState } from '../../../store';
+import { fetchOverview } from '../../../store/dashboard';
 
 const Overview = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.dashboard)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
-    dispatch(fetchOverview())
-  }, [dispatch])
+    dispatch(fetchOverview());
+  }, [dispatch]);
 
   return (
     <Card>
@@ -92,7 +93,7 @@ const Overview = () => {
         </Grid>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default Overview
+export default Overview;

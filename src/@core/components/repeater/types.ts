@@ -1,8 +1,7 @@
-
-import { ComponentType, ReactNode } from 'react'
+import { ComponentType, ReactNode } from 'react';
 
 export type RepeaterProps = {
-  count: number
-  children(i: number): ReactNode
-  tag?: ComponentType | keyof JSX.IntrinsicElements
-}
+  count: number;
+  children(i: number): ReactNode;
+  tag?: ComponentType | keyof JSX.IntrinsicElements;
+};

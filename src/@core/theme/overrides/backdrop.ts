@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import { Theme } from '@mui/material/styles'
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const Backdrop = (theme: Theme) => {
   return {
@@ -19,7 +17,7 @@ const Backdrop = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Backdrop
+export default Backdrop;

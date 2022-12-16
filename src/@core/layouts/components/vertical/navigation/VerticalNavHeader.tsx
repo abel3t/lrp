@@ -1,30 +1,26 @@
+import Link from 'next/link';
 
+import Box, { BoxProps } from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
 
-import Icon from 'src/@core/components/icon'
+import Icon from '@core/components/icon';
+import { LayoutProps } from '@core/layouts/types';
 
-import { LayoutProps } from 'src/@core/layouts/types'
-
-import themeConfig from 'src/configs/themeConfig'
-
-import Link from 'next/link'
-
-import Box, { BoxProps } from '@mui/material/Box'
-
-import IconButton from '@mui/material/IconButton'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
+import themeConfig from 'configs/themeConfig';
 
 interface Props {
-  navHover: boolean
-  collapsedNavWidth: number
-  hidden: LayoutProps['hidden']
-  navigationBorderWidth: number
-  toggleNavVisibility: () => void
-  settings: LayoutProps['settings']
-  saveSettings: LayoutProps['saveSettings']
-  navMenuBranding?: LayoutProps['verticalLayoutProps']['navMenu']['branding']
-  menuLockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon']
-  menuUnlockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon']
+  navHover: boolean;
+  collapsedNavWidth: number;
+  hidden: LayoutProps['hidden'];
+  navigationBorderWidth: number;
+  toggleNavVisibility: () => void;
+  settings: LayoutProps['settings'];
+  saveSettings: LayoutProps['saveSettings'];
+  navMenuBranding?: LayoutProps['verticalLayoutProps']['navMenu']['branding'];
+  menuLockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon'];
+  menuUnlockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon'];
 }
 
 const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -34,19 +30,19 @@ const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   justifyContent: 'space-between',
   transition: 'padding .25s ease-in-out',
   minHeight: theme.mixins.toolbar.minHeight
-}))
+}));
 
 const HeaderTitle = styled(Typography)<TypographyProps>({
   fontWeight: 700,
   lineHeight: 1.2,
   transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
-})
+});
 
 const StyledLink = styled(Link)({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none'
-})
+});
 
 const VerticalNavHeader = (props: Props) => {
   const {
@@ -60,62 +56,62 @@ const VerticalNavHeader = (props: Props) => {
     menuLockedIcon: userMenuLockedIcon,
     navMenuBranding: userNavMenuBranding,
     menuUnlockedIcon: userMenuUnlockedIcon
-  } = props
+  } = props;
 
-  const theme = useTheme()
-  const { mode, direction, navCollapsed } = settings
-  const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
+  const theme = useTheme();
+  const { mode, direction, navCollapsed } = settings;
+  const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 };
 
   const svgFillSecondary = () => {
     if (mode === 'semi-dark') {
-      return `rgba(${theme.palette.customColors.dark}, 0.6)`
+      return `rgba(${theme.palette.customColors.dark}, 0.6)`;
     } else {
-      return theme.palette.text.secondary
+      return theme.palette.text.secondary;
     }
-  }
+  };
   const svgFillDisabled = () => {
     if (mode === 'semi-dark') {
-      return `rgba(${theme.palette.customColors.dark}, 0.38)`
+      return `rgba(${theme.palette.customColors.dark}, 0.38)`;
     } else {
-      return theme.palette.text.disabled
+      return theme.palette.text.disabled;
     }
-  }
+  };
 
   const menuHeaderPaddingLeft = () => {
     if (navCollapsed && !navHover) {
       if (userNavMenuBranding) {
-        return 0
+        return 0;
       } else {
-        return (collapsedNavWidth - navigationBorderWidth - 40) / 8
+        return (collapsedNavWidth - navigationBorderWidth - 40) / 8;
       }
     } else {
-      return 5.5
+      return 5.5;
     }
-  }
+  };
 
   const svgRotationDeg = () => {
     if (navCollapsed) {
       if (direction === 'rtl') {
         if (navHover) {
-          return 0
+          return 0;
         } else {
-          return 180
+          return 180;
         }
       } else {
         if (navHover) {
-          return 180
+          return 180;
         } else {
-          return 0
+          return 0;
         }
       }
     } else {
       if (direction === 'rtl') {
-        return 180
+        return 180;
       } else {
-        return 0
+        return 0;
       }
     }
-  }
+  };
 
   return (
     <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
@@ -247,7 +243,7 @@ const VerticalNavHeader = (props: Props) => {
         </IconButton>
       )}
     </MenuHeaderWrapper>
-  )
-}
+  );
+};
 
-export default VerticalNavHeader
+export default VerticalNavHeader;

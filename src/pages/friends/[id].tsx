@@ -1,8 +1,7 @@
+import Grid from '@mui/material/Grid';
 
-import Grid from '@mui/material/Grid'
-
-import FriendViewLeft from './FriendViewLeft'
-import FriendViewRight from './FriendViewRight'
+import FriendViewLeft from './FriendViewLeft';
+import FriendViewRight from './FriendViewRight';
 
 const UserView = () => {
   return (
@@ -14,7 +13,7 @@ const UserView = () => {
         <FriendViewRight tab={'overview'} />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default UserView
+export default UserView;

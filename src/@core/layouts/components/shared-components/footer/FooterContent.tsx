@@ -1,8 +1,7 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-import Translations from 'src/layouts/components/Translations'
-
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import Translations from 'layouts/components/Translations';
 
 const FooterContent = () => {
   return (
@@ -13,7 +12,7 @@ const FooterContent = () => {
         <Translations text={'LEC. All Rights Reserved'} />.
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default FooterContent
+export default FooterContent;

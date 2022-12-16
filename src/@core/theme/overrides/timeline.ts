@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import { Theme } from '@mui/material/styles'
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const Timeline = (theme: Theme) => {
   return {
@@ -77,7 +75,7 @@ const Timeline = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Timeline
+export default Timeline;

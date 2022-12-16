@@ -1,19 +1,16 @@
+import { useTheme } from '@mui/material/styles';
 
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import { useTheme } from '@mui/material/styles'
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 export type UseBgColorType = {
   [key: string]: {
-    color: string
-    backgroundColor: string
-  }
-}
+    color: string;
+    backgroundColor: string;
+  };
+};
 
 const UseBgColor = () => {
-
-  const theme = useTheme()
+  const theme = useTheme();
 
   return {
     primaryFilled: {
@@ -64,7 +61,7 @@ const UseBgColor = () => {
       color: theme.palette.info.main,
       backgroundColor: hexToRGBA(theme.palette.info.main, 0.12)
     }
-  }
-}
+  };
+};
 
-export default UseBgColor
+export default UseBgColor;

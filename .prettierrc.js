@@ -9,12 +9,24 @@ module.exports = {
   proseWrap: 'preserve',
   quoteProps: 'as-needed',
   requirePragma: false,
-  semi: false,
+  semi: true,
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'none',
   useTabs: false,
-  importOrder: ['^@react/(.*)$', '^next/(.*)$', '^@mui/(.*)$', '^[./]'],
+  importOrder: [
+    '^@react/(.*)$',
+    '^next/(.*)$',
+    '^@mui/(.*)$',
+    '^@core/(.*)$',
+    '^@w/(.*)$',
+    '^configs/(.*)$',
+    '^context/(.*)$',
+    '^layouts/(.*)$',
+    '^views/(.*)$',
+    '^w/(.*)$',
+    '^[./]'
+  ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true
-}
+};

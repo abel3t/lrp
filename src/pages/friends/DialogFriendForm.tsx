@@ -1,59 +1,60 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import 'cleave.js/dist/addons/cleave-phone.vn'
-import Cleave from 'cleave.js/react'
-import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react'
-import DatePicker from 'react-datepicker'
-import { Controller, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import { useDispatch } from 'react-redux'
-import Icon from 'src/@core/components/icon'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
+import 'cleave.js/dist/addons/cleave-phone.vn';
+import Cleave from 'cleave.js/react';
+import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { DateType } from 'types/forms/reactDatepickerTypes';
+import * as yup from 'yup';
 
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import Fade, { FadeProps } from '@mui/material/Fade'
-import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Fade, { FadeProps } from '@mui/material/Fade';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import { FriendTypeText } from '../../@core/contanst'
-import { FriendType } from '../../@core/enums'
-import apiClient from '../../@core/services/api.client'
-import CleaveWrapper from '../../@core/styles/libs/react-cleave'
-import { FormMode } from '../../@core/types'
-import { AppDispatch } from '../../store'
-import { fetchData } from '../../store/friend'
-import { standardDate } from '../../@core/utils/date';
+import Icon from '@core/components/icon';
+import { FriendTypeText } from '@core/contanst';
+import { FriendType } from '@core/enums';
+import apiClient from '@core/services/api.client';
+import CleaveWrapper from '@core/styles/libs/react-cleave';
+import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import { FormMode } from '@core/types';
+import { standardDate } from '@core/utils/date';
+
+import { AppDispatch } from '../../store';
+import { fetchData } from '../../store/friend';
 
 export interface FormInputs {
-  id: string
-  birthday: DateType | null
-  email: string
-  phone: string
-  name: string
-  type: string
-  address: string
-  hometown: string
-  gender: string
-  description: string
+  id: string;
+  birthday: DateType | null;
+  email: string;
+  phone: string;
+  name: string;
+  type: string;
+  address: string;
+  hometown: string;
+  gender: string;
+  description: string;
 }
 
 interface CustomInputProps {
-  value: DateType
-  label: string
-  error: boolean
-  onChange: (event: ChangeEvent) => void
+  value: DateType;
+  label: string;
+  error: boolean;
+  onChange: (event: ChangeEvent) => void;
 }
 
 const defaultValues = {
@@ -67,40 +68,40 @@ const defaultValues = {
   hometown: '',
   gender: '',
   description: ''
-}
+};
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
-  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
-})
+  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />;
+});
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
 ) {
-  return <Fade ref={ref} {...props} />
-})
+  return <Fade ref={ref} {...props} />;
+});
 
 type Props = {
-  show: boolean
-  setShow: any
-  mode: FormMode
-  friend: any | null
-  fetchApi?: any
-}
+  show: boolean;
+  setShow: any;
+  mode: FormMode;
+  friend: any | null;
+  fetchApi?: any;
+};
 
 const getUtcDate = (date?: DateType) => {
-  let d = new Date()
+  let d = new Date();
 
   if (date) {
-    d = new Date(date)
+    d = new Date(date);
   }
 
-  const day = d.getDate()
-  const month = d.getMonth()
-  const year = d.getFullYear()
+  const day = d.getDate();
+  const month = d.getMonth();
+  const year = d.getFullYear();
 
-  return new Date(Date.UTC(year, month, day, 0, 0, 0))
-}
+  return new Date(Date.UTC(year, month, day, 0, 0, 0));
+};
 
 const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) => {
   const validationSchema = yup.object().shape({
@@ -112,23 +113,23 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
     gender: yup.string(),
     description: yup.string(),
     type: yup.string()
-  })
+  });
 
   useEffect(() => {
     if (friend) {
       Object.keys(defaultValues).forEach((key: any) => {
         if ((friend as any)[key]) {
           if (key === 'birthday') {
-            setValue(key, new Date((friend as any)[key]))
+            setValue(key, new Date((friend as any)[key]));
 
-            return
+            return;
           }
 
-          setValue(key, (friend as any)[key])
+          setValue(key, (friend as any)[key]);
         }
-      })
+      });
     }
-  }, [friend])
+  }, [friend]);
 
   const {
     control,
@@ -140,51 +141,51 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
     defaultValues: friend || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
-  })
+  });
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleCallApi = (mode: FormMode, data: FormInputs) => {
-    const { id, ..._data } = data
+    const { id, ..._data } = data;
     const body: any = {
       ..._data,
       birthday: getUtcDate(data.birthday).toISOString()
-    }
+    };
 
     if (mode === 'update') {
-      return apiClient.put(`/friends/${id}`, body)
+      return apiClient.put(`/friends/${id}`, body);
     }
 
-    return apiClient.post('/friends', body)
-  }
+    return apiClient.post('/friends', body);
+  };
 
   const onSubmit = (data: FormInputs) => {
-    setShow(false)
+    setShow(false);
 
     handleCallApi(mode, data)
       .then(() => {
-        reset(defaultValues)
+        reset(defaultValues);
         if (fetchApi && data.id) {
-          dispatch(fetchApi(data.id))
+          dispatch(fetchApi(data.id));
         } else {
-          dispatch(fetchData())
+          dispatch(fetchData());
         }
 
-        const messageMode = mode === 'update' ? 'Update' : 'Create'
+        const messageMode = mode === 'update' ? 'Update' : 'Create';
 
-        toast.success(`${messageMode} friend successfully!`)
+        toast.success(`${messageMode} friend successfully!`);
       })
       .catch(error => {
-        reset(defaultValues)
-        toast.error(error.message)
-      })
-  }
+        reset(defaultValues);
+        toast.error(error.message);
+      });
+  };
 
   const handleClose = () => {
-    setShow(false)
+    setShow(false);
 
-    reset(defaultValues)
-  }
+    reset(defaultValues);
+  };
 
   return (
     <Card>
@@ -249,7 +250,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                             <MenuItem value={type} key={index}>
                               {FriendTypeText[type]}
                             </MenuItem>
-                          )
+                          );
                         })}
                       </Select>
                     )}
@@ -430,7 +431,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
         </DialogContent>
       </Dialog>
     </Card>
-  )
-}
+  );
+};
 
-export default DialogEditUserInfo
+export default DialogEditUserInfo;

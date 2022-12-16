@@ -1,25 +1,20 @@
+import { useState } from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { useState } from 'react'
+import Box, { BoxProps } from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import MuiDrawer, { DrawerProps } from '@mui/material/Drawer';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-import PerfectScrollbar from 'react-perfect-scrollbar'
-
-import Icon from 'src/@core/components/icon'
-
-import { Settings } from 'src/@core/context/settingsContext'
-
-import { useSettings } from 'src/@core/hooks/useSettings'
-
-import Box, { BoxProps } from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import MuiDrawer, { DrawerProps } from '@mui/material/Drawer'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import IconButton from '@mui/material/IconButton'
-
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import Switch from '@mui/material/Switch'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
+import Icon from '@core/components/icon';
+import { Settings } from '@core/context/settingsContext';
+import { useSettings } from '@core/hooks/useSettings';
 
 const Toggler = styled(Box)<BoxProps>(({ theme }) => ({
   right: 0,
@@ -34,7 +29,7 @@ const Toggler = styled(Box)<BoxProps>(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   borderTopLeftRadius: theme.shape.borderRadius,
   borderBottomLeftRadius: theme.shape.borderRadius
-}))
+}));
 
 const Drawer = styled(MuiDrawer)<DrawerProps>(({ theme }) => ({
   width: 400,
@@ -48,11 +43,11 @@ const Drawer = styled(MuiDrawer)<DrawerProps>(({ theme }) => ({
     zIndex: theme.zIndex.modal,
     boxShadow: theme.shadows[9]
   }
-}))
+}));
 
 const CustomizerSpacing = styled('div')(({ theme }) => ({
   padding: theme.spacing(5, 6)
-}))
+}));
 
 const ColorBox = styled(Box)<BoxProps>(({ theme }) => ({
   width: 40,
@@ -65,14 +60,14 @@ const ColorBox = styled(Box)<BoxProps>(({ theme }) => ({
   margin: theme.spacing(0, 1.5),
   color: theme.palette.common.white,
   transition: 'box-shadow .25s ease'
-}))
+}));
 
 const Customizer = () => {
   // ** State
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
 
   // ** Hook
-  const { settings, saveSettings } = useSettings()
+  const { settings, saveSettings } = useSettings();
 
   // ** Vars
   const {
@@ -88,11 +83,11 @@ const Customizer = () => {
     navCollapsed,
     contentWidth,
     verticalNavToggleType
-  } = settings
+  } = settings;
 
   const handleChange = (field: keyof Settings, value: Settings[keyof Settings]): void => {
-    saveSettings({ ...settings, [field]: value })
-  }
+    saveSettings({ ...settings, [field]: value });
+  };
 
   return (
     <div className='customizer'>
@@ -330,7 +325,7 @@ const Customizer = () => {
                     ...settings,
                     layout: e.target.value as Settings['layout'],
                     lastLayout: e.target.value as Settings['lastLayout']
-                  })
+                  });
                 }}
                 sx={{ '& .MuiFormControlLabel-label': { fontSize: '.875rem', color: 'text.secondary' } }}
               >
@@ -384,7 +379,7 @@ const Customizer = () => {
         </PerfectScrollbar>
       </Drawer>
     </div>
-  )
-}
+  );
+};
 
-export default Customizer
+export default Customizer;

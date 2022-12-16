@@ -1,38 +1,39 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Icon from 'src/@core/components/icon'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { AppDispatch, RootState } from 'src/store'
-import { fetchData } from 'src/store/friend'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'store';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import TextField from '@mui/material/TextField'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-import { DataGrid, GridRowId } from '@mui/x-data-grid'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
-import CustomChip from '../../@core/components/mui/chip'
-import { NotApplicable } from '../../@core/contanst'
-import { FormMode, Friend } from '../../@core/types';
-import DialogFriendForm from './DialogFriendForm'
+import Icon from '@core/components/icon';
+import CustomChip from '@core/components/mui/chip';
+import { NotApplicable } from '@core/contanst';
+import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import { FormMode, Friend } from '@core/types';
+
+import { fetchData } from '../../store/friend';
+import DialogFriendForm from './DialogFriendForm';
 
 interface CellType {
-  row: Friend
+  row: Friend;
 }
 
 const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   color: theme.palette.primary.main
-}))
+}));
 
 const defaultColumns = [
   {
@@ -63,7 +64,7 @@ const defaultColumns = [
     headerName: 'Discipleship Process',
     renderCell: ({ row }: CellType) => {
       if (!row.type) {
-        return <Typography variant='body2'>{NotApplicable}</Typography>
+        return <Typography variant='body2'>{NotApplicable}</Typography>;
       }
 
       return (
@@ -81,41 +82,41 @@ const defaultColumns = [
             '& .MuiChip-label': { mt: -0.25 }
           }}
         />
-      )
+      );
     }
   }
-]
+];
 
 const FriendPage = () => {
-  const [value, setValue] = useState<string>('')
-  const [formMode, setFormMode] = useState<FormMode>('create')
-  const [pageSize, setPageSize] = useState<number>(10)
-  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
-  const [show, setShow] = useState<boolean>(false)
-  const [updateFriend, setUpdateFriend] = useState<any>(null)
+  const [value, setValue] = useState<string>('');
+  const [formMode, setFormMode] = useState<FormMode>('create');
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
+  const [show, setShow] = useState<boolean>(false);
+  const [updateFriend, setUpdateFriend] = useState<any>(null);
 
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.friend)
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.friend);
 
   useEffect(() => {
-    dispatch(fetchData())
-  }, [dispatch])
+    dispatch(fetchData());
+  }, [dispatch]);
 
   const handleFilter = (val: string) => {
-    setValue(val)
-  }
+    setValue(val);
+  };
 
   const handleCreate = () => {
-    setUpdateFriend(null)
-    setFormMode('create')
-    setShow(true)
-  }
+    setUpdateFriend(null);
+    setFormMode('create');
+    setShow(true);
+  };
 
   const handleUpdate = (friend: any) => {
-    setUpdateFriend(friend)
-    setFormMode('update')
-    setShow(true)
-  }
+    setUpdateFriend(friend);
+    setFormMode('update');
+    setShow(true);
+  };
 
   const columns = [
     ...defaultColumns,
@@ -155,7 +156,7 @@ const FriendPage = () => {
         </Box>
       )
     }
-  ]
+  ];
 
   return (
     <DatePickerWrapper>
@@ -218,7 +219,7 @@ const FriendPage = () => {
         </Grid>
       </Grid>
     </DatePickerWrapper>
-  )
-}
+  );
+};
 
-export default FriendPage
+export default FriendPage;

@@ -1,6 +1,5 @@
-
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled } from '@mui/material/styles'
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 const CleaveWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   '& input': {
@@ -28,6 +27,6 @@ const CleaveWrapper = styled(Box)<BoxProps>(({ theme }) => ({
       color: theme.palette.text.secondary
     }
   }
-}))
+}));
 
-export default CleaveWrapper
+export default CleaveWrapper;

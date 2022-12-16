@@ -4,47 +4,37 @@
  * ! IMPORTANT: Make sure you clear the browser local storage in order to see the config changes in the template.
  * ! To clear local storage, you may refer https://www.leadshook.com/help/how-to-clear-local-storage-in-google-chrome-browser/.
  */
+import { Direction } from '@mui/material';
 
-
-import {
-  AppBar,
-  ContentWidth,
-  Footer,
-  HorizontalMenuToggle,
-  Mode,
-  Skin,
-  VerticalNavToggle
-} from 'src/@core/layouts/types'
-
-import { Direction } from '@mui/material'
+import { AppBar, ContentWidth, Footer, HorizontalMenuToggle, Mode, Skin, VerticalNavToggle } from '@core/layouts/types';
 
 type ThemeConfig = {
-  skin: Skin
-  mode: Mode
-  appBar: AppBar
-  footer: Footer
-  navHidden: boolean
-  appBarBlur: boolean
-  direction: Direction
-  templateName: string
-  navCollapsed: boolean
-  routingLoader: boolean
-  disableRipple: boolean
-  navigationSize: number
-  navSubItemIcon: string
-  menuTextTruncate: boolean
-  contentWidth: ContentWidth
-  disableCustomizer: boolean
-  responsiveFontSizes: boolean
-  collapsedNavigationSize: number
-  horizontalMenuAnimation: boolean
-  layout: 'vertical' | 'horizontal'
-  verticalNavToggleType: VerticalNavToggle
-  horizontalMenuToggle: HorizontalMenuToggle
-  afterVerticalNavMenuContentPosition: 'fixed' | 'static'
-  beforeVerticalNavMenuContentPosition: 'fixed' | 'static'
-  toastPosition: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
-}
+  skin: Skin;
+  mode: Mode;
+  appBar: AppBar;
+  footer: Footer;
+  navHidden: boolean;
+  appBarBlur: boolean;
+  direction: Direction;
+  templateName: string;
+  navCollapsed: boolean;
+  routingLoader: boolean;
+  disableRipple: boolean;
+  navigationSize: number;
+  navSubItemIcon: string;
+  menuTextTruncate: boolean;
+  contentWidth: ContentWidth;
+  disableCustomizer: boolean;
+  responsiveFontSizes: boolean;
+  collapsedNavigationSize: number;
+  horizontalMenuAnimation: boolean;
+  layout: 'vertical' | 'horizontal';
+  verticalNavToggleType: VerticalNavToggle;
+  horizontalMenuToggle: HorizontalMenuToggle;
+  afterVerticalNavMenuContentPosition: 'fixed' | 'static';
+  beforeVerticalNavMenuContentPosition: 'fixed' | 'static';
+  toastPosition: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+};
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
@@ -81,6 +71,6 @@ const themeConfig: ThemeConfig = {
   disableRipple: false /* true | false */,
   disableCustomizer: true /* true | false */,
   toastPosition: 'top-right' /* top-left | top-center | top-right | bottom-left | bottom-center | bottom-right */
-}
+};
 
-export default themeConfig
+export default themeConfig;

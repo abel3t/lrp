@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CustomChip from 'src/@core/components/mui/chip';
-import OptionsMenu from 'src/@core/components/option-menu';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,11 +11,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-import { NotApplicable } from '../../../@core/contanst';
+import CustomChip from '@core/components/mui/chip';
+import OptionsMenu from '@core/components/option-menu';
+import { NotApplicable } from '@core/contanst';
+import { CareTitle } from '@core/enums';
+import { ColorsType } from '@core/interface';
+
 import { AppDispatch, RootState } from '../../../store';
 import { fetchTopCaringPeople } from '../../../store/dashboard';
-import { CareTitle } from '../../../@core/enums';
-import { ColorsType } from '../../../@core/interface';
 
 const CareTitleText = {
   [CareTitle.Excellent]: 'Excellent',
@@ -44,8 +45,8 @@ const TopCaringPeople = () => {
   return (
     <Card>
       <CardHeader
-        title="Top Caring People"
-        subheader="Activity Care"
+        title='Top Caring People'
+        subheader='Activity Care'
         action={
           <OptionsMenu
             options={['This Month', 'Last Month']}
@@ -59,10 +60,10 @@ const TopCaringPeople = () => {
           <TableHead>
             <TableRow sx={{ '& .MuiTableCell-root': { py: theme => `${theme.spacing(2.5)} !important` } }}>
               <TableCell>ID</TableCell>
-              <TableCell align="left">Role</TableCell>
-              <TableCell align="left">Name</TableCell>
-              <TableCell align="left">Title</TableCell>
-              <TableCell align="center">Care Times</TableCell>
+              <TableCell align='left'>Role</TableCell>
+              <TableCell align='left'>Name</TableCell>
+              <TableCell align='left'>Title</TableCell>
+              <TableCell align='center'>Care Times</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -83,7 +84,7 @@ const TopCaringPeople = () => {
                 }}
               >
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 600, whiteSpace: 'nowrap' }} color="primary">
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap' }} color='primary'>
                     #{index + 1}
                   </Typography>
                 </TableCell>
@@ -93,35 +94,33 @@ const TopCaringPeople = () => {
                 {/*</TableCell>*/}
 
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 600, whiteSpace: 'nowrap' }} color="primary">
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap' }} color='primary'>
                     {row.role}
                   </Typography>
                 </TableCell>
 
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
                     {row.name || NotApplicable}
                   </Typography>
                 </TableCell>
 
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
-                    {
-                      !!row.title &&
-
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
+                    {!!row.title && (
                       <CustomChip
-                        skin="light"
-                        size="small"
+                        skin='light'
+                        size='small'
                         label={CareTitleText[row.title as CareTitle]}
                         color={CareTitleColor[row.title as CareTitle]}
                         sx={{ height: 20, fontWeight: 500, '& .MuiChip-label': { px: 1.625, lineHeight: 1.539 } }}
                       />
-                    }
+                    )}
                   </Typography>
                 </TableCell>
 
-                <TableCell align="center">
-                  <Typography variant="body2" sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
+                <TableCell align='center'>
+                  <Typography variant='body2' sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'text.primary' }}>
                     {row.careTimes ?? NotApplicable}
                   </Typography>
                 </TableCell>

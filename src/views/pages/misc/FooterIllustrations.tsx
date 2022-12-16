@@ -1,9 +1,8 @@
-
-import { styled, useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { styled, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface FooterIllustrationsProp {
-  image?: string
+  image?: string;
 }
 
 // Styled Components
@@ -12,7 +11,7 @@ const MaskImg = styled('img')(() => ({
   zIndex: -1,
   width: '100%',
   position: 'absolute'
-}))
+}));
 
 const ShapeImg = styled('img')(({ theme }) => ({
   left: '15%',
@@ -22,19 +21,19 @@ const ShapeImg = styled('img')(({ theme }) => ({
   [theme.breakpoints.down('lg')]: {
     bottom: '7%'
   }
-}))
+}));
 
 const FooterIllustrations = (props: FooterIllustrationsProp) => {
   // ** Props
-  const { image } = props
+  const { image } = props;
 
   // ** Hook
-  const theme = useTheme()
+  const theme = useTheme();
 
   // ** Vars
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const hidden = useMediaQuery(theme.breakpoints.down('md'));
 
-  const src = image || '/images/pages/misc-coming-soon-object.png'
+  const src = image || '/images/pages/misc-coming-soon-object.png';
 
   if (!hidden) {
     return (
@@ -42,10 +41,10 @@ const FooterIllustrations = (props: FooterIllustrationsProp) => {
         <ShapeImg alt='shape' src={src} />
         <MaskImg alt='mask' src={`/images/pages/misc-mask-${theme.palette.mode}.png`} />
       </>
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 
-export default FooterIllustrations
+export default FooterIllustrations;

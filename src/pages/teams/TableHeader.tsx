@@ -1,23 +1,21 @@
+import Link from 'next/link';
 
-import Link from 'next/link'
-
-
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import TextField from '@mui/material/TextField'
-import { GridRowId } from '@mui/x-data-grid'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import { GridRowId } from '@mui/x-data-grid';
 
 interface TableHeaderProps {
-  value: string
-  selectedRows: GridRowId[]
-  handleFilter: (val: string) => void
+  value: string;
+  selectedRows: GridRowId[];
+  handleFilter: (val: string) => void;
 }
 
 const TableHeader = (props: TableHeaderProps) => {
   // ** Props
-  const { value, selectedRows, handleFilter } = props
+  const { value, selectedRows, handleFilter } = props;
 
   return (
     <Box
@@ -57,7 +55,7 @@ const TableHeader = (props: TableHeaderProps) => {
         </Button>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default TableHeader
+export default TableHeader;

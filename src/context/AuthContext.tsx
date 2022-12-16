@@ -1,11 +1,13 @@
-import { AxiosRequestConfig } from 'axios'
-import { ReactNode, createContext, useEffect, useState } from 'react'
-import authConfig from 'src/configs/auth'
+import { AxiosRequestConfig } from 'axios';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
-import apiClient from '../@core/services/api.client'
-import { AuthValuesType, ErrCallbackType, LoginParams, RegisterParams, UserDataType } from './types'
+import apiClient from '@core/services/api.client';
+
+import authConfig from 'configs/auth';
+
+import { AuthValuesType, ErrCallbackType, LoginParams, RegisterParams, UserDataType } from './types';
 
 const defaultProvider: AuthValuesType = {
   user: null,
@@ -15,22 +17,21 @@ const defaultProvider: AuthValuesType = {
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve()
-}
+};
 
-const AuthContext = createContext(defaultProvider)
+const AuthContext = createContext(defaultProvider);
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 const AuthProvider = ({ children }: Props) => {
   // ** States
-  const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
-  const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
-  const [isGettingRefreshToken, setIsGettingRefreshToken] = useState(false)
+  const [user, setUser] = useState<UserDataType | null>(defaultProvider.user);
+  const [loading, setLoading] = useState<boolean>(defaultProvider.loading);
+  const [isGettingRefreshToken, setIsGettingRefreshToken] = useState(false);
 
-
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     apiClient.interceptors.request.use(
@@ -39,38 +40,38 @@ const AuthProvider = ({ children }: Props) => {
           '/login': true,
           '/global-admins': true,
           '/refresh-token': true
-        }
+        };
 
         if (noneAuthorize[config.url || '']) {
-          return config
+          return config;
         }
 
-        const nowTimestamp = new Date().getTime()
-        const refreshToken = localStorage.getItem(authConfig.refreshToken)
-        const expiredTime = Number.parseInt(localStorage.getItem(authConfig.expiredTime) || '0')
-        const user = JSON.parse(localStorage.getItem('user') || '{}')
+        const nowTimestamp = new Date().getTime();
+        const refreshToken = localStorage.getItem(authConfig.refreshToken);
+        const expiredTime = Number.parseInt(localStorage.getItem(authConfig.expiredTime) || '0');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
 
         if (expiredTime < nowTimestamp && !isGettingRefreshToken) {
           if (!refreshToken || !user?.username) {
-            return Promise.reject(new Error('Invalid refresh token'))
+            return Promise.reject(new Error('Invalid refresh token'));
           }
-          setIsGettingRefreshToken(true)
+          setIsGettingRefreshToken(true);
 
           await apiClient
             .post('/refresh-token', { username: user.username, refreshToken })
             .then(response => {
-              apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`
+              apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`;
 
-              localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token)
-              localStorage.setItem(authConfig.refreshToken, response.data.accessToken?.refreshToken)
-              localStorage.setItem(authConfig.expiredTime, `${new Date().getTime() + 55 * 60 * 60}`)
-              localStorage.setItem('user', JSON.stringify(response.data.user))
-              setIsGettingRefreshToken(false)
+              localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token);
+              localStorage.setItem(authConfig.refreshToken, response.data.accessToken?.refreshToken);
+              localStorage.setItem(authConfig.expiredTime, `${new Date().getTime() + 55 * 60 * 60}`);
+              localStorage.setItem('user', JSON.stringify(response.data.user));
+              setIsGettingRefreshToken(false);
             })
             .catch(err => {
-              console.log(err)
-              setIsGettingRefreshToken(false)
-            })
+              console.log(err);
+              setIsGettingRefreshToken(false);
+            });
         }
 
         return {
@@ -79,92 +80,92 @@ const AuthProvider = ({ children }: Props) => {
             ...config.headers,
             Authorization: 'Bearer ' + localStorage.getItem(authConfig.storageTokenKeyName)
           }
-        }
+        };
       },
       error => {
-        console.log(error)
+        console.log(error);
 
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
-    )
+    );
 
     apiClient.interceptors.response.use(
       response => {
-        return response
+        return response;
       },
       error => {
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
-    )
-  }, [])
+    );
+  }, []);
 
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!;
       if (storedToken) {
-        apiClient.defaults.headers['Authorization'] = `Bearer ${storedToken}`
+        apiClient.defaults.headers['Authorization'] = `Bearer ${storedToken}`;
 
-        const user = JSON.parse(localStorage.getItem('user') || '')
+        const user = JSON.parse(localStorage.getItem('user') || '');
         if (user) {
-          setUser(user)
+          setUser(user);
         }
       }
 
-      setLoading(false)
-    }
+      setLoading(false);
+    };
 
-    initAuth()
+    initAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleLogin = ({ username, password, rememberMe }: LoginParams, errorCallback?: ErrCallbackType) => {
     apiClient
       .post(authConfig.loginEndpoint, { username, password })
       .then(async response => {
-        apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`
+        apiClient.defaults.headers['Authorization'] = `Bearer ${response.data.accessToken?.token}`;
 
         if (rememberMe) {
-          localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token)
-          localStorage.setItem(authConfig.expiredTime, `${new Date().getTime() + 55 * 60 * 60}`)
-          localStorage.setItem(authConfig.refreshToken, response.data.accessToken?.refreshToken)
-          localStorage.setItem('user', JSON.stringify(response.data.user))
+          localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken?.token);
+          localStorage.setItem(authConfig.expiredTime, `${new Date().getTime() + 55 * 60 * 60}`);
+          localStorage.setItem(authConfig.refreshToken, response.data.accessToken?.refreshToken);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
         }
 
-        setUser({ ...response.data.user })
-        const returnUrl = router.query.returnUrl
+        setUser({ ...response.data.user });
+        const returnUrl = router.query.returnUrl;
 
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/';
 
-        router.replace(redirectURL as string)
+        router.replace(redirectURL as string);
       })
 
       .catch(err => {
-        if (errorCallback) errorCallback(err)
-      })
-  }
+        if (errorCallback) errorCallback(err);
+      });
+  };
 
   const handleLogout = () => {
-    setUser(null)
-    window.localStorage.removeItem('user')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+    setUser(null);
+    window.localStorage.removeItem('user');
+    window.localStorage.removeItem(authConfig.storageTokenKeyName);
 
-    apiClient.defaults.headers['Authorization'] = null
+    apiClient.defaults.headers['Authorization'] = null;
 
-    router.push('/login')
-  }
+    router.push('/login');
+  };
 
   const handleRegister = (params: RegisterParams, errorCallback?: ErrCallbackType) => {
     apiClient
       .post(authConfig.registerEndpoint, params)
       .then(res => {
         if (res.data.error) {
-          if (errorCallback) errorCallback(res.data.error)
+          if (errorCallback) errorCallback(res.data.error);
         } else {
-          handleLogin({ username: params.username, password: params.password })
+          handleLogin({ username: params.username, password: params.password });
         }
       })
-      .catch((err: { [key: string]: string }) => (errorCallback ? errorCallback(err) : null))
-  }
+      .catch((err: { [key: string]: string }) => (errorCallback ? errorCallback(err) : null));
+  };
 
   const values = {
     user,
@@ -174,9 +175,9 @@ const AuthProvider = ({ children }: Props) => {
     login: handleLogin,
     logout: handleLogout,
     register: handleRegister
-  }
+  };
 
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
-}
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
+};
 
-export { AuthContext, AuthProvider }
+export { AuthContext, AuthProvider };

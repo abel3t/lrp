@@ -1,37 +1,34 @@
+import { useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
-import { useEffect, useState } from 'react'
-
-import { useDropzone } from 'react-dropzone'
-
-
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 interface FileProp {
-  name: string
-  type: string
-  size: number
+  name: string;
+  type: string;
+  size: number;
 }
 
 const UploadImage = ({ file, setFile, imageUrl }: any) => {
   // ** State
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<File[]>([]);
 
   useEffect(() => {
     if (file) {
-      setFiles([file])
+      setFiles([file]);
     }
-  }, [file])
+  }, [file]);
 
   const handleChangeFile = (acceptedFiles: File[]) => {
-    const dropFiles: File[] = []
+    const dropFiles: File[] = [];
     acceptedFiles.forEach((file: File) => {
-      dropFiles.push(Object.assign(file))
-      setFile(file)
-    })
+      dropFiles.push(Object.assign(file));
+      setFile(file);
+    });
 
-    setFiles(dropFiles)
-  }
+    setFiles(dropFiles);
+  };
 
   // ** Hook
   const { getRootProps, getInputProps } = useDropzone({
@@ -40,7 +37,7 @@ const UploadImage = ({ file, setFile, imageUrl }: any) => {
       'image/*': ['.png', '.jpg', '.jpeg', '.gif']
     },
     onDrop: handleChangeFile
-  })
+  });
 
   return (
     <Box
@@ -80,7 +77,7 @@ const UploadImage = ({ file, setFile, imageUrl }: any) => {
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};
 
-export default UploadImage
+export default UploadImage;

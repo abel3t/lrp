@@ -1,28 +1,24 @@
+import { useState } from 'react';
 
-import { useState } from 'react'
-import Customizer from 'src/@core/components/customizer'
+import Box, { BoxProps } from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import { styled } from '@mui/material/styles';
 
-import Icon from 'src/@core/components/icon'
-import ScrollToTop from 'src/@core/components/scroll-to-top'
+import Customizer from '@core/components/customizer';
+import Icon from '@core/components/icon';
+import ScrollToTop from '@core/components/scroll-to-top';
+import { LayoutProps } from '@core/layouts/types';
 
-import { LayoutProps } from 'src/@core/layouts/types'
+import themeConfig from 'configs/themeConfig';
 
-import themeConfig from 'src/configs/themeConfig'
-
-import Box, { BoxProps } from '@mui/material/Box'
-
-import Fab from '@mui/material/Fab'
-import { styled } from '@mui/material/styles'
-
-import Footer from './components/shared-components/footer'
-
-import AppBar from './components/vertical/appBar'
-import Navigation from './components/vertical/navigation'
+import Footer from './components/shared-components/footer';
+import AppBar from './components/vertical/appBar';
+import Navigation from './components/vertical/navigation';
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
   display: 'flex'
-})
+});
 
 const MainContentWrapper = styled(Box)<BoxProps>({
   flexGrow: 1,
@@ -30,7 +26,7 @@ const MainContentWrapper = styled(Box)<BoxProps>({
   display: 'flex',
   minHeight: '100vh',
   flexDirection: 'column'
-})
+});
 
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -41,24 +37,24 @@ const ContentWrapper = styled('main')(({ theme }) => ({
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4)
   }
-}))
+}));
 
 const VerticalLayout = (props: LayoutProps) => {
   // ** Props
-  const { hidden, settings, children, scrollToTop, footerProps, contentHeightFixed, verticalLayoutProps } = props
+  const { hidden, settings, children, scrollToTop, footerProps, contentHeightFixed, verticalLayoutProps } = props;
 
   // ** Vars
-  const { skin, navHidden, contentWidth } = settings
-  const { navigationSize, disableCustomizer, collapsedNavigationSize } = themeConfig
-  const navWidth = navigationSize
-  const navigationBorderWidth = skin === 'bordered' ? 1 : 0
-  const collapsedNavWidth = collapsedNavigationSize
+  const { skin, navHidden, contentWidth } = settings;
+  const { navigationSize, disableCustomizer, collapsedNavigationSize } = themeConfig;
+  const navWidth = navigationSize;
+  const navigationBorderWidth = skin === 'bordered' ? 1 : 0;
+  const collapsedNavWidth = collapsedNavigationSize;
 
   // ** States
-  const [navVisible, setNavVisible] = useState<boolean>(false)
+  const [navVisible, setNavVisible] = useState<boolean>(false);
 
   // ** Toggle Functions
-  const toggleNavVisibility = () => setNavVisible(!navVisible)
+  const toggleNavVisibility = () => setNavVisible(!navVisible);
 
   return (
     <>
@@ -132,7 +128,7 @@ const VerticalLayout = (props: LayoutProps) => {
         </ScrollToTop>
       )}
     </>
-  )
-}
+  );
+};
 
-export default VerticalLayout
+export default VerticalLayout;

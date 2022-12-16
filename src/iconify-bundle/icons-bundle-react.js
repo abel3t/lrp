@@ -1,4 +1,4 @@
-import { addCollection } from '@iconify/react'
+import { addCollection } from '@iconify/react';
 
 addCollection({
   prefix: 'mdi',
@@ -27770,7 +27770,7 @@ addCollection({
   },
   width: 24,
   height: 24
-})
+});
 addCollection({
   prefix: 'line-md',
   icons: {
@@ -27793,7 +27793,7 @@ addCollection({
   lastModified: 1666161855,
   width: 24,
   height: 24
-})
+});
 addCollection({
   prefix: 'bx',
   icons: {
@@ -27804,7 +27804,7 @@ addCollection({
   lastModified: 1663655035,
   width: 24,
   height: 24
-})
+});
 addCollection({
   prefix: 'bi',
   icons: {
@@ -27813,7 +27813,7 @@ addCollection({
     }
   },
   lastModified: 1667196947
-})
+});
 addCollection({
   prefix: 'tabler',
   icons: {
@@ -27824,7 +27824,7 @@ addCollection({
   lastModified: 1667975550,
   width: 24,
   height: 24
-})
+});
 addCollection({
   prefix: 'uit',
   icons: {
@@ -27835,7 +27835,7 @@ addCollection({
   lastModified: 1656183387,
   width: 24,
   height: 24
-})
+});
 addCollection({
   prefix: 'fa6-regular',
   icons: {
@@ -27846,7 +27846,7 @@ addCollection({
   lastModified: 1658815514,
   width: 512,
   height: 512
-})
+});
 addCollection({
   prefix: 'twemoji',
   icons: {
@@ -27857,7 +27857,7 @@ addCollection({
   lastModified: 1656183328,
   width: 36,
   height: 36
-})
+});
 addCollection({
   prefix: 'custom',
   lastModified: 1668082258,
@@ -27868,4 +27868,4 @@ addCollection({
       height: 150
     }
   }
-})
+});

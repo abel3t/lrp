@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
+const path = require('path');
 
 /** @type {import('next').NextConfig} */
 
@@ -10,7 +10,7 @@ const withTM = require('next-transpile-modules')([
   '@fullcalendar/daygrid',
   '@fullcalendar/list',
   '@fullcalendar/timegrid'
-])
+]);
 
 module.exports = withTM({
   trailingSlash: true,
@@ -22,8 +22,8 @@ module.exports = withTM({
     config.resolve.alias = {
       ...config.resolve.alias,
       apexcharts: path.resolve(__dirname, './node_modules/apexcharts-clevision')
-    }
+    };
 
-    return config
+    return config;
   }
-})
+});

@@ -1,25 +1,21 @@
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
 
-
-import Icon from 'src/@core/components/icon'
-
-import { Settings } from 'src/@core/context/settingsContext'
-import LanguageDropdown from 'src/@core/layouts/components/shared-components/LanguageDropdown'
-
-import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
+import Icon from '@core/components/icon';
+import { Settings } from '@core/context/settingsContext';
+import LanguageDropdown from '@core/layouts/components/shared-components/LanguageDropdown';
+import ModeToggler from '@core/layouts/components/shared-components/ModeToggler';
 import NotificationDropdown, {
   NotificationsType
-} from 'src/@core/layouts/components/shared-components/NotificationDropdown'
-import ShortcutsDropdown, { ShortcutsType } from 'src/@core/layouts/components/shared-components/ShortcutsDropdown'
-import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
-
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
+} from '@core/layouts/components/shared-components/NotificationDropdown';
+import ShortcutsDropdown, { ShortcutsType } from '@core/layouts/components/shared-components/ShortcutsDropdown';
+import UserDropdown from '@core/layouts/components/shared-components/UserDropdown';
 
 interface Props {
-  hidden: boolean
-  settings: Settings
-  toggleNavVisibility: () => void
-  saveSettings: (values: Settings) => void
+  hidden: boolean;
+  settings: Settings;
+  toggleNavVisibility: () => void;
+  saveSettings: (values: Settings) => void;
 }
 
 const notifications: NotificationsType[] = [
@@ -37,7 +33,7 @@ const notifications: NotificationsType[] = [
     avatarText: 'Robert Austin',
     title: 'New user registered.'
   }
-]
+];
 
 const shortcuts: ShortcutsType[] = [
   {
@@ -52,11 +48,11 @@ const shortcuts: ShortcutsType[] = [
     subtitle: 'Manage Users',
     icon: 'mdi:account-outline'
   }
-]
+];
 
 const AppBarContent = (props: Props) => {
   // ** Props
-  const { hidden, settings, saveSettings, toggleNavVisibility } = props
+  const { hidden, settings, saveSettings, toggleNavVisibility } = props;
 
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -75,7 +71,7 @@ const AppBarContent = (props: Props) => {
         <UserDropdown settings={settings} />
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default AppBarContent
+export default AppBarContent;

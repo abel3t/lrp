@@ -1,5 +1,4 @@
-
-import { Theme } from '@mui/material/styles'
+import { Theme } from '@mui/material/styles';
 
 const Tabs = (theme: Theme) => {
   return {
@@ -27,7 +26,7 @@ const Tabs = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Tabs
+export default Tabs;

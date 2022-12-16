@@ -1,24 +1,21 @@
+import { ReactNode } from 'react';
 
-import { ReactNode } from 'react'
+import Link from 'next/link';
 
-import BlankLayout from 'src/@core/layouts/BlankLayout'
+import Box, { BoxProps } from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
+import BlankLayout from '@core/layouts/BlankLayout';
 
-import Link from 'next/link'
-
-import Box, { BoxProps } from '@mui/material/Box'
-
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-
+import FooterIllustrations from 'views/pages/misc/FooterIllustrations';
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     width: '90vw'
   }
-}))
+}));
 
 const Img = styled('img')(({ theme }) => ({
   marginTop: theme.spacing(15),
@@ -31,7 +28,7 @@ const Img = styled('img')(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     height: 400
   }
-}))
+}));
 
 const Error500 = () => {
   return (
@@ -53,9 +50,9 @@ const Error500 = () => {
       </Box>
       <FooterIllustrations image='/images/pages/misc-500-object.png' />
     </Box>
-  )
-}
+  );
+};
 
-Error500.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+Error500.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
 
-export default Error500
+export default Error500;

@@ -1,9 +1,7 @@
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled } from '@mui/material/styles'
-
-
-import { BlankLayoutProps } from './types'
+import { BlankLayoutProps } from './types';
 
 // Styled component for Blank Layout component
 const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -25,7 +23,7 @@ const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     overflowX: 'hidden',
     position: 'relative'
   }
-}))
+}));
 
 const BlankLayout = ({ children }: BlankLayoutProps) => {
   return (
@@ -34,7 +32,7 @@ const BlankLayout = ({ children }: BlankLayoutProps) => {
         {children}
       </Box>
     </BlankLayoutWrapper>
-  )
-}
+  );
+};
 
-export default BlankLayout
+export default BlankLayout;

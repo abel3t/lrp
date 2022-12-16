@@ -1,20 +1,17 @@
+import clsx from 'clsx';
 
+import MuiChip from '@mui/material/Chip';
 
-import clsx from 'clsx'
+import useBgColor, { UseBgColorType } from '@core/hooks/useBgColor';
 
-import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
-
-import MuiChip from '@mui/material/Chip'
-
-
-import { CustomChipProps } from './types'
+import { CustomChipProps } from './types';
 
 const Chip = (props: CustomChipProps) => {
   // ** Props
-  const { sx, skin, color, rounded } = props
+  const { sx, skin, color, rounded } = props;
 
   // ** Hook
-  const bgColors = useBgColor()
+  const bgColors = useBgColor();
 
   const colors: UseBgColorType = {
     primary: { ...bgColors.primaryLight },
@@ -23,11 +20,11 @@ const Chip = (props: CustomChipProps) => {
     error: { ...bgColors.errorLight },
     warning: { ...bgColors.warningLight },
     info: { ...bgColors.infoLight }
-  }
+  };
 
-  const propsToPass = { ...props }
+  const propsToPass = { ...props };
 
-  propsToPass.rounded = undefined
+  propsToPass.rounded = undefined;
 
   return (
     <MuiChip
@@ -39,7 +36,7 @@ const Chip = (props: CustomChipProps) => {
       })}
       sx={skin === 'light' && color ? Object.assign(colors[color], sx) : sx}
     />
-  )
-}
+  );
+};
 
-export default Chip
+export default Chip;

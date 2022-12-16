@@ -1,71 +1,65 @@
+import Prism from 'prismjs';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Collapse from '@mui/material/Collapse';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Tooltip from '@mui/material/Tooltip';
+import { Theme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Prism from 'prismjs'
-import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
+import Icon from '@core/components/icon';
+import useClipboard from '@core/hooks/useClipboard';
 
-import Icon from 'src/@core/components/icon'
-
-import useClipboard from 'src/@core/hooks/useClipboard'
-
-
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Collapse from '@mui/material/Collapse'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import ToggleButton from '@mui/material/ToggleButton'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
-import Tooltip from '@mui/material/Tooltip'
-import { Theme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-
-
-import { CardSnippetProps } from './types'
+import { CardSnippetProps } from './types';
 
 const CardSnippet = (props: CardSnippetProps) => {
   // ** Props
-  const { id, sx, code, title, children, className } = props
+  const { id, sx, code, title, children, className } = props;
 
   // ** States
-  const [showCode, setShowCode] = useState<boolean>(false)
-  const [tabValue, setTabValue] = useState<'tsx' | 'jsx'>(code.tsx !== null ? 'tsx' : 'jsx')
+  const [showCode, setShowCode] = useState<boolean>(false);
+  const [tabValue, setTabValue] = useState<'tsx' | 'jsx'>(code.tsx !== null ? 'tsx' : 'jsx');
 
-
-  const clipboard = useClipboard()
-  const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+  const clipboard = useClipboard();
+  const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
   // ** Highlight code on mount
   useEffect(() => {
-    Prism.highlightAll()
-  }, [showCode, tabValue])
+    Prism.highlightAll();
+  }, [showCode, tabValue]);
 
   const codeToCopy = () => {
     if (code.tsx !== null && tabValue === 'tsx') {
-      return code.tsx.props.children.props.children
+      return code.tsx.props.children.props.children;
     } else if (code.jsx !== null && tabValue === 'jsx') {
-      return code.jsx.props.children.props.children
+      return code.jsx.props.children.props.children;
     } else {
-      return ''
+      return '';
     }
-  }
+  };
 
   const handleClick = () => {
-    clipboard.copy(codeToCopy())
+    clipboard.copy(codeToCopy());
     toast.success('The source code has been copied to your clipboard.', {
       duration: 2000
-    })
-  }
+    });
+  };
 
   const renderCode = () => {
     if (code[tabValue] !== null) {
-      return code[tabValue]
+      return code[tabValue];
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   return (
     <Card
@@ -129,7 +123,7 @@ const CardSnippet = (props: CardSnippetProps) => {
         </Collapse>
       )}
     </Card>
-  )
-}
+  );
+};
 
-export default CardSnippet
+export default CardSnippet;

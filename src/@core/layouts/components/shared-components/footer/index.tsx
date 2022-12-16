@@ -1,32 +1,30 @@
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 
-
-import { LayoutProps } from 'src/@core/layouts/types'
-
-import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material/styles'
+import { LayoutProps } from '@core/layouts/types';
 
 // ** Footer Content Component
-import FooterContent from './FooterContent'
+import FooterContent from './FooterContent';
 
 interface Props {
-  settings: LayoutProps['settings']
-  saveSettings: LayoutProps['saveSettings']
-  footerStyles?: NonNullable<LayoutProps['footerProps']>['sx']
-  footerContent?: NonNullable<LayoutProps['footerProps']>['content']
+  settings: LayoutProps['settings'];
+  saveSettings: LayoutProps['saveSettings'];
+  footerStyles?: NonNullable<LayoutProps['footerProps']>['sx'];
+  footerContent?: NonNullable<LayoutProps['footerProps']>['content'];
 }
 
 const Footer = (props: Props) => {
   // ** Props
-  const { settings, footerStyles, footerContent: userFooterContent } = props
+  const { settings, footerStyles, footerContent: userFooterContent } = props;
 
   // ** Hook
-  const theme = useTheme()
+  const theme = useTheme();
 
   // ** Vars
-  const { skin, footer, layout, contentWidth } = settings
+  const { skin, footer, layout, contentWidth } = settings;
 
   if (footer === 'hidden') {
-    return null
+    return null;
   }
 
   return (
@@ -81,7 +79,7 @@ const Footer = (props: Props) => {
         {userFooterContent ? userFooterContent(props) : <FooterContent />}
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

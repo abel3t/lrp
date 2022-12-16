@@ -1,44 +1,44 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import apiClient from '../@core/services/api.client'
+import apiClient from '@core/services/api.client';
 
 export const fetchOverview = createAsyncThunk('dashboard/fetchOverview', async () => {
-  const response = await apiClient.get(`/dashboard/overview`)
+  const response = await apiClient.get(`/dashboard/overview`);
 
-  return response.data
-})
+  return response.data;
+});
 
 export const fetchNeedingMoreCareMembers = createAsyncThunk('dashboard/fetchNeedingMoreCareMembers', async () => {
-  const response = await apiClient.get(`/dashboard/needing-more-care`)
+  const response = await apiClient.get(`/dashboard/needing-more-care`);
 
-  return response.data
-})
+  return response.data;
+});
 
 export const fetchTopCaringPeople = createAsyncThunk('dashboard/fetchTopCaringPeople', async () => {
-  const response = await apiClient.get(`/dashboard/top-caring`)
+  const response = await apiClient.get(`/dashboard/top-caring`);
 
-  return response.data
-})
+  return response.data;
+});
 
 export const appCareSlice = createSlice({
   name: 'care',
   initialState: {
     overview: {} as any,
-    needingMoreCareMembers: [],
-    topCaringPeople: []
+    needingMoreCareMembers: [] as any[],
+    topCaringPeople: [] as any[]
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchOverview.fulfilled, (state, action) => {
-      state.overview = action.payload
+      state.overview = action.payload;
     }),
       builder.addCase(fetchNeedingMoreCareMembers.fulfilled, (state, action) => {
-        state.needingMoreCareMembers = action.payload
+        state.needingMoreCareMembers = action.payload;
       }),
       builder.addCase(fetchTopCaringPeople.fulfilled, (state, action) => {
-        state.topCaringPeople = action.payload
-      })
+        state.topCaringPeople = action.payload;
+      });
   }
-})
+});
 
-export default appCareSlice.reducer
+export default appCareSlice.reducer;

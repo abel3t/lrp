@@ -1,8 +1,6 @@
+import { Theme } from '@mui/material/styles';
 
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import { Theme } from '@mui/material/styles'
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
 const Pagination = (theme: Theme) => {
   return {
@@ -32,7 +30,7 @@ const Pagination = (theme: Theme) => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Pagination
+export default Pagination;

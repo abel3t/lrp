@@ -1,47 +1,49 @@
-import { useState } from 'react'
-import Icon from 'src/@core/components/icon'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import CustomChip from 'src/@core/components/mui/chip'
-import OptionsMenu from 'src/@core/components/option-menu'
-import { ThemeColor } from 'src/@core/layouts/types'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { getInitials } from 'src/@core/utils/get-initials'
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
-import Link from 'next/link'
+import { useState } from 'react';
+import { InvoiceType } from 'types/apps/invoiceTypes';
 
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import FormControl from '@mui/material/FormControl'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-import { DataGrid, GridRowId } from '@mui/x-data-grid'
+import Link from 'next/link';
 
-import TableHeader from './TableHeader'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import { DataGrid, GridRowId } from '@mui/x-data-grid';
+
+import Icon from '@core/components/icon';
+import CustomAvatar from '@core/components/mui/avatar';
+import CustomChip from '@core/components/mui/chip';
+import OptionsMenu from '@core/components/option-menu';
+import { ThemeColor } from '@core/layouts/types';
+import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import { getInitials } from '@core/utils/get-initials';
+
+import TableHeader from './TableHeader';
 
 interface InvoiceStatusObj {
   [key: string]: {
-    icon: string
-    color: ThemeColor
-  }
+    icon: string;
+    color: ThemeColor;
+  };
 }
 
 interface CellType {
-  row: InvoiceType
+  row: InvoiceType;
 }
 
 // ** Styled component for the link in the dataTable
 const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   color: theme.palette.primary.main
-}))
+}));
 
 // ** Vars
 const invoiceStatusObj: InvoiceStatusObj = {
@@ -51,12 +53,12 @@ const invoiceStatusObj: InvoiceStatusObj = {
   'Partial Payment': { color: 'warning', icon: 'mdi:chart-pie' },
   'Past Due': { color: 'error', icon: 'mdi:information-outline' },
   Downloaded: { color: 'info', icon: 'mdi:arrow-down' }
-}
+};
 
 // ** renders client column
 const renderClient = (row: InvoiceType) => {
   if (row.avatar.length) {
-    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
+    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />;
   } else {
     return (
       <CustomAvatar
@@ -66,9 +68,9 @@ const renderClient = (row: InvoiceType) => {
       >
         {getInitials(row.name || 'John Doe')}
       </CustomAvatar>
-    )
+    );
   }
-}
+};
 
 const defaultColumns = [
   {
@@ -88,9 +90,9 @@ const defaultColumns = [
       </Box>
     ),
     renderCell: ({ row }: CellType) => {
-      const { dueDate, balance, invoiceStatus } = row
+      const { dueDate, balance, invoiceStatus } = row;
 
-      const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary'
+      const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary';
 
       return (
         <Tooltip
@@ -116,7 +118,7 @@ const defaultColumns = [
             <Icon icon={invoiceStatusObj[invoiceStatus].icon} fontSize='1.25rem' />
           </CustomAvatar>
         </Tooltip>
-      )
+      );
     }
   },
   {
@@ -125,7 +127,7 @@ const defaultColumns = [
     minWidth: 300,
     headerName: 'Client',
     renderCell: ({ row }: CellType) => {
-      const { name, companyEmail } = row
+      const { name, companyEmail } = row;
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -143,7 +145,7 @@ const defaultColumns = [
             </Typography>
           </Box>
         </Box>
-      )
+      );
     }
   },
   {
@@ -172,10 +174,10 @@ const defaultColumns = [
         </Typography>
       ) : (
         <CustomChip size='small' skin='light' color='success' label='Paid' />
-      )
+      );
     }
   }
-]
+];
 
 //
 // /* eslint-disable */
@@ -193,11 +195,10 @@ const defaultColumns = [
 // /* eslint-enable */
 
 const MinistryPage = () => {
-  const [value, setValue] = useState<string>('')
-  const [pageSize, setPageSize] = useState<number>(10)
-  const [statusValue, setStatusValue] = useState<string>('')
-  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
-
+  const [value, setValue] = useState<string>('');
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [statusValue, setStatusValue] = useState<string>('');
+  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
 
   // const dispatch = useDispatch<AppDispatch>()
   // const store = useSelector((state: RootState) => state.invoice)
@@ -213,12 +214,12 @@ const MinistryPage = () => {
   // }, [dispatch, statusValue, value, dates])
 
   const handleFilter = (val: string) => {
-    setValue(val)
-  }
+    setValue(val);
+  };
 
   const handleStatusValue = (e: SelectChangeEvent) => {
-    setStatusValue(e.target.value)
-  }
+    setStatusValue(e.target.value);
+  };
 
   const columns = [
     ...defaultColumns,
@@ -263,7 +264,7 @@ const MinistryPage = () => {
         </Box>
       )
     }
-  ]
+  ];
 
   return (
     <DatePickerWrapper>
@@ -295,26 +296,26 @@ const MinistryPage = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                {/*  <DatePicker*/}
-                {/*    isClearable*/}
-                {/*    selectsRange*/}
-                {/*    monthsShown={2}*/}
-                {/*    endDate={endDateRange}*/}
-                {/*    selected={startDateRange}*/}
-                {/*    startDate={startDateRange}*/}
-                {/*    shouldCloseOnSelect={false}*/}
-                {/*    id='date-range-picker-months'*/}
-                {/*    onChange={handleOnChangeRange}*/}
-                {/*    customInput={*/}
-                {/*      <CustomInput*/}
-                {/*        dates={dates}*/}
-                {/*        setDates={setDates}*/}
-                {/*        label='Invoice Date'*/}
-                {/*        end={endDateRange as number | Date}*/}
-                {/*        start={startDateRange as number | Date}*/}
-                {/*      />*/}
-                {/*    }*/}
-                {/*  />*/}
+                  {/*  <DatePicker*/}
+                  {/*    isClearable*/}
+                  {/*    selectsRange*/}
+                  {/*    monthsShown={2}*/}
+                  {/*    endDate={endDateRange}*/}
+                  {/*    selected={startDateRange}*/}
+                  {/*    startDate={startDateRange}*/}
+                  {/*    shouldCloseOnSelect={false}*/}
+                  {/*    id='date-range-picker-months'*/}
+                  {/*    onChange={handleOnChangeRange}*/}
+                  {/*    customInput={*/}
+                  {/*      <CustomInput*/}
+                  {/*        dates={dates}*/}
+                  {/*        setDates={setDates}*/}
+                  {/*        label='Invoice Date'*/}
+                  {/*        end={endDateRange as number | Date}*/}
+                  {/*        start={startDateRange as number | Date}*/}
+                  {/*      />*/}
+                  {/*    }*/}
+                  {/*  />*/}
                 </Grid>
               </Grid>
             </CardContent>
@@ -339,7 +340,7 @@ const MinistryPage = () => {
         </Grid>
       </Grid>
     </DatePickerWrapper>
-  )
-}
+  );
+};
 
-export default MinistryPage
+export default MinistryPage;

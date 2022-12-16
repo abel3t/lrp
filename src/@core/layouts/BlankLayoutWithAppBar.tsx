@@ -1,11 +1,9 @@
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
-import AppBar from 'src/@core/layouts/components/blank-layout-with-appBar'
+import AppBar from '@core/layouts/components/blank-layout-with-appBar';
 
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled } from '@mui/material/styles'
-
-
-import { BlankLayoutWithAppBarProps } from './types'
+import { BlankLayoutWithAppBarProps } from './types';
 
 // Styled component for Blank Layout with AppBar component
 const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -27,11 +25,11 @@ const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     position: 'relative',
     minHeight: `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`
   }
-}))
+}));
 
 const BlankLayoutWithAppBar = (props: BlankLayoutWithAppBarProps) => {
   // ** Props
-  const { children } = props
+  const { children } = props;
 
   return (
     <BlankLayoutWithAppBarWrapper>
@@ -47,7 +45,7 @@ const BlankLayoutWithAppBar = (props: BlankLayoutWithAppBarProps) => {
         {children}
       </Box>
     </BlankLayoutWithAppBarWrapper>
-  )
-}
+  );
+};
 
-export default BlankLayoutWithAppBar
+export default BlankLayoutWithAppBar;

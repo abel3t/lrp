@@ -1,18 +1,15 @@
+import MuiBadge from '@mui/material/Badge';
 
+import useBgColor, { UseBgColorType } from '@core/hooks/useBgColor';
 
-import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
-
-import MuiBadge from '@mui/material/Badge'
-
-
-import { CustomBadgeProps } from './types'
+import { CustomBadgeProps } from './types';
 
 const Badge = (props: CustomBadgeProps) => {
   // ** Props
-  const { sx, skin, color } = props
+  const { sx, skin, color } = props;
 
   // ** Hook
-  const bgColors = useBgColor()
+  const bgColors = useBgColor();
 
   const colors: UseBgColorType = {
     primary: { ...bgColors.primaryLight },
@@ -21,14 +18,14 @@ const Badge = (props: CustomBadgeProps) => {
     error: { ...bgColors.errorLight },
     warning: { ...bgColors.warningLight },
     info: { ...bgColors.infoLight }
-  }
+  };
 
   return (
     <MuiBadge
       {...props}
       sx={skin === 'light' && color ? Object.assign({ '& .MuiBadge-badge': colors[color] }, sx) : sx}
     />
-  )
-}
+  );
+};
 
-export default Badge
+export default Badge;

@@ -1,5 +1,4 @@
-
-import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import { VerticalNavItemsType } from '@core/layouts/types';
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -41,7 +40,7 @@ const navigation = (): VerticalNavItemsType => {
     //   title: 'Access Control',
     //   icon: 'mdi:shield-outline'
     // }
-  ]
-}
+  ];
+};
 
-export default navigation
+export default navigation;

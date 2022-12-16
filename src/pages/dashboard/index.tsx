@@ -1,12 +1,12 @@
-import CardStatisticsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
-import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
-import RechartsWrapper from 'src/@core/styles/libs/recharts'
+import Grid from '@mui/material/Grid';
 
-import Grid from '@mui/material/Grid'
+import CardStatisticsCharacter from '@core/components/card-statistics/card-stats-with-image';
+import KeenSliderWrapper from '@core/styles/libs/keen-slider';
+import RechartsWrapper from '@core/styles/libs/recharts';
 
-import NeedingMoreCare from './components/NeedingMoreCare'
-import Overview from './components/Overview'
-import TopCaringPeople from './components/TopCaringPeople'
+import NeedingMoreCare from './components/NeedingMoreCare';
+import Overview from './components/Overview';
+import TopCaringPeople from './components/TopCaringPeople';
 
 const Dashboard = () => {
   return (
@@ -48,7 +48,7 @@ const Dashboard = () => {
         </Grid>
       </KeenSliderWrapper>
     </RechartsWrapper>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -1,5 +1,4 @@
-
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles';
 
 export const EditorWrapper = styled('div')(({ theme }) => ({
   '& .rdw-editor-wrapper': {
@@ -129,17 +128,17 @@ export const EditorWrapper = styled('div')(({ theme }) => ({
         : {})
     }
   }
-}))
+}));
 
 export const ToolbarBottom = styled('div')(() => ({
   '& .rdw-editor-wrapper': {
     display: 'flex',
     flexDirection: 'column-reverse'
   }
-}))
+}));
 
 export const Borderless = styled('div')(() => ({
   '& .rdw-editor-wrapper, & .rdw-editor-toolbar': {
     border: '0 !important'
   }
-}))
+}));

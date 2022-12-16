@@ -1,35 +1,31 @@
+import Box, { BoxProps } from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
-import Icon from 'src/@core/components/icon'
+import Icon from '@core/components/icon';
+import CustomChip from '@core/components/mui/chip';
+import { hexToRGBA } from '@core/utils/hex-to-rgba';
 
-import CustomChip from 'src/@core/components/mui/chip'
-
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-import Box, { BoxProps } from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-
-
-import { PricingPlanProps } from './types'
+import { PricingPlanProps } from './types';
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   position: 'relative',
   padding: theme.spacing(6),
   paddingTop: theme.spacing(14.75),
   borderRadius: theme.shape.borderRadius
-}))
+}));
 
 const BoxFeature = styled(Box)<BoxProps>(({ theme }) => ({
   marginBottom: theme.spacing(5),
   '& > :not(:first-of-type)': {
     marginTop: theme.spacing(4)
   }
-}))
+}));
 
 const PlanDetails = (props: PricingPlanProps) => {
   // ** Props
-  const { plan, data } = props
+  const { plan, data } = props;
 
   const renderFeatures = () => {
     return data?.planBenefits.map((item: string, index: number) => (
@@ -39,8 +35,8 @@ const PlanDetails = (props: PricingPlanProps) => {
         </Box>
         <Typography variant='body2'>{item}</Typography>
       </Box>
-    ))
-  }
+    ));
+  };
 
   return (
     <BoxWrapper
@@ -111,7 +107,7 @@ const PlanDetails = (props: PricingPlanProps) => {
         {data?.currentPlan ? 'Your Current Plan' : 'Upgrade'}
       </Button>
     </BoxWrapper>
-  )
-}
+  );
+};
 
-export default PlanDetails
+export default PlanDetails;

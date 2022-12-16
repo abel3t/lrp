@@ -1,16 +1,15 @@
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { CustomCheckboxBasicProps } from 'src/@core/components/custom-checkbox/types'
-
-import Box from '@mui/material/Box'
-import Checkbox from '@mui/material/Checkbox'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import { CustomCheckboxBasicProps } from '@core/components/custom-checkbox/types';
 
 const CustomCheckbox = (props: CustomCheckboxBasicProps) => {
   // ** Props
-  const { data, name, selected, gridProps, handleChange, color = 'primary' } = props
+  const { data, name, selected, gridProps, handleChange, color = 'primary' } = props;
 
-  const { meta, title, value, content } = data
+  const { meta, title, value, content } = data;
 
   const renderData = () => {
     if (meta && title && content) {
@@ -30,29 +29,29 @@ const CustomCheckbox = (props: CustomCheckboxBasicProps) => {
           </Box>
           {typeof content === 'string' ? <Typography variant='body2'>{content}</Typography> : content}
         </Box>
-      )
+      );
     } else if (meta && title && !content) {
       return (
         <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           {typeof title === 'string' ? <Typography sx={{ mr: 2, fontWeight: 500 }}>{title}</Typography> : title}
           {typeof meta === 'string' ? <Typography sx={{ color: 'text.secondary' }}>{meta}</Typography> : meta}
         </Box>
-      )
+      );
     } else if (!meta && title && content) {
       return (
         <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           {typeof title === 'string' ? <Typography sx={{ mb: 1, fontWeight: 500 }}>{title}</Typography> : title}
           {typeof content === 'string' ? <Typography variant='body2'>{content}</Typography> : content}
         </Box>
-      )
+      );
     } else if (!meta && !title && content) {
-      return typeof content === 'string' ? <Typography variant='body2'>{content}</Typography> : content
+      return typeof content === 'string' ? <Typography variant='body2'>{content}</Typography> : content;
     } else if (!meta && title && !content) {
-      return typeof title === 'string' ? <Typography sx={{ fontWeight: 500 }}>{title}</Typography> : title
+      return typeof title === 'string' ? <Typography sx={{ fontWeight: 500 }}>{title}</Typography> : title;
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   const renderComponent = () => {
     return (
@@ -84,10 +83,10 @@ const CustomCheckbox = (props: CustomCheckboxBasicProps) => {
           {renderData()}
         </Box>
       </Grid>
-    )
-  }
+    );
+  };
 
-  return data ? renderComponent() : null
-}
+  return data ? renderComponent() : null;
+};
 
-export default CustomCheckbox
+export default CustomCheckbox;

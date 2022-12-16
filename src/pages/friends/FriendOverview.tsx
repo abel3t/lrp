@@ -1,17 +1,17 @@
-import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
-import TimelineConnector from '@mui/lab/TimelineConnector'
-import TimelineContent from '@mui/lab/TimelineContent'
-import TimelineDot from '@mui/lab/TimelineDot'
-import TimelineItem from '@mui/lab/TimelineItem'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
+import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   margin: 0,
@@ -25,15 +25,15 @@ const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
       minHeight: 60
     }
   }
-}))
+}));
 
 const FriendOverview = () => {
   return (
     <Grid container spacing={6}>
       <SundayServiceOverview />
     </Grid>
-  )
-}
+  );
+};
 
 const SundayServiceOverview = () => {
   return (
@@ -160,7 +160,7 @@ const SundayServiceOverview = () => {
         </CardContent>
       </Card>
     </Grid>
-  )
-}
+  );
+};
 
-export default FriendOverview
+export default FriendOverview;
