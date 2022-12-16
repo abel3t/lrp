@@ -5,6 +5,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import member from 'src/store/member'
 import friend from 'src/store/friend'
 import care from 'src/store/care'
+import account from 'src/store/account'
 import dashboard from 'src/store/dashboard'
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     member,
     friend,
     care,
+    account,
     dashboard
   },
   middleware: getDefaultMiddleware =>

@@ -18,10 +18,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../store'
 import { useEffect } from 'react'
 import { fetchNeedingMoreCareMembers } from '../../../store/dashboard'
-import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../../@core/contanst';
+import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '../../../@core/contanst'
 import { formatRelativeDate } from '../../../@core/utils/date'
 import { format } from 'date-fns'
 import CustomChip from '../../../@core/components/mui/chip'
+import { CareType } from '../../../@core/enums'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
@@ -82,7 +83,7 @@ const NeedingMoreCare = () => {
                     <CustomChip
                       skin='light'
                       size='small'
-                      label={CareTypeText[careMember?.type || '']}
+                      label={careMember?.type ? CareTypeText[careMember?.type as CareType] : NotApplicable}
                       color={CareTypeColor[careMember?.type || '']}
                       sx={{
                         height: 20,

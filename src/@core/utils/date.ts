@@ -1,4 +1,5 @@
 import { format, formatDistance, getUnixTime } from 'date-fns'
+import { NotApplicable } from '../contanst'
 
 export const getUtcDate = () => {
   const date = new Date()
@@ -9,7 +10,11 @@ export const getUtcDate = () => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
 }
 
-export const formatRelativeDate = (date: Date | string) => {
+export const formatRelativeDate = (date: Date | string | undefined) => {
+  if (!date) {
+    return NotApplicable
+  }
+
   const standardDate = new Date(date)
   const dateUnixTime = getUnixTime(standardDate)
   const today = getUtcDate()
@@ -18,7 +23,6 @@ export const formatRelativeDate = (date: Date | string) => {
   const dayOfWeek = today.getDay()
   const distance = Math.floor((nowUnixDay - dateUnixTime) / (3600 * 24))
 
-  console.log({ nowUnixDay, dateUnixTime, distance })
   if (distance === 0) {
     return 'Today'
   }

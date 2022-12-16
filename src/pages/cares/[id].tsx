@@ -1,54 +1,50 @@
 // ** MUI Imports
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid'
 
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
-import CardHeader from '@mui/material/CardHeader';
-import Card from '@mui/material/Card';
-import OptionsMenu from '../../@core/components/option-menu';
-import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { CarePriorityColor, CareTypeColor, NotApplicable } from '../../@core/contanst';
-import { useEffect } from 'react';
-import { fetchCareData } from '../../store/care';
-import { useRouter } from 'next/router';
-import CustomChip from '../../@core/components/mui/chip';
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store'
+import CardHeader from '@mui/material/CardHeader'
+import Card from '@mui/material/Card'
+import OptionsMenu from '../../@core/components/option-menu'
+import CardContent from '@mui/material/CardContent'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import { CarePriorityColor, CareTypeColor, NotApplicable } from '../../@core/contanst'
+import { useEffect } from 'react'
+import { fetchCareData } from '../../store/care'
+import { useRouter } from 'next/router'
+import CustomChip from '../../@core/components/mui/chip'
 
 const CareView = () => {
-
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-  const store = useSelector((state: RootState) => state.care);
+  const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
+  const store = useSelector((state: RootState) => state.care)
 
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchCareData(router?.query?.id as string));
+      dispatch(fetchCareData(router?.query?.id as string))
     }
-  }, [router.isReady, dispatch]);
+  }, [router.isReady, dispatch])
 
   return (
-
     <Grid container spacing={8}>
       <Grid item xs={15} md={6} lg={5}>
         <Card>
-          <CardHeader
-            title="Care Details"
-          />
+          <CardHeader title='Care Details' />
           <CardContent
             sx={{ pt: theme => `${theme.spacing(2.5)} !important` }}
             style={{ maxHeight: 350, overflow: 'auto' }}
           >
             <Box sx={{ display: 'flex', mb: 2.7 }}>
-              <Typography variant="subtitle2" sx={{ mr: 2, color: 'text.primary' }}>
+              <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Member:
               </Typography>
 
-              <Typography variant="body2">{store.care.member?.name || NotApplicable}</Typography>
+              <Typography variant='body2'>{store.care.member?.name || NotApplicable}</Typography>
             </Box>
 
             <Box sx={{ display: 'flex', mb: 2.7 }}>
-              <Typography variant="subtitle2" sx={{ mr: 2, color: 'text.primary' }}>
+              <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Care Type:
               </Typography>
 
@@ -69,7 +65,7 @@ const CareView = () => {
             </Box>
 
             <Box sx={{ display: 'flex', mb: 2.7 }}>
-              <Typography variant="subtitle2" sx={{ mr: 2, color: 'text.primary' }}>
+              <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Priority:
               </Typography>
 
@@ -89,35 +85,30 @@ const CareView = () => {
               />
             </Box>
 
-
             <Box sx={{ display: 'flex', mb: 2.7 }}>
-              <Typography variant="subtitle2" sx={{ mr: 2, color: 'text.primary' }}>
+              <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Curator:
               </Typography>
 
-              <Typography variant="body2">{store.care.curator?.name || NotApplicable}</Typography>
+              <Typography variant='body2'>{store.care.curator?.name || NotApplicable}</Typography>
             </Box>
 
             <Box sx={{ display: 'flex', mb: 2.7 }}>
-              <Typography variant="subtitle2" sx={{ mr: 2, color: 'text.primary' }}>
+              <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Description:
               </Typography>
 
-              <Typography variant="body2">{store.care.description || NotApplicable}</Typography>
+              <Typography variant='body2'>{store.care.description || NotApplicable}</Typography>
             </Box>
-
           </CardContent>
         </Card>
       </Grid>
 
-
       <Grid item xs={9} md={4} lg={4} style={{ width: '400px', height: '800px' }}>
-        <img src={store.care?.imageUrl} alt="N/A" width="400px" height="auto"/>
+        <img src={store.care?.imageUrl} alt='N/A' width='400px' height='auto' />
       </Grid>
-
     </Grid>
+  )
+}
 
-  );
-};
-
-export default CareView;
+export default CareView

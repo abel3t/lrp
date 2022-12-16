@@ -45,7 +45,7 @@ import { CarePriority, CareType } from '../../@core/enums'
 import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../@core/contanst'
 import { Autocomplete } from '@mui/material'
 import CustomChip from '../../@core/components/mui/chip'
-import UploadImage from './UploadImage';
+import UploadImage from './UploadImage'
 
 export interface FormInputs {
   id: string
@@ -173,7 +173,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
       return getValues('imageUrl')
     }
 
-    const formData = new FormData();
+    const formData = new FormData()
     formData.append('file', new File([image], `care-${getValues('member')?.id || 'unknown'}-${image.name}`))
     const config = {
       headers: {
@@ -181,16 +181,17 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
       }
     }
 
-    return apiClient.post('uploadFile', formData, config)
+    return apiClient
+      .post('uploadFile', formData, config)
       .then(res => res.data?.link)
       .catch(error => {
-        console.log(error);
+        console.log(error)
         toast.error('Can not upload image')
       })
   }
 
   const onSubmit = async (data: FormInputs) => {
-    data.imageUrl =  await getImageUrl();
+    data.imageUrl = await getImageUrl()
 
     setShow(false)
 
@@ -374,9 +375,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               </Grid>
 
               <Grid item xs={12}>
-               <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')}/>
+                <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')} />
               </Grid>
-
 
               <Grid item xs={12}>
                 <FormControl fullWidth>

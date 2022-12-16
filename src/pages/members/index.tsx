@@ -17,22 +17,15 @@ import { fetchData } from 'src/store/member'
 import { RootState, AppDispatch } from 'src/store'
 
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DiscipleshipProcess } from '../../@core/enums'
 import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import DialogMemberForm from './DialogMemberForm'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { FormMode } from '../../@core/types'
+import { FormMode, Member } from '../../@core/types'
 import CustomChip from '../../@core/components/mui/chip'
-
-export type Member = {
-  id: string
-  name: string
-  phone?: string
-  discipleshipProcess?: DiscipleshipProcess
-}
+import { fetchCurators } from '../../store/account'
 
 interface CellType {
   row: Member
@@ -93,6 +86,13 @@ const defaultColumns = [
         />
       )
     }
+  },
+  {
+    flex: 0.15,
+    minWidth: 125,
+    field: 'curator',
+    headerName: 'Curator',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.curator?.name || NotApplicable}</Typography>
   }
 ]
 
@@ -109,6 +109,7 @@ const MemberPage = () => {
 
   useEffect(() => {
     dispatch(fetchData())
+    dispatch(fetchCurators())
   }, [dispatch])
 
   const handleFilter = (val: string) => {

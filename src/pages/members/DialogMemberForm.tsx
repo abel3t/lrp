@@ -16,7 +16,7 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Select from '@mui/material/Select'
 
 import toast from 'react-hot-toast'
 import DatePicker from 'react-datepicker'
@@ -36,26 +36,28 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import apiClient from '../../@core/services/api.client'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store'
 import { fetchData } from '../../store/member'
-import { FormMode } from '../../@core/types'
+import { Account, FormMode, Member } from '../../@core/types'
 import { DiscipleshipProcess } from '../../@core/enums'
 import CleaveWrapper from '../../@core/styles/libs/react-cleave'
 import { DiscipleshipProcessColor } from '../../@core/contanst'
 import CustomChip from '../../@core/components/mui/chip'
+import { Autocomplete } from '@mui/material'
 
 export interface FormInputs {
   id: string
-  birthday: DateType | null
-  email: string
-  phone: string
+  curator?: Account | null
+  birthday?: DateType | null
+  email?: string
+  phone?: string
   name: string
-  discipleshipProcess: string
-  address: string
-  hometown: string
-  gender: string
-  description: string
+  discipleshipProcess?: string
+  address?: string
+  hometown?: string
+  gender?: string
+  description?: string
 }
 
 interface CustomInputProps {
@@ -67,7 +69,8 @@ interface CustomInputProps {
 
 const defaultValues = {
   id: '',
-  birthday: null,
+  curator: null,
+  birthday: '',
   email: '',
   name: '',
   phone: '',
@@ -79,6 +82,7 @@ const defaultValues = {
 }
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
+  console.log(props)
   return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
 })
 
@@ -112,6 +116,9 @@ const getUtcDate = (date?: DateType) => {
 }
 
 const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.account)
+
   const validationSchema = yup.object().shape({
     birthday: yup.string(),
     email: yup.string().email(),
@@ -149,8 +156,6 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
-
-  const dispatch = useDispatch<AppDispatch>()
 
   const handleCallApi = (mode: FormMode, data: FormInputs) => {
     const { id, ..._data } = data
@@ -207,7 +212,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
             </Typography>
           </Box>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit, errors => console.log(errors))}>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
@@ -277,6 +282,27 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                           )
                         })}
                       </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='curator'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <Autocomplete
+                        openOnFocus
+                        options={store.curators?.map((curator: Member) => ({ id: curator.id, name: curator.name }))}
+                        id='autocomplete-care-name'
+                        getOptionLabel={option => option.name}
+                        defaultValue={value}
+                        onChange={(v, data) => onChange(data)}
+                        renderInput={params => <TextField {...params} label='Curator' />}
+                      />
                     )}
                   />
                 </FormControl>

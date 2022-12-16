@@ -25,6 +25,8 @@ import Button from '@mui/material/Button'
 import { Care, FormMode } from '../../@core/types'
 import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '../../@core/contanst'
 import CustomChip from '../../@core/components/mui/chip'
+import { formatRelativeDate } from '../../@core/utils/date'
+import { format } from 'date-fns'
 
 interface CellType {
   row: Care
@@ -38,14 +40,27 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 const defaultColumns = [
   {
-    flex: 0.15,
-    minWidth: 125,
+    flex: 0.115,
+    minWidth: 120,
     field: 'name',
     headerName: 'Name',
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.member?.name || NotApplicable}</Typography>
   },
   {
-    flex: 0.07,
+    flex: 0.105,
+    minWidth: 110,
+    field: 'date',
+    headerName: 'Date',
+    renderCell: ({ row }: CellType) => (
+      <Typography variant='body2'>
+        {formatRelativeDate(row?.date)}
+        &nbsp; - &nbsp;
+        {row?.date ? format(new Date(row?.date), 'dd/MM/yyyy') : ''}
+      </Typography>
+    )
+  },
+  {
+    flex: 0.073,
     minWidth: 80,
     field: 'type',
     headerName: 'Type',
@@ -89,7 +104,7 @@ const defaultColumns = [
     )
   },
   {
-    flex: 0.25,
+    flex: 0.2,
     minWidth: 150,
     field: 'description',
     headerName: 'Description',

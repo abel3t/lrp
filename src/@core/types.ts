@@ -2,6 +2,11 @@ import { CarePriority, CareType, FriendType } from './enums'
 
 export type FormMode = 'create' | 'update'
 
+export type Account = {
+  id: string
+  name?: string
+}
+
 export type Member = {
   id?: string
   index?: number
@@ -13,6 +18,7 @@ export type Member = {
   address?: string
   email?: string
   description?: string
+  curator?: Account
   discipleshipProcess?: string
   believeInJesusDay?: string
   firstComeToLEC?: string
