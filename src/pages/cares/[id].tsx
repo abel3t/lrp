@@ -103,7 +103,7 @@ const CareView = () => {
                 Description:
               </Typography>
 
-              <Typography variant="body2">{store.care.descriptions || NotApplicable}</Typography>
+              <Typography variant="body2">{store.care.description || NotApplicable}</Typography>
             </Box>
 
           </CardContent>

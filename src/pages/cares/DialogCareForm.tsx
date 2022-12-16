@@ -2,7 +2,6 @@
 import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref, useEffect } from 'react'
 
 // ** MUI Imports
-import FormHelperText from '@mui/material/FormHelperText'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
@@ -170,6 +169,10 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
   }
 
   const getImageUrl = () => {
+    if (!image) {
+      return getValues('imageUrl')
+    }
+
     const formData = new FormData();
     formData.append('file', new File([image], `care-${getValues('member')?.id || 'unknown'}-${image.name}`))
     const config = {
@@ -405,33 +408,6 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
         </DialogContent>
       </Dialog>
     </Card>
-  )
-}
-
-const AutocompletePeople = (people: any) => {
-  return (
-    <Autocomplete
-      autoHighlight
-      sx={{ width: 250 }}
-      id='autocomplete-care-name-select'
-      options={people as any}
-      getOptionLabel={(option: any) => option.name}
-      renderOption={(props, option) => (
-        <Box component='li' sx={{ '& > img': { mr: 4, flexShrink: 0 } }} {...props}>
-          {option.name}
-        </Box>
-      )}
-      renderInput={params => (
-        <TextField
-          {...params}
-          label='Choose a Member'
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'new-password'
-          }}
-        />
-      )}
-    />
   )
 }
 

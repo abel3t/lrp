@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../store'
 import { useEffect } from 'react'
 import { fetchNeedingMoreCareMembers } from '../../../store/dashboard'
-import { CarePriorityColor, CareTypeColor } from '../../../@core/contanst'
+import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../../@core/contanst';
 import { formatRelativeDate } from '../../../@core/utils/date'
 import { format } from 'date-fns'
 import CustomChip from '../../../@core/components/mui/chip'
@@ -82,7 +82,7 @@ const NeedingMoreCare = () => {
                     <CustomChip
                       skin='light'
                       size='small'
-                      label={careMember?.type}
+                      label={CareTypeText[careMember?.type || '']}
                       color={CareTypeColor[careMember?.type || '']}
                       sx={{
                         height: 20,
