@@ -3,21 +3,16 @@ import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import apiClient from '../@core/services/api.client'
 import { Member } from '../@core/types'
+import { convertObjectToQueryString } from '../@core/utils/string.util';
 
-interface DataParams {
-  q: string
-  dates?: Date[]
-  status: string
+interface IQueryMember {
+  search?: string
+  curatorId?: string
 }
 
-interface Redux {
-  getState: any
-  dispatch: Dispatch<any>
-}
+export const fetchData = createAsyncThunk('member/fetchData', async (query?: IQueryMember) => {
 
-// ** Fetch Members
-export const fetchData = createAsyncThunk('member/fetchData', async () => {
-  const response = await apiClient.get('/members')
+  const response = await apiClient.get('/members' + convertObjectToQueryString(query))
 
   return response.data.map((member: Member, index: number) => ({ index: index + 1, ...member }))
 })

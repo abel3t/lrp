@@ -23,9 +23,10 @@ import MenuItem from '@mui/material/MenuItem'
 import DialogMemberForm from './DialogMemberForm'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { FormMode, Member } from '../../@core/types'
+import { Account, FormMode, Member } from '../../@core/types';
 import CustomChip from '../../@core/components/mui/chip'
 import { fetchCurators } from '../../store/account'
+import { Autocomplete } from '@mui/material';
 
 interface CellType {
   row: Member
@@ -97,23 +98,41 @@ const defaultColumns = [
 ]
 
 const MemberPage = () => {
-  const [value, setValue] = useState<string>('')
   const [formMode, setFormMode] = useState<FormMode>('create')
   const [pageSize, setPageSize] = useState<number>(10)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [show, setShow] = useState<boolean>(false)
   const [updateMember, setUpdateMember] = useState<any>(null)
+  const [search, setSearch] = useState('');
+  const [timer, setTimer] = useState<any>(null)
+  const [curator, setCurator] = useState<Account|null>(null)
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.member)
+  const accountStore = useSelector((state: RootState) => state.account)
+
 
   useEffect(() => {
-    dispatch(fetchData())
+    dispatch(fetchData({ search, curatorId: curator?.id }))
     dispatch(fetchCurators())
   }, [dispatch])
 
-  const handleFilter = (val: string) => {
-    setValue(val)
+  const handleChangeCurator = (curator: Account) => {
+    setCurator(curator)
+    dispatch(fetchData({ search, curatorId: curator?.id }))
+  }
+
+  const handleSearch = (search: string) => {
+    setSearch(search)
+    if (timer) {
+      clearTimeout(timer)
+    }
+
+    const newTimer = setTimeout(() => {
+      dispatch(fetchData({ search, curatorId: curator?.id }))
+    }, 500)
+
+    setTimer(newTimer)
   }
 
   const handleCreate = () => {
@@ -197,15 +216,24 @@ const MemberPage = () => {
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 
-              <DialogMemberForm show={show} setShow={setShow} mode={formMode} member={updateMember} />
-
               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Autocomplete
+                  openOnFocus
+                  sx={{ mr: 4, mb: 2, width: '350px' }}
+                  options={accountStore.curators?.map((curator: Account) => ({ id: curator.id, name: curator.name }))}
+                  id='autocomplete-care-name'
+                  getOptionLabel={option => option.name}
+                  defaultValue={curator}
+                  onChange={(v, curator: Account) => handleChangeCurator(curator)}
+                  renderInput={params => <TextField {...params} label='Curator' />}
+                />
+
                 <TextField
                   size='small'
-                  value={value}
+                  value={search}
                   placeholder='Search Member'
                   sx={{ mr: 4, mb: 2, maxWidth: '180px' }}
-                  onChange={e => handleFilter(e.target.value)}
+                  onChange={e => handleSearch(e.target.value)}
                 />
                 <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
                   Create Member
@@ -226,6 +254,8 @@ const MemberPage = () => {
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
             />
           </Card>
+
+          <DialogMemberForm show={show} setShow={setShow} mode={formMode} member={updateMember} />
         </Grid>
       </Grid>
     </DatePickerWrapper>

@@ -5,7 +5,6 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Tooltip from '@mui/material/Tooltip'
-import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { DataGrid, GridRowId } from '@mui/x-data-grid'
@@ -22,21 +21,17 @@ import MenuItem from '@mui/material/MenuItem'
 import DialogCareForm from './DialogCareForm'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { Care, FormMode } from '../../@core/types'
+import { Account, Care, FormMode } from '../../@core/types';
 import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '../../@core/contanst'
 import CustomChip from '../../@core/components/mui/chip'
 import { formatRelativeDate } from '../../@core/utils/date'
 import { format } from 'date-fns'
+import { Autocomplete } from '@mui/material';
+import { fetchCurators } from '../../store/account';
 
 interface CellType {
   row: Care
 }
-
-// ** Styled component for the link in the dataTable
-const StyledLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}))
 
 const defaultColumns = [
   {
@@ -104,7 +99,7 @@ const defaultColumns = [
     )
   },
   {
-    flex: 0.2,
+    flex: 0.18,
     minWidth: 150,
     field: 'description',
     headerName: 'Description',
@@ -120,22 +115,40 @@ const defaultColumns = [
 ]
 
 const CarePage = () => {
-  const [value, setValue] = useState<string>('')
   const [formMode, setFormMode] = useState<FormMode>('create')
   const [pageSize, setPageSize] = useState<number>(10)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [show, setShow] = useState<boolean>(false)
   const [updateCare, setUpdateCare] = useState<any>(null)
+  const [search, setSearch] = useState('');
+  const [timer, setTimer] = useState<any>(null)
+  const [curator, setCurator] = useState<Account|null>(null)
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.care)
+  const accountStore = useSelector((state: RootState) => state.account)
 
   useEffect(() => {
     dispatch(fetchData())
+    dispatch(fetchCurators())
   }, [dispatch])
 
-  const handleFilter = (val: string) => {
-    setValue(val)
+  const handleSearch = (search: string) => {
+    setSearch(search)
+    if (timer) {
+      clearTimeout(timer)
+    }
+
+    const newTimer = setTimeout(() => {
+      dispatch(fetchData({ search, curatorId: curator?.id }))
+    }, 500)
+
+    setTimer(newTimer)
+  }
+
+  const handleChangeCurator = (curator: Account) => {
+    setCurator(curator)
+    dispatch(fetchData({ search, curatorId: curator?.id }))
   }
 
   const handleCreate = () => {
@@ -219,20 +232,32 @@ const CarePage = () => {
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 
-              <DialogCareForm show={show} setShow={setShow} mode={formMode} care={updateCare} />
 
               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Autocomplete
+                  openOnFocus
+                  sx={{ mr: 4, mb: 2, width: '350px' }}
+                  options={accountStore.curators?.map((curator: Account) => ({ id: curator.id, name: curator.name }))}
+                  id='autocomplete-care-name'
+                  getOptionLabel={option => option.name}
+                  defaultValue={curator}
+                  onChange={(v, curator: Account) => handleChangeCurator(curator)}
+                  renderInput={params => <TextField {...params} label='Curator' />}
+                />
+
                 <TextField
                   size='small'
-                  value={value}
+                  value={search}
                   placeholder='Search Care'
                   sx={{ mr: 4, mb: 2, maxWidth: '180px' }}
-                  onChange={e => handleFilter(e.target.value)}
+                  onChange={e => handleSearch(e.target.value)}
                 />
                 <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
                   Create Care
                 </Button>
               </Box>
+
+              <DialogCareForm show={show} setShow={setShow} mode={formMode} care={updateCare} />
             </Box>
 
             <DataGrid

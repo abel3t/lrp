@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import apiClient from '../@core/services/api.client'
 import { Care } from '../@core/types'
+import { convertObjectToQueryString } from '../@core/utils/string.util';
 
-export const fetchData = createAsyncThunk('care/fetchData', async () => {
-  const response = await apiClient.get('/cares')
+interface IQueryCare {
+  search?: string
+  curatorId?: string
+}
+
+export const fetchData = createAsyncThunk('care/fetchData', async (query?: IQueryCare) => {
+  const response = await apiClient.get('/cares' + convertObjectToQueryString(query))
 
   return response.data
 })

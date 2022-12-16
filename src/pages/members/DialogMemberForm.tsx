@@ -296,7 +296,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <Autocomplete
                         openOnFocus
-                        options={store.curators?.map((curator: Member) => ({ id: curator.id, name: curator.name }))}
+                        options={store.curators?.map((curator: Account) => ({ id: curator.id, name: curator.name }))}
                         id='autocomplete-care-name'
                         getOptionLabel={option => option.name}
                         defaultValue={value}
