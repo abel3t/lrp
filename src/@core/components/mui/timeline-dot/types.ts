@@ -1,4 +1,4 @@
-// ** MUI Imports
+
 import { TimelineDotProps } from '@mui/lab/TimelineDot'
 
 export type CustomTimelineDotProps = TimelineDotProps & { skin?: 'light' }

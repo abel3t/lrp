@@ -1,4 +1,5 @@
 import { format, formatDistance, getUnixTime } from 'date-fns'
+
 import { NotApplicable } from '../contanst'
 
 export const getUtcDate = () => {
@@ -8,6 +9,10 @@ export const getUtcDate = () => {
   const year = date.getFullYear()
 
   return new Date(Date.UTC(year, month, day, 0, 0, 0))
+}
+
+export const standardDate = (date: any): Date => {
+  return new Date(date)
 }
 
 export const formatRelativeDate = (date: Date | string | undefined) => {

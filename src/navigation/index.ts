@@ -1,4 +1,4 @@
-// ** Type import
+
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 
 const navigation = (): VerticalNavItemsType => {
@@ -23,6 +23,7 @@ const navigation = (): VerticalNavItemsType => {
       path: '/friends',
       icon: 'mdi:account-multiple-outline'
     }
+
     // {
     //   title: 'Ministry',
     //   path: '/ministries',

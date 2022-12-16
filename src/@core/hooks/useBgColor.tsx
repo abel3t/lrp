@@ -1,8 +1,8 @@
-// ** MUI Imports
-import { useTheme } from '@mui/material/styles'
 
-// ** Util Import
+
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+
+import { useTheme } from '@mui/material/styles'
 
 export type UseBgColorType = {
   [key: string]: {
@@ -12,7 +12,7 @@ export type UseBgColorType = {
 }
 
 const UseBgColor = () => {
-  // ** Hooks
+
   const theme = useTheme()
 
   return {

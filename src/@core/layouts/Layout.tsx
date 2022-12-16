@@ -1,7 +1,6 @@
-// ** React Import
+
 import { useEffect, useRef } from 'react'
 
-// ** Type Import
 import { LayoutProps } from 'src/@core/layouts/types'
 
 // ** Layout Components

@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
 import apiClient from '../@core/services/api.client'
 
 export const fetchOverview = createAsyncThunk('dashboard/fetchOverview', async () => {

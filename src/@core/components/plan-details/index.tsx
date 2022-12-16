@@ -1,22 +1,18 @@
-// ** MUI Imports
-import Button from '@mui/material/Button'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import Box, { BoxProps } from '@mui/material/Box'
 
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Util Import
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-
-// ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 
-// ** Types
+import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+
+import Box, { BoxProps } from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
+
+
 import { PricingPlanProps } from './types'
 
-// ** Styled Component for the wrapper of whole component
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   position: 'relative',
   padding: theme.spacing(6),
@@ -24,7 +20,6 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-// ** Styled Component for the wrapper of all the features of a plan
 const BoxFeature = styled(Box)<BoxProps>(({ theme }) => ({
   marginBottom: theme.spacing(5),
   '& > :not(:first-of-type)': {

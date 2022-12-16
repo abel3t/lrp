@@ -1,26 +1,22 @@
-// ** React Import
+
 import { useRef, useState } from 'react'
 
-// ** MUI Import
-import List from '@mui/material/List'
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled, useTheme } from '@mui/material/styles'
-
-// ** Third Party Components
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-// ** Type Import
 import { LayoutProps } from 'src/@core/layouts/types'
 
+import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 import themeConfig from 'src/configs/themeConfig'
 
-// ** Component Imports
-import Drawer from './Drawer'
-import VerticalNavItems from './VerticalNavItems'
-import VerticalNavHeader from './VerticalNavHeader'
+import Box, { BoxProps } from '@mui/material/Box'
 
-// ** Util Import
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import List from '@mui/material/List'
+import { styled, useTheme } from '@mui/material/styles'
+
+
+import Drawer from './Drawer'
+import VerticalNavHeader from './VerticalNavHeader'
+import VerticalNavItems from './VerticalNavItems'
 
 interface Props {
   navWidth: number
@@ -70,7 +66,7 @@ const Navigation = (props: Props) => {
   // ** Ref
   const shadowRef = useRef(null)
 
-  // ** Hooks
+
   const theme = useTheme()
   const { mode } = settings
 

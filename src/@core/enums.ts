@@ -25,3 +25,11 @@ export enum CarePriority {
   Normal = 'Normal',
   Warning = 'Warning'
 }
+
+
+export enum CareTitle {
+  Excellent = 'Excellent',
+  Good = 'Good',
+  Normal = 'Normal',
+  NotGood = 'NotGood'
+}

@@ -10,13 +10,12 @@
  * This example uses Iconify Tools to import and clean up icons.
  * For Iconify Tools documentation visit https://docs.iconify.design/tools/tools2/
  */
+// Installation: npm install --save-dev @iconify/tools @iconify/utils @iconify/json @iconify/iconify
+import { cleanupSVG, importDirectory, isEmptyColor, parseColors, runSVGO } from '@iconify/tools'
+import type { IconifyJSON, IconifyMetaData } from '@iconify/types'
+import { getIcons, minifyIconSet, stringToIcon } from '@iconify/utils'
 import { promises as fs } from 'fs'
 import { dirname } from 'path'
-
-// Installation: npm install --save-dev @iconify/tools @iconify/utils @iconify/json @iconify/iconify
-import { importDirectory, cleanupSVG, parseColors, isEmptyColor, runSVGO } from '@iconify/tools'
-import { getIcons, stringToIcon, minifyIconSet } from '@iconify/utils'
-import type { IconifyJSON, IconifyMetaData } from '@iconify/types'
 
 /* eslint-disable */
 /**
@@ -62,7 +61,7 @@ const sources: BundleScriptConfig = {
 
     // Custom file with only few icons
 
-    /* 
+    /*
      {
       filename: require.resolve('@iconify/json/json/line-md.json'),
       icons: ['home-twotone-alt', 'github', 'document-list', 'document-code', 'image-twotone']
@@ -73,7 +72,7 @@ const sources: BundleScriptConfig = {
     // 'json/gg.json'
   ],
 
-  /* 
+  /*
    icons: [
     'bx:basket',
     'bi:airplane-engines',
@@ -179,7 +178,6 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
     for (let i = 0; i < sources.svg.length; i++) {
       const source = sources.svg[i]
 
-      // Import icons
       const iconSet = await importDirectory(source.dir, {
         prefix: source.prefix
       })

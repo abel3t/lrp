@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
 import apiClient from '../@core/services/api.client'
 import { Care } from '../@core/types'
-import { convertObjectToQueryString } from '../@core/utils/string.util';
+import { convertObjectToQueryString } from '../@core/utils/string.util'
 
 interface IQueryCare {
   search?: string

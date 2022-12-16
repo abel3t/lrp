@@ -1,51 +1,25 @@
-// ** React Imports
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import CustomAvatar from 'src/@core/components/mui/avatar'
+import CustomChip from 'src/@core/components/mui/chip'
+import { getInitials } from 'src/@core/utils/get-initials'
+
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import Select from '@mui/material/Select'
-import Switch from '@mui/material/Switch'
-import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import CardContent from '@mui/material/CardContent'
+import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
-import DialogTitle from '@mui/material/DialogTitle'
-import FormControl from '@mui/material/FormControl'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import InputAdornment from '@mui/material/InputAdornment'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import DialogContentText from '@mui/material/DialogContentText'
+import CardContent from '@mui/material/CardContent'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
-// ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../store'
-import { fetchData, fetchMemberData } from '../../store/member'
-import { useRouter } from 'next/router'
 import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
-import { ColorsType } from '../../@core/interface'
-import { DiscipleshipProcess } from '../../@core/enums'
-import apiClient from '../../@core/services/api.client'
-import toast from 'react-hot-toast'
+import { AppDispatch, RootState } from '../../store'
+import { fetchMemberData } from '../../store/member'
 import DialogMemberForm from './DialogMemberForm'
-
-const statusColors: ColorsType = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
-}
 
 const MemberViewLeft = () => {
   const [openEdit, setOpenEdit] = useState<boolean>(false)
@@ -53,28 +27,7 @@ const MemberViewLeft = () => {
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.member)
 
-  // Handle Edit dialog
   const handleEditClickOpen = () => setOpenEdit(true)
-  const handleEditClose = () => setOpenEdit(false)
-
-  const handleSubmit = () => {
-    setOpenEdit(false)
-    // return apiClient.put(`/members/${id}`, body)
-    //   .then(() => {
-    //     reset(defaultValues);
-    //
-    //     dispatch(
-    //       fetchData()
-    //     )
-    //
-    //     toast.success(`${messageMode} update successfully!`)
-    //   })
-    //   .catch((error) => {
-    //     reset(defaultValues)
-    //     toast.error(error.message)
-    //   })
-  }
-
   const router = useRouter()
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-// ** Type Imports
 import { Mode } from 'src/@core/layouts/types'
+
 import { ThemeOptions } from '@mui/material'
 
 const Shadows = (mode: Mode): ThemeOptions['shadows'] => {

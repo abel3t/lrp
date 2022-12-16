@@ -1,11 +1,11 @@
-// ** React Imports
+
 import { Fragment, useEffect } from 'react'
 
-// ** MUI Imports
+
 import Backdrop from '@mui/material/Backdrop'
 import Box, { BoxProps } from '@mui/material/Box'
 
-// ** Types
+
 import { SidebarType } from './type'
 
 const Sidebar = (props: BoxProps & SidebarType) => {

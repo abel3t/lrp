@@ -1,4 +1,4 @@
-// ** MUI imports
+
 import { styled } from '@mui/material/styles'
 
 export const EditorWrapper = styled('div')(({ theme }) => ({

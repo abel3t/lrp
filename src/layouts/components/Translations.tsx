@@ -1,4 +1,4 @@
-// ** Third Party Import
+
 import { useTranslation } from 'react-i18next'
 
 interface Props {

@@ -1,27 +1,18 @@
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
-import { styled } from '@mui/material/styles'
+import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
+import TimelineConnector from '@mui/lab/TimelineConnector'
+import TimelineContent from '@mui/lab/TimelineContent'
 import TimelineDot from '@mui/lab/TimelineDot'
 import TimelineItem from '@mui/lab/TimelineItem'
-import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import TimelineContent from '@mui/lab/TimelineContent'
 import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import TimelineConnector from '@mui/lab/TimelineConnector'
-import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 
-// ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
-
-interface Props {
-  invoiceData: InvoiceType[]
-}
-
-// Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   margin: 0,
   padding: 0,
@@ -36,7 +27,7 @@ const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   }
 }))
 
-const FriendOverview = ({ invoiceData }: Props) => {
+const FriendOverview = () => {
   return (
     <Grid container spacing={6}>
       <SundayServiceOverview />

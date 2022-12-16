@@ -1,14 +1,12 @@
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Checkbox from '@mui/material/Checkbox'
-import Typography from '@mui/material/Typography'
 
-// ** Type Imports
 import { CustomCheckboxIconsProps } from 'src/@core/components/custom-checkbox/types'
 
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
+
+import Box from '@mui/material/Box'
+import Checkbox from '@mui/material/Checkbox'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 const CustomCheckboxIcons = (props: CustomCheckboxIconsProps) => {
   // ** Props

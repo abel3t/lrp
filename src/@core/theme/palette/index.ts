@@ -1,6 +1,6 @@
-// ** Type Imports
-import { PaletteMode } from '@mui/material'
 import { Skin } from 'src/@core/layouts/types'
+
+import { PaletteMode } from '@mui/material'
 
 const DefaultPalette = (mode: PaletteMode, skin: Skin) => {
   // ** Vars

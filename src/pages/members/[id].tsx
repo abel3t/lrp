@@ -1,7 +1,6 @@
-// ** MUI Imports
+
 import Grid from '@mui/material/Grid'
 
-// ** Demo Components Imports
 import MemberViewLeft from './MemberViewLeft'
 import MemberViewRight from './MemberViewRight'
 

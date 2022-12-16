@@ -1,16 +1,14 @@
-// ** MUI imports
-import { styled } from '@mui/material/styles'
-import Box, { BoxProps } from '@mui/material/Box'
 
-// ** Hooks
-import { useSettings } from 'src/@core/hooks/useSettings' // ** Hooks Imports
+import 'react-datepicker/dist/react-datepicker.css'
+
 import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
 
-// ** Util Import
+import { useSettings } from 'src/@core/hooks/useSettings'
+
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
-// ** Styles
-import 'react-datepicker/dist/react-datepicker.css'
+import Box, { BoxProps } from '@mui/material/Box'
+import { styled } from '@mui/material/styles'
 
 const DatePickerWrapper = styled(Box)<BoxProps>(({ theme }) => {
   // ** Hook

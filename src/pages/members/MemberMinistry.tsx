@@ -1,36 +1,26 @@
-// ** React Imports
-import { ChangeEvent, MouseEvent, useState, SyntheticEvent } from 'react'
-
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Alert from '@mui/material/Alert'
-import Table from '@mui/material/Table'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import Divider from '@mui/material/Divider'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableCell from '@mui/material/TableCell'
-import TableBody from '@mui/material/TableBody'
-import TextField from '@mui/material/TextField'
-import CardHeader from '@mui/material/CardHeader'
-import AlertTitle from '@mui/material/AlertTitle'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import DialogTitle from '@mui/material/DialogTitle'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import DialogContent from '@mui/material/DialogContent'
-import InputAdornment from '@mui/material/InputAdornment'
-import TableContainer from '@mui/material/TableContainer'
-
-// ** Icon Imports
+import { ChangeEvent, MouseEvent, SyntheticEvent, useState } from 'react'
 import Icon from 'src/@core/components/icon'
+
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import Divider from '@mui/material/Divider'
+import FormControl from '@mui/material/FormControl'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
+import Link from '@mui/material/Link'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 
 interface State {
   newPassword: string
@@ -39,42 +29,7 @@ interface State {
   showConfirmNewPassword: boolean
 }
 
-interface DataType {
-  device: string
-  browser: string
-  location: string
-  recentActivity: string
-}
-
-const data: DataType[] = [
-  {
-    device: 'Dell XPS 15',
-    location: 'United States',
-    browser: 'Chrome on Windows',
-    recentActivity: '10, Jan 2020 20:07'
-  },
-  {
-    location: 'Ghana',
-    device: 'Google Pixel 3a',
-    browser: 'Chrome on Android',
-    recentActivity: '11, Jan 2020 10:16'
-  },
-  {
-    location: 'Mayotte',
-    device: 'Apple iMac',
-    browser: 'Chrome on MacOS',
-    recentActivity: '11, Jan 2020 12:10'
-  },
-  {
-    location: 'Mauritania',
-    device: 'Apple iPhone XR',
-    browser: 'Chrome on iPhone',
-    recentActivity: '12, Jan 2020 8:29'
-  }
-]
-
 const MemberMinistry = () => {
-  // ** States
   const [defaultValues, setDefaultValues] = useState<any>({ mobile: '+1(968) 819-2547' })
   const [mobileNumber, setMobileNumber] = useState<string>(defaultValues.mobile)
   const [openEditMobileNumber, setOpenEditMobileNumber] = useState<boolean>(false)
@@ -85,7 +40,6 @@ const MemberMinistry = () => {
     showConfirmNewPassword: false
   })
 
-  // Handle Password
   const handleNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
   }

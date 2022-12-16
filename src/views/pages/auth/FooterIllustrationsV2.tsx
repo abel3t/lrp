@@ -1,15 +1,13 @@
-// ** React Imports
-import { ReactNode } from 'react'
 
-// ** MUI Components
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { ReactNode } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 interface FooterIllustrationsProp {
   image?: ReactNode
 }
 
-// Styled Components
+
 const MaskImg = styled('img')(({ theme }) => ({
   zIndex: -1,
   bottom: '7%',

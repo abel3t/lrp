@@ -1,21 +1,19 @@
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
 
-// ** Icon Imports
+
 import Icon from 'src/@core/components/icon'
 
-// ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
-
-// ** Components
-import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
-import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import LanguageDropdown from 'src/@core/layouts/components/shared-components/LanguageDropdown'
+
+import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import NotificationDropdown, {
   NotificationsType
 } from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 import ShortcutsDropdown, { ShortcutsType } from 'src/@core/layouts/components/shared-components/ShortcutsDropdown'
+import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
+
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 
 interface Props {
   hidden: boolean

@@ -1,7 +1,6 @@
-// ** React Imports
-import { ReactNode, ReactElement } from 'react'
 
-// ** ateMUI Imports
+import { ReactElement, ReactNode } from 'react'
+
 import { CardProps } from '@mui/material/Card'
 
 export type CardSnippetProps = CardProps & {

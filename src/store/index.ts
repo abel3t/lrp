@@ -1,12 +1,9 @@
-// ** Toolkit imports
 import { configureStore } from '@reduxjs/toolkit'
-
-// ** Reducers
-import member from 'src/store/member'
-import friend from 'src/store/friend'
-import care from 'src/store/care'
 import account from 'src/store/account'
+import care from 'src/store/care'
 import dashboard from 'src/store/dashboard'
+import friend from 'src/store/friend'
+import member from 'src/store/member'
 
 export const store = configureStore({
   reducer: {

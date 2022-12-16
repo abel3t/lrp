@@ -1,14 +1,13 @@
-// ** MUI Imports
-import MuiChip from '@mui/material/Chip'
 
-// ** Third Party Imports
+
 import clsx from 'clsx'
 
-// ** Types
-import { CustomChipProps } from './types'
-
-// ** Hooks Imports
 import useBgColor, { UseBgColorType } from 'src/@core/hooks/useBgColor'
+
+import MuiChip from '@mui/material/Chip'
+
+
+import { CustomChipProps } from './types'
 
 const Chip = (props: CustomChipProps) => {
   // ** Props

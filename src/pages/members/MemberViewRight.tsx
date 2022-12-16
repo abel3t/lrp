@@ -1,37 +1,26 @@
-// ** React Imports
-import { SyntheticEvent, useState, useEffect } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
+import Icon from 'src/@core/components/icon'
+import { InvoiceType } from 'src/types/apps/invoiceTypes'
 
-// ** Next Import
-import { useRouter } from 'next/router'
-
-// ** MUI Imports
-import Box from '@mui/material/Box'
+import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import MuiTab, { TabProps } from '@mui/material/Tab'
+import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import MuiTab, { TabProps } from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Demo Components Imports
-import MemberOverview from './MemberOverview'
 import MemberMinistry from './MemberMinistry'
 import MemberNetwork from './MemberNetwork'
+import MemberOverview from './MemberOverview'
 import MemberTeam from './MemberTeam'
-
-// ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
 
 interface Props {
   tab: string
   invoiceData: InvoiceType[]
 }
 
-// ** Styled Tab component
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   minHeight: 48,
   flexDirection: 'row',
@@ -42,12 +31,8 @@ const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
 }))
 
 const MemberViewRight = ({ tab, invoiceData }: Props) => {
-  // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(true)
-
-  // ** Hooks
-  const router = useRouter()
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setActiveTab(value)
@@ -90,7 +75,7 @@ const MemberViewRight = ({ tab, invoiceData }: Props) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <MemberOverview invoiceData={invoiceData} />
+              <MemberOverview />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='ministry'>
               <MemberMinistry />

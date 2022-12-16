@@ -1,17 +1,15 @@
-// ** Next Import
+
+import { useSettings } from 'src/@core/hooks/useSettings'
+
+import themeConfig from 'src/configs/themeConfig'
+
 import Link from 'next/link'
 
-// ** MUI Imports
+
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { styled, useTheme } from '@mui/material/styles'
-
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Hook
-import { useSettings } from 'src/@core/hooks/useSettings'
 
 const StyledLink = styled(Link)(({ theme }) => ({
   display: 'flex',
@@ -21,7 +19,6 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }))
 
 const BlankLayoutAppBar = () => {
-  // ** Hooks & Vars
   const theme = useTheme()
   const { settings } = useSettings()
   const { skin } = settings

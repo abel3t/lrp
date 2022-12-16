@@ -1,9 +1,8 @@
-// ** Redux Imports
-import { Dispatch } from 'redux'
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
 import apiClient from '../@core/services/api.client'
 import { Member } from '../@core/types'
-import { convertObjectToQueryString } from '../@core/utils/string.util';
+import { convertObjectToQueryString } from '../@core/utils/string.util'
 
 interface IQueryMember {
   search?: string
@@ -11,7 +10,6 @@ interface IQueryMember {
 }
 
 export const fetchData = createAsyncThunk('member/fetchData', async (query?: IQueryMember) => {
-
   const response = await apiClient.get('/members' + convertObjectToQueryString(query))
 
   return response.data.map((member: Member, index: number) => ({ index: index + 1, ...member }))

@@ -1,6 +1,6 @@
-// ** Types
-import { Dispatch } from 'redux'
+
 import { ReactElement, SyntheticEvent } from 'react'
+import { Dispatch } from 'redux'
 
 export type MailLabelType = 'personal' | 'company' | 'important' | 'private'
 

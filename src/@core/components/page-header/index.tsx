@@ -1,7 +1,7 @@
-// ** MUI Imports
+
 import Grid from '@mui/material/Grid'
 
-// ** Types
+
 import { PageHeaderProps } from './types'
 
 const PageHeader = (props: PageHeaderProps) => {

@@ -1,48 +1,40 @@
-// ** React Imports
-import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref, useEffect } from 'react'
-
-// ** MUI Imports
-import FormHelperText from '@mui/material/FormHelperText'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import Dialog from '@mui/material/Dialog'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import Fade, { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-
-import toast from 'react-hot-toast'
+import { yupResolver } from '@hookform/resolvers/yup'
+import 'cleave.js/dist/addons/cleave-phone.vn'
+import Cleave from 'cleave.js/react'
+import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
-
-// ** Icon Imports
+import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
 import Icon from 'src/@core/components/icon'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-
-import Cleave from 'cleave.js/react'
-import 'cleave.js/dist/addons/cleave-phone.vn'
-
-// ** Types
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-
-// ** Third Party Imports
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller } from 'react-hook-form'
+
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import Fade, { FadeProps } from '@mui/material/Fade'
+import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+
+import { FriendTypeText } from '../../@core/contanst'
+import { FriendType } from '../../@core/enums'
 import apiClient from '../../@core/services/api.client'
-import { useDispatch } from 'react-redux'
+import CleaveWrapper from '../../@core/styles/libs/react-cleave'
+import { FormMode } from '../../@core/types'
 import { AppDispatch } from '../../store'
 import { fetchData } from '../../store/friend'
-import { FormMode } from '../../@core/types'
-import { FriendType } from '../../@core/enums'
-import CleaveWrapper from '../../@core/styles/libs/react-cleave'
-import { FriendTypeText } from '../../@core/contanst'
+import { standardDate } from '../../@core/utils/date';
 
 export interface FormInputs {
   id: string
@@ -128,6 +120,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
         if ((friend as any)[key]) {
           if (key === 'birthday') {
             setValue(key, new Date((friend as any)[key]))
+
             return
           }
 
@@ -315,8 +308,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={value}
-                        openToDate={value || new Date(new Date().getFullYear() - 20, 0, 1)}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear() - 20, 0, 1)}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}

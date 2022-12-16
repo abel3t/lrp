@@ -1,9 +1,9 @@
-// ** MUI Imports
-import { styled, useTheme } from '@mui/material/styles'
-import MuiSwipeableDrawer, { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer'
 
-// ** Type Import
+
 import { LayoutProps } from 'src/@core/layouts/types'
+
+import MuiSwipeableDrawer, { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer'
+import { styled, useTheme } from '@mui/material/styles'
 
 interface Props {
   navWidth: number

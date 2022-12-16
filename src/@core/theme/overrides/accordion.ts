@@ -1,8 +1,8 @@
-// ** MUI Imports
-import { Theme } from '@mui/material/styles'
 
-// ** Hook Import
+
 import { useSettings } from 'src/@core/hooks/useSettings'
+
+import { Theme } from '@mui/material/styles'
 
 const Accordion = (theme: Theme) => {
   // Hook & Var

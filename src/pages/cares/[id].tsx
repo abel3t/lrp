@@ -1,19 +1,20 @@
-// ** MUI Imports
-import Grid from '@mui/material/Grid'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../store'
-import CardHeader from '@mui/material/CardHeader'
-import Card from '@mui/material/Card'
-import OptionsMenu from '../../@core/components/option-menu'
-import CardContent from '@mui/material/CardContent'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { CarePriorityColor, CareTypeColor, NotApplicable } from '../../@core/contanst'
 import { useEffect } from 'react'
-import { fetchCareData } from '../../store/care'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { useRouter } from 'next/router'
+
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+
 import CustomChip from '../../@core/components/mui/chip'
+import { CarePriorityColor, CareTypeColor, NotApplicable } from '../../@core/contanst'
+import { AppDispatch, RootState } from '../../store'
+import { fetchCareData } from '../../store/care'
 
 const CareView = () => {
   const dispatch = useDispatch<AppDispatch>()

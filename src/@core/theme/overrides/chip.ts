@@ -1,8 +1,7 @@
-// ** MUI Imports
-import { Theme } from '@mui/material/styles'
 
-// ** Util Imports
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+
+import { Theme } from '@mui/material/styles'
 
 const Chip = (theme: Theme) => {
   return {

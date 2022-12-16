@@ -1,4 +1,4 @@
-// ** Types
+
 import { RepeaterProps } from './types'
 
 const Repeater = (props: RepeaterProps) => {

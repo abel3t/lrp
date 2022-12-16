@@ -1,11 +1,9 @@
-// ** React Imports
-import { ReactNode, ReactElement, useEffect } from 'react'
 
-// ** Next Import
-import { useRouter } from 'next/router'
-
-// ** Hooks Import
+import { ReactElement, ReactNode, useEffect } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
+
+
+import { useRouter } from 'next/router'
 
 interface AuthGuardProps {
   children: ReactNode

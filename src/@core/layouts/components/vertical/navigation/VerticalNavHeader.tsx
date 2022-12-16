@@ -1,20 +1,18 @@
-// ** Next Import
-import Link from 'next/link'
 
-// ** MUI Imports
-import IconButton from '@mui/material/IconButton'
-import Box, { BoxProps } from '@mui/material/Box'
-import { styled, useTheme } from '@mui/material/styles'
-import Typography, { TypographyProps } from '@mui/material/Typography'
 
-// ** Type Import
-import { LayoutProps } from 'src/@core/layouts/types'
-
-// ** Custom Icon Import
 import Icon from 'src/@core/components/icon'
 
-// ** Configs
+import { LayoutProps } from 'src/@core/layouts/types'
+
 import themeConfig from 'src/configs/themeConfig'
+
+import Link from 'next/link'
+
+import Box, { BoxProps } from '@mui/material/Box'
+
+import IconButton from '@mui/material/IconButton'
+import Typography, { TypographyProps } from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
 
 interface Props {
   navHover: boolean
@@ -29,7 +27,6 @@ interface Props {
   menuUnlockedIcon?: LayoutProps['verticalLayoutProps']['navMenu']['unlockedIcon']
 }
 
-// ** Styled Components
 const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -52,7 +49,6 @@ const StyledLink = styled(Link)({
 })
 
 const VerticalNavHeader = (props: Props) => {
-  // ** Props
   const {
     hidden,
     navHover,
@@ -66,7 +62,6 @@ const VerticalNavHeader = (props: Props) => {
     menuUnlockedIcon: userMenuUnlockedIcon
   } = props
 
-  // ** Hooks & Vars
   const theme = useTheme()
   const { mode, direction, navCollapsed } = settings
   const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }

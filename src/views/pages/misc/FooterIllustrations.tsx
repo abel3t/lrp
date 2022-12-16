@@ -1,6 +1,6 @@
-// ** MUI Components
-import useMediaQuery from '@mui/material/useMediaQuery'
+
 import { styled, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 interface FooterIllustrationsProp {
   image?: string

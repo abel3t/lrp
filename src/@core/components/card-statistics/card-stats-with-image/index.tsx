@@ -1,23 +1,18 @@
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-
-// ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 
-// ** Types Imports
-import { CardStatsCharacterProps } from 'src/@core/components/card-statistics/types'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 interface Props {
-  data: CardStatsCharacterProps
+  data: any
 }
 
 const CardStatsCharacter = ({ data }: Props) => {
   // ** Vars
-  const { title, chipText, stats, trendNumber, trend = 'positive', chipColor = 'primary' } = data
+  const { title, chipText, stats, chipColor = 'primary' } = data
 
   return (
     <Card sx={{ overflow: 'visible', position: 'relative' }}>

@@ -1,4 +1,4 @@
-// ** Types
+
 import { Dispatch } from 'redux'
 import { ThemeColor } from 'src/@core/layouts/types'
 

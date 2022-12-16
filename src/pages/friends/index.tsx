@@ -1,44 +1,34 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Icon from 'src/@core/components/icon'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { AppDispatch, RootState } from 'src/store'
+import { fetchData } from 'src/store/friend'
+
 import Link from 'next/link'
 
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
-import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 import { DataGrid, GridRowId } from '@mui/x-data-grid'
 
-import Icon from 'src/@core/components/icon'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchData } from 'src/store/friend'
-import { RootState, AppDispatch } from 'src/store'
-
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DiscipleshipProcess } from '../../@core/enums'
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import DialogFriendForm from './DialogFriendForm'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { FormMode } from '../../@core/types'
 import CustomChip from '../../@core/components/mui/chip'
-
-export type Friend = {
-  id: string
-  name: string
-  phone?: string
-  discipleshipProcess?: DiscipleshipProcess
-}
+import { NotApplicable } from '../../@core/contanst'
+import { FormMode, Friend } from '../../@core/types';
+import DialogFriendForm from './DialogFriendForm'
 
 interface CellType {
   row: Friend
 }
 
-// ** Styled component for the link in the dataTable
 const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   color: theme.palette.primary.main
@@ -72,7 +62,7 @@ const defaultColumns = [
     field: 'discipleshipProcess',
     headerName: 'Discipleship Process',
     renderCell: ({ row }: CellType) => {
-      if (!row.discipleshipProcess) {
+      if (!row.type) {
         return <Typography variant='body2'>{NotApplicable}</Typography>
       }
 
@@ -80,8 +70,8 @@ const defaultColumns = [
         <CustomChip
           skin='light'
           size='small'
-          label={row.discipleshipProcess}
-          color={DiscipleshipProcessColor[row.discipleshipProcess || '']}
+          label={row.type}
+          color={'primary'}
           sx={{
             height: 20,
             fontWeight: 600,

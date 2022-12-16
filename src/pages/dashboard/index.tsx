@@ -1,16 +1,11 @@
-// ** MUI Imports
-import Grid from '@mui/material/Grid'
-
-// ** Custom Components Imports
 import CardStatisticsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
-
-// ** Styled Component Import
 import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 import RechartsWrapper from 'src/@core/styles/libs/recharts'
 
-// ** Demo Components Imports
-import Overview from './components/Overview'
+import Grid from '@mui/material/Grid'
+
 import NeedingMoreCare from './components/NeedingMoreCare'
+import Overview from './components/Overview'
 import TopCaringPeople from './components/TopCaringPeople'
 
 const Dashboard = () => {

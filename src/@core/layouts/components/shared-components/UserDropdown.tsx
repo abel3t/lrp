@@ -1,33 +1,28 @@
-// ** React Imports
-import { useState, SyntheticEvent, Fragment } from 'react'
 
-// ** Next Import
-import { useRouter } from 'next/router'
+import { Fragment, SyntheticEvent, useState } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Menu from '@mui/material/Menu'
-import Badge from '@mui/material/Badge'
-import Avatar from '@mui/material/Avatar'
-import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Context
+import { Settings } from 'src/@core/context/settingsContext'
 import { useAuth } from 'src/hooks/useAuth'
 
-// ** Type Imports
-import { Settings } from 'src/@core/context/settingsContext'
+
+import { useRouter } from 'next/router'
+
+import Avatar from '@mui/material/Avatar'
+import Badge from '@mui/material/Badge'
+
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 
 interface Props {
   settings: Settings
 }
 
-// ** Styled Components
+
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
   height: 8,
@@ -43,7 +38,7 @@ const UserDropdown = (props: Props) => {
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  // ** Hooks
+
   const router = useRouter()
   const { logout } = useAuth()
 

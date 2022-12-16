@@ -1,26 +1,23 @@
-// ** React Imports
+
 import { useState } from 'react'
+import Customizer from 'src/@core/components/customizer'
 
-// ** MUI Imports
-import Fab from '@mui/material/Fab'
-import { styled } from '@mui/material/styles'
-import Box, { BoxProps } from '@mui/material/Box'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
+import ScrollToTop from 'src/@core/components/scroll-to-top'
 
-// ** Theme Config Import
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Type Import
 import { LayoutProps } from 'src/@core/layouts/types'
 
-// ** Components
-import AppBar from './components/vertical/appBar'
-import Customizer from 'src/@core/components/customizer'
-import Navigation from './components/vertical/navigation'
+import themeConfig from 'src/configs/themeConfig'
+
+import Box, { BoxProps } from '@mui/material/Box'
+
+import Fab from '@mui/material/Fab'
+import { styled } from '@mui/material/styles'
+
 import Footer from './components/shared-components/footer'
-import ScrollToTop from 'src/@core/components/scroll-to-top'
+
+import AppBar from './components/vertical/appBar'
+import Navigation from './components/vertical/navigation'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',

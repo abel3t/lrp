@@ -1,9 +1,9 @@
-// ** MUI Imports
+
+
+import { LayoutProps } from 'src/@core/layouts/types'
+
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
-
-// ** Type Import
-import { LayoutProps } from 'src/@core/layouts/types'
 
 // ** Footer Content Component
 import FooterContent from './FooterContent'

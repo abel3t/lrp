@@ -1,10 +1,10 @@
-// ** React Imports
+
 import { useEffect, ReactNode } from 'react'
 
-// ** MUI Imports
+
 import { Direction } from '@mui/material'
 
-// ** Emotion Imports
+
 import createCache from '@emotion/cache'
 import { CacheProvider } from '@emotion/react'
 

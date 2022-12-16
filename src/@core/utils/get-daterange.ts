@@ -1,4 +1,4 @@
-import { format, differenceInDays, addDays } from 'date-fns'
+import { addDays, differenceInDays, format } from 'date-fns'
 
 export const getDateRange = (startDate: Date, endDate: Date) => {
   const days = differenceInDays(endDate, startDate)

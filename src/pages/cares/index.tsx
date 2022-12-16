@@ -1,33 +1,32 @@
-import { useState, useEffect } from 'react'
+import { format } from 'date-fns'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Icon from 'src/@core/components/icon'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { AppDispatch, RootState } from 'src/store'
+import { fetchData } from 'src/store/care'
+
 import Link from 'next/link'
 
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { DataGrid, GridRowId } from '@mui/x-data-grid'
 
-import Icon from 'src/@core/components/icon'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchData } from 'src/store/care'
-import { RootState, AppDispatch } from 'src/store'
-
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import DialogCareForm from './DialogCareForm'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { Account, Care, FormMode } from '../../@core/types';
-import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '../../@core/contanst'
 import CustomChip from '../../@core/components/mui/chip'
+import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '../../@core/contanst'
+import { Account, Care, FormMode } from '../../@core/types'
 import { formatRelativeDate } from '../../@core/utils/date'
-import { format } from 'date-fns'
-import { Autocomplete } from '@mui/material';
-import { fetchCurators } from '../../store/account';
+import { fetchCurators } from '../../store/account'
+import DialogCareForm from './DialogCareForm'
 
 interface CellType {
   row: Care
@@ -120,9 +119,9 @@ const CarePage = () => {
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [show, setShow] = useState<boolean>(false)
   const [updateCare, setUpdateCare] = useState<any>(null)
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('')
   const [timer, setTimer] = useState<any>(null)
-  const [curator, setCurator] = useState<Account|null>(null)
+  const [curator, setCurator] = useState<Account | null>(null)
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.care)
@@ -146,7 +145,7 @@ const CarePage = () => {
     setTimer(newTimer)
   }
 
-  const handleChangeCurator = (curator: Account) => {
+  const handleChangeCurator = (curator: Account | null) => {
     setCurator(curator)
     dispatch(fetchData({ search, curatorId: curator?.id }))
   }
@@ -232,16 +231,15 @@ const CarePage = () => {
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 
-
               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                 <Autocomplete
                   openOnFocus
                   sx={{ mr: 4, mb: 2, width: '350px' }}
                   options={accountStore.curators?.map((curator: Account) => ({ id: curator.id, name: curator.name }))}
                   id='autocomplete-care-name'
-                  getOptionLabel={option => option.name}
+                  getOptionLabel={(option: Account) => option.name ?? NotApplicable}
                   defaultValue={curator}
-                  onChange={(v, curator: Account) => handleChangeCurator(curator)}
+                  onChange={(_, curator: Account | null) => handleChangeCurator(curator)}
                   renderInput={params => <TextField {...params} label='Curator' />}
                 />
 

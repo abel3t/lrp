@@ -1,8 +1,8 @@
-// ** MUI Imports
+
+import Translations from 'src/layouts/components/Translations'
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import Translations from 'src/layouts/components/Translations'
 
 const FooterContent = () => {
   return (

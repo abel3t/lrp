@@ -1,4 +1,4 @@
-// ** Theme Type Import
+
 import { Theme } from '@mui/material/styles'
 
 const Typography = (theme: Theme) => {

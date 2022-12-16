@@ -1,34 +1,19 @@
-// ** React Imports
-import { SyntheticEvent, useState, useEffect } from 'react'
-
-// ** Next Import
-import { useRouter } from 'next/router'
-
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import MuiTab, { TabProps } from '@mui/material/Tab'
-import CircularProgress from '@mui/material/CircularProgress'
-
-// ** Icon Imports
+import { SyntheticEvent, useEffect, useState } from 'react'
 import Icon from 'src/@core/components/icon'
 
-// ** Demo Components Imports
-import FriendOverview from './FriendOverview'
+import TabContext from '@mui/lab/TabContext'
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
+import Box from '@mui/material/Box'
+import MuiTab, { TabProps } from '@mui/material/Tab'
+import { styled } from '@mui/material/styles'
 
-// ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import FriendOverview from './FriendOverview'
 
 interface Props {
   tab: string
-  invoiceData: InvoiceType[]
 }
 
-// ** Styled Tab component
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   minHeight: 48,
   flexDirection: 'row',
@@ -38,13 +23,8 @@ const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   }
 }))
 
-const FriendViewRight = ({ tab, invoiceData }: Props) => {
-  // ** State
+const FriendViewRight = ({ tab }: Props) => {
   const [activeTab, setActiveTab] = useState<string>(tab)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-
-  // ** Hooks
-  const router = useRouter()
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setActiveTab(value)
@@ -57,12 +37,6 @@ const FriendViewRight = ({ tab, invoiceData }: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
-
-  useEffect(() => {
-    if (invoiceData) {
-      setIsLoading(false)
-    }
-  }, [invoiceData])
 
   return (
     <TabContext value={activeTab}>
@@ -79,18 +53,22 @@ const FriendViewRight = ({ tab, invoiceData }: Props) => {
         {/*<Tab value='network' label='Network' icon={<Icon icon='mdi:link-variant' />} />*/}
       </TabList>
       <Box sx={{ mt: 6 }}>
-        {isLoading ? (
-          <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <CircularProgress sx={{ mb: 4 }} />
-            <Typography>Loading...</Typography>
-          </Box>
-        ) : (
-          <>
-            <TabPanel sx={{ p: 0 }} value='overview'>
-              <FriendOverview invoiceData={invoiceData} />
-            </TabPanel>
-          </>
-        )}
+        {/*{isLoading ? (*/}
+        {/*  <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>*/}
+        {/*    <CircularProgress sx={{ mb: 4 }} />*/}
+        {/*    <Typography>Loading...</Typography>*/}
+        {/*  </Box>*/}
+        {/*) : (*/}
+        {/*  <>*/}
+        {/*    <TabPanel sx={{ p: 0 }} value='overview'>*/}
+        {/*      <FriendOverview />*/}
+        {/*    </TabPanel>*/}
+        {/*  </>*/}
+        {/*)}*/}
+
+        <TabPanel sx={{ p: 0 }} value='overview'>
+          <FriendOverview />
+        </TabPanel>
       </Box>
     </TabContext>
   )

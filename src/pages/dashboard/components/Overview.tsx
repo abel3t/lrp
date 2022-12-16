@@ -1,33 +1,18 @@
-// ** React Imports
-import { ReactElement, useEffect } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-
-// ** Icon Imports
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Icon from 'src/@core/components/icon'
-
-// ** Types
-import { ThemeColor } from 'src/@core/layouts/types'
-
-// ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
-import { useDispatch, useSelector } from 'react-redux'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+
 import { AppDispatch, RootState } from '../../../store'
 import { fetchOverview } from '../../../store/dashboard'
-
-interface OverviewDataType {
-  stats: string
-  title: string
-  color: ThemeColor
-  icon: ReactElement
-}
 
 const Overview = () => {
   const dispatch = useDispatch<AppDispatch>()

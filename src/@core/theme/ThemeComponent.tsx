@@ -1,23 +1,19 @@
-// ** React Imports
+
 import { ReactNode } from 'react'
 
-// ** MUI Imports
+
 import { deepmerge } from '@mui/utils'
 import { Theme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
 
-// ** Type Imports
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Theme Config
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Direction component for LTR or RTL
 import Direction from 'src/layouts/components/Direction'
 
-// ** Theme Override Imports
 import overrides from './overrides'
 import typography from './typography'
 

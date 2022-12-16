@@ -1,8 +1,7 @@
-// ** React Imports
-import { RefObject, useCallback, useRef } from 'react'
 
-// ** Third Party Imports
+
 import copy from 'clipboard-copy'
+import { RefObject, useCallback, useRef } from 'react'
 
 interface UseClipboardOptions {
   copiedTimeout?: number

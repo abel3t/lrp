@@ -1,16 +1,15 @@
-// ** MUI Imports
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
-import MuiListSubheader, { ListSubheaderProps } from '@mui/material/ListSubheader'
 
-// ** Types
-import { NavSectionTitle } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 
-// ** Custom Components Imports
+import { NavSectionTitle } from 'src/@core/layouts/types'
+
 import Translations from 'src/layouts/components/Translations'
 import CanViewNavSectionTitle from 'src/layouts/components/acl/CanViewNavSectionTitle'
+
+import Divider from '@mui/material/Divider'
+import MuiListSubheader, { ListSubheaderProps } from '@mui/material/ListSubheader'
+import Typography from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
 
 interface Props {
   navHover: boolean
@@ -20,7 +19,7 @@ interface Props {
   navigationBorderWidth: number
 }
 
-// ** Styled Components
+
 const ListSubheader = styled((props: ListSubheaderProps) => <MuiListSubheader component='li' {...props} />)(
   ({ theme }) => ({
     lineHeight: 1,

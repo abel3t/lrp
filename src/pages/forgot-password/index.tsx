@@ -1,33 +1,20 @@
-// ** React Imports
+
 import { ReactNode, SyntheticEvent } from 'react'
-
-// ** Next Import
-import Link from 'next/link'
-
-// ** MUI Components
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Box, { BoxProps } from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { styled, useTheme } from '@mui/material/styles'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Layout Import
-import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'
-
-// ** Demo Imports
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+import themeConfig from 'src/configs/themeConfig'
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 
-// Styled Components
+import Link from 'next/link'
+
+import Box, { BoxProps } from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Typography, { TypographyProps } from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+
 const ForgotPasswordIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(20),
   paddingRight: '0 !important',
@@ -80,7 +67,7 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 
 const ForgotPassword = () => {
-  // ** Hooks
+
   const theme = useTheme()
   const { settings } = useSettings()
 

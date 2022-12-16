@@ -1,9 +1,9 @@
-// ** MUI Imports
-import { styled } from '@mui/material/styles'
-import Box, { BoxProps } from '@mui/material/Box'
 
-// ** Hook Import
+
 import { useSettings } from 'src/@core/hooks/useSettings'
+
+import Box, { BoxProps } from '@mui/material/Box'
+import { styled } from '@mui/material/styles'
 
 const ReactHotToast = styled(Box)<BoxProps>(({ theme }) => {
   // ** Hook & Var

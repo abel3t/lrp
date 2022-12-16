@@ -1,67 +1,61 @@
-// ** React Imports
-import { forwardRef, MouseEvent, useState, ChangeEvent, ReactElement, Ref, useEffect } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup';
+import 'cleave.js/dist/addons/cleave-phone.vn';
+import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import Dialog from '@mui/material/Dialog'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import Fade, { FadeProps } from '@mui/material/Fade'
-import DialogContent from '@mui/material/DialogContent'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Icon from 'src/@core/components/icon';
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker';
 
-import toast from 'react-hot-toast'
-import DatePicker from 'react-datepicker'
+import { DateType } from 'src/types/forms/reactDatepickerTypes';
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import * as yup from 'yup';
 
-import Cleave from 'cleave.js/react'
-import 'cleave.js/dist/addons/cleave-phone.vn'
+import { Autocomplete } from '@mui/material';
 
-// ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Fade, { FadeProps } from '@mui/material/Fade';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-// ** Third Party Imports
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller } from 'react-hook-form'
-import apiClient from '../../@core/services/api.client'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../store'
-import { fetchData } from '../../store/care'
-import { fetchData as fetchMembersData } from '../../store/member'
-
-import { FormMode } from '../../@core/types'
-import { CarePriority, CareType } from '../../@core/enums'
-import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../@core/contanst'
-import { Autocomplete } from '@mui/material'
-import CustomChip from '../../@core/components/mui/chip'
-import UploadImage from './UploadImage'
+import CustomChip from '../../@core/components/mui/chip';
+import { CarePriorityColor, CareTypeColor, CareTypeText } from '../../@core/contanst';
+import { CarePriority, CareType } from '../../@core/enums';
+import apiClient from '../../@core/services/api.client';
+import { FormMode, Member } from '../../@core/types';
+import { AppDispatch, RootState } from '../../store';
+import { fetchData } from '../../store/care';
+import { fetchData as fetchMembersData } from '../../store/member';
+import UploadImage from './UploadImage';
+import { standardDate } from '../../@core/utils/date';
 
 export interface FormInputs {
-  id: string
-  member: any
-  type: string
-  priority: string
-  date?: Date
-  description?: string
-  imageUrl?: string
+  id?: string;
+  member?: any;
+  type?: string;
+  priority?: string;
+  date?: Date | string;
+  description?: string;
+  imageUrl?: string;
 }
 
 interface CustomInputProps {
-  value: DateType
-  label: string
-  error: boolean
-  onChange: (event: ChangeEvent) => void
+  value: DateType;
+  label: string;
+  error: boolean;
+  onChange: (event: ChangeEvent) => void;
 }
 
 const defaultValues = {
@@ -72,18 +66,18 @@ const defaultValues = {
   date: '',
   description: '',
   imageUrl: ''
-}
+};
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
-  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
-})
+  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }}/>;
+});
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
 ) {
-  return <Fade ref={ref} {...props} />
-})
+  return <Fade ref={ref} {...props} />;
+});
 
 type Props = {
   show: boolean
@@ -94,24 +88,24 @@ type Props = {
 }
 
 const getUtcDate = (date?: DateType) => {
-  let d = new Date()
+  let d = new Date();
 
   if (date) {
-    d = new Date(date)
+    d = new Date(date);
   }
 
-  const day = d.getDate()
-  const month = d.getMonth()
-  const year = d.getFullYear()
+  const day = d.getDate();
+  const month = d.getMonth();
+  const year = d.getFullYear();
 
-  return new Date(Date.UTC(year, month, day, 0, 0, 0))
-}
+  return new Date(Date.UTC(year, month, day, 0, 0, 0));
+};
 
 const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
-  const dispatch = useDispatch<AppDispatch>()
-  const memberStore = useSelector((state: RootState) => state.member)
+  const dispatch = useDispatch<AppDispatch>();
+  const memberStore = useSelector((state: RootState) => state.member);
 
-  const [image, setImage] = useState<File>(null)
+  const [image, setImage] = useState<File | null>(null);
 
   const validationSchema = yup.object().shape({
     member: yup.object().shape({ id: yup.string(), name: yup.string() }),
@@ -120,26 +114,27 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
     date: yup.string(),
     description: yup.string(),
     imageUrl: yup.string()
-  })
+  });
 
   useEffect(() => {
     if (show) {
-      dispatch(fetchMembersData())
+      dispatch(fetchMembersData());
     }
 
     if (care && show) {
       Object.keys(defaultValues).forEach((key: any) => {
         if ((care as any)[key]) {
           if (key === 'date') {
-            setValue(key, new Date((care as any)[key]))
-            return
+            setValue(key, new Date((care as any)[key]));
+
+            return;
           }
 
-          setValue(key, (care as any)[key])
+          setValue(key, (care as any)[key]);
         }
-      })
+      });
     }
-  }, [show])
+  }, [show]);
 
   const {
     control,
@@ -152,83 +147,83 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
     defaultValues: care || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
-  })
+  });
 
   const handleCallApi = (mode: FormMode, data: FormInputs) => {
-    const { id, ..._data } = data
+    const { id, ..._data } = data;
     const body: any = {
       ..._data,
       date: getUtcDate(data.date).toISOString()
-    }
+    };
 
     if (mode === 'update') {
-      return apiClient.put(`/cares/${id}`, body)
+      return apiClient.put(`/cares/${id}`, body);
     }
 
-    return apiClient.post('/cares', body)
-  }
+    return apiClient.post('/cares', body);
+  };
 
   const getImageUrl = () => {
     if (!image) {
-      return getValues('imageUrl')
+      return getValues('imageUrl');
     }
 
-    const formData = new FormData()
-    formData.append('file', new File([image], `care-${getValues('member')?.id || 'unknown'}-${image.name}`))
+    const formData = new FormData();
+    formData.append('file', new File([image], `care-${getValues('member')?.id || 'unknown'}-${image.name}`));
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
       }
-    }
+    };
 
     return apiClient
       .post('uploadFile', formData, config)
       .then(res => res.data?.link)
       .catch(error => {
-        console.log(error)
-        toast.error('Can not upload image')
-      })
-  }
+        console.log(error);
+        toast.error('Can not upload image');
+      });
+  };
 
   const onSubmit = async (data: FormInputs) => {
-    data.imageUrl = await getImageUrl()
+    data.imageUrl = await getImageUrl();
 
-    setShow(false)
+    setShow(false);
 
     handleCallApi(mode, data)
       .then(() => {
-        // reset(defaultValues)
+        reset(defaultValues);
         if (fetchApi && data.id) {
-          dispatch(fetchApi(data.id))
+          dispatch(fetchApi(data.id));
         } else {
-          dispatch(fetchData())
+          dispatch(fetchData());
         }
 
-        const messageMode = mode === 'update' ? 'Update' : 'Create'
+        const messageMode = mode === 'update' ? 'Update' : 'Create';
 
-        toast.success(`${messageMode} care successfully!`)
+        toast.success(`${messageMode} care successfully!`);
       })
       .catch(error => {
-        reset(defaultValues)
-        toast.error(error.message)
-      })
-  }
+        reset(defaultValues);
+        toast.error(error.message);
+      });
+  };
 
   const handleClose = () => {
-    setShow(false)
+    setShow(false);
 
-    reset(defaultValues)
-  }
+    reset(defaultValues);
+  };
 
   return (
     <Card>
-      <Dialog fullWidth open={show} maxWidth='md' scroll='body' onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog fullWidth open={show} maxWidth="md" scroll="body" onClose={handleClose} TransitionComponent={Transition}>
         <DialogContent sx={{ pb: 6, px: { xs: 8, sm: 15 }, pt: { xs: 8, sm: 12.5 }, position: 'relative' }}>
-          <IconButton size='small' onClick={handleClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
-            <Icon icon='mdi:close' />
+          <IconButton size="small" onClick={handleClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
+            <Icon icon="mdi:close"/>
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
-            <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
+            <Typography variant="h5" sx={{ mb: 3, lineHeight: '2rem' }}>
               {mode === 'create' ? 'Create Care' : 'Update Care'}
             </Typography>
           </Box>
@@ -238,18 +233,18 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
-                    name='member'
+                    name="member"
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Autocomplete
                         openOnFocus
-                        options={memberStore.data?.map(member => ({ id: member.id, name: member.name }))}
-                        id='autocomplete-care-name'
+                        options={memberStore.data?.map((member: Member) => ({ id: member.id, name: member.name }))}
+                        id="autocomplete-care-name"
                         getOptionLabel={option => option.name}
                         defaultValue={value}
-                        onChange={(v, data) => onChange(data)}
-                        renderInput={params => <TextField {...params} label='Member' />}
+                        onChange={(_, data) => onChange(data)}
+                        renderInput={params => <TextField {...params} label="Member"/>}
                       />
                     )}
                   />
@@ -258,28 +253,28 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='care-type-select' error={Boolean(errors.type)} htmlFor='care-type-select'>
+                  <InputLabel id="care-type-select" error={Boolean(errors.type)} htmlFor="care-type-select">
                     Care Type
                   </InputLabel>
                   <Controller
-                    name='type'
+                    name="type"
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Care Type'
+                        label="Care Type"
                         onChange={onChange}
                         error={Boolean(errors.type)}
-                        labelId='care-type-select'
-                        aria-describedby='care-type'
+                        labelId="care-type-select"
+                        aria-describedby="care-type"
                       >
                         {Object.values(CareType).map((type, index) => {
                           return (
                             <MenuItem value={type} key={index}>
                               <CustomChip
-                                skin='light'
-                                size='small'
+                                skin="light"
+                                size="small"
                                 label={CareTypeText[type]}
                                 color={CareTypeColor[type || '']}
                                 sx={{
@@ -292,7 +287,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                                 }}
                               />
                             </MenuItem>
-                          )
+                          );
                         })}
                       </Select>
                     )}
@@ -302,28 +297,28 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='care-priority-select' error={Boolean(errors.type)} htmlFor='care-priority-select'>
+                  <InputLabel id="care-priority-select" error={Boolean(errors.type)} htmlFor="care-priority-select">
                     Care Priority
                   </InputLabel>
                   <Controller
-                    name='priority'
+                    name="priority"
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Care Priority'
+                        label="Care Priority"
                         onChange={onChange}
                         error={Boolean(errors.type)}
-                        labelId='care-priority-select'
-                        aria-describedby='care-priority'
+                        labelId="care-priority-select"
+                        aria-describedby="care-priority"
                       >
                         {Object.values(CarePriority).map((priority, index) => {
                           return (
                             <MenuItem value={priority} key={index}>
                               <CustomChip
-                                skin='light'
-                                size='small'
+                                skin="light"
+                                size="small"
                                 label={priority}
                                 color={CarePriorityColor[priority || '']}
                                 sx={{
@@ -336,7 +331,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                                 }}
                               />
                             </MenuItem>
-                          )
+                          );
                         })}
                       </Select>
                     )}
@@ -347,25 +342,25 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <DatePickerWrapper>
                   <Controller
-                    name='date'
+                    name="date"
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={value}
-                        openToDate={value || new Date()}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
-                        placeholderText='dd/MM/yyyy'
-                        dateFormat='dd/MM/yyyy'
+                        placeholderText="dd/MM/yyyy"
+                        dateFormat="dd/MM/yyyy"
                         customInput={
                           <CustomInput
                             value={value}
                             onChange={onChange}
-                            label='Date'
+                            label="Date"
                             error={Boolean(errors.date)}
-                            aria-describedby='validate-care-date'
+                            aria-describedby="validate-care-date"
                           />
                         }
                       />
@@ -375,13 +370,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               </Grid>
 
               <Grid item xs={12}>
-                <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')} />
+                <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')}/>
               </Grid>
 
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <Controller
-                    name='description'
+                    name="description"
                     control={control}
                     rules={{ required: false }}
                     render={({ field }) => (
@@ -389,9 +384,9 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                         rows={4}
                         multiline
                         {...field}
-                        label='Description'
+                        label="Description"
                         error={Boolean(errors.description)}
-                        aria-describedby='validate-description'
+                        aria-describedby="validate-description"
                       />
                     )}
                   />
@@ -399,7 +394,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
               </Grid>
 
               <Grid item xs={12}>
-                <Button size='large' type='submit' variant='contained'>
+                <Button size="large" type="submit" variant="contained">
                   Submit
                 </Button>
               </Grid>
@@ -408,7 +403,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
         </DialogContent>
       </Dialog>
     </Card>
-  )
-}
+  );
+};
 
-export default DialogEditUserInfo
+export default DialogEditUserInfo;

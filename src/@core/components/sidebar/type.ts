@@ -1,4 +1,4 @@
-// ** React Imports
+
 import { ReactNode } from 'react'
 
 export type SidebarType = {

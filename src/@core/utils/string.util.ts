@@ -3,7 +3,7 @@ export const convertObjectToQueryString = (params: any) => {
     return ''
   }
 
-  let qs = '';
+  let qs = ''
   Object.entries(params).map(([key, value]: [string, any]) => {
     if (value && typeof value !== 'object') {
       qs += `&${key}=${value}`
@@ -14,5 +14,5 @@ export const convertObjectToQueryString = (params: any) => {
     return ''
   }
 
-  return '?' + qs.slice(1);
+  return '?' + qs.slice(1)
 }

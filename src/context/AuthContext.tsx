@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState, ReactNode } from 'react'
-import { useRouter } from 'next/router'
 import { AxiosRequestConfig } from 'axios'
-
+import { ReactNode, createContext, useEffect, useState } from 'react'
 import authConfig from 'src/configs/auth'
 
-import { AuthValuesType, RegisterParams, LoginParams, ErrCallbackType, UserDataType } from './types'
+import { useRouter } from 'next/router'
+
 import apiClient from '../@core/services/api.client'
+import { AuthValuesType, ErrCallbackType, LoginParams, RegisterParams, UserDataType } from './types'
 
 const defaultProvider: AuthValuesType = {
   user: null,
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const [isGettingRefreshToken, setIsGettingRefreshToken] = useState(false)
 
-  // ** Hooks
+
   const router = useRouter()
 
   useEffect(() => {
@@ -83,6 +83,7 @@ const AuthProvider = ({ children }: Props) => {
       },
       error => {
         console.log(error)
+
         return Promise.reject(error)
       }
     )

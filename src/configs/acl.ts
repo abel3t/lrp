@@ -1,4 +1,4 @@
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { Ability, AbilityBuilder } from '@casl/ability'
 
 export type Subjects = string
 export type Actions = 'manage' | 'create' | 'read' | 'update' | 'delete'

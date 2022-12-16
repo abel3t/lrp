@@ -1,45 +1,29 @@
-// ** React Imports
-import { useState, ReactNode, MouseEvent } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { ReactNode, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import Icon from 'src/@core/components/icon'
+import { useSettings } from 'src/@core/hooks/useSettings'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+import themeConfig from 'src/configs/themeConfig'
+import { useAuth } from 'src/hooks/useAuth'
+import * as yup from 'yup'
 
-// ** Next Imports
 import Link from 'next/link'
 
-// ** MUI Components
-import Alert from '@mui/material/Alert'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
 import Box, { BoxProps } from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
-import FormHelperText from '@mui/material/FormHelperText'
-import InputAdornment from '@mui/material/InputAdornment'
-import Typography, { TypographyProps } from '@mui/material/Typography'
 import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Third Party Imports
-import * as yup from 'yup'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-
-// ** Hooks
-import { useAuth } from 'src/hooks/useAuth'
-import useBgColor from 'src/@core/hooks/useBgColor'
-import { useSettings } from 'src/@core/hooks/useSettings'
-
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Layout Import
-import BlankLayout from 'src/@core/layouts/BlankLayout'
+import FormHelperText from '@mui/material/FormHelperText'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import TextField from '@mui/material/TextField'
+import Typography, { TypographyProps } from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -86,10 +70,9 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(true)
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  // ** Hooks
+
   const auth = useAuth()
   const theme = useTheme()
-  const bgColors = useBgColor()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 

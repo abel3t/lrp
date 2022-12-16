@@ -1,32 +1,27 @@
-// ** React Imports
-import { useState, SyntheticEvent, Fragment, ReactNode } from 'react'
 
-// ** Next Import
-import Link from 'next/link'
+import { Fragment, ReactNode, SyntheticEvent, useState } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider'
-import Tooltip from '@mui/material/Tooltip'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import { styled, Theme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import MuiMenu, { MenuProps } from '@mui/material/Menu'
-import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Third Party Components
 import PerfectScrollbarComponent from 'react-perfect-scrollbar'
 
-// ** Type Imports
+import Icon from 'src/@core/components/icon'
+
+import CustomAvatar from 'src/@core/components/mui/avatar'
 import { Settings } from 'src/@core/context/settingsContext'
 
-// ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar'
+
+import Link from 'next/link'
+
+
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import MuiMenu, { MenuProps } from '@mui/material/Menu'
+import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { Theme, styled } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export type ShortcutsType = {
   url: string

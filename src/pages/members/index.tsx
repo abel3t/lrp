@@ -1,32 +1,31 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Icon from 'src/@core/components/icon'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { AppDispatch, RootState } from 'src/store'
+import { fetchData } from 'src/store/member'
+
 import Link from 'next/link'
 
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
-import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 import { DataGrid, GridRowId } from '@mui/x-data-grid'
 
-import Icon from 'src/@core/components/icon'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchData } from 'src/store/member'
-import { RootState, AppDispatch } from 'src/store'
-
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import DialogMemberForm from './DialogMemberForm'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { Account, FormMode, Member } from '../../@core/types';
 import CustomChip from '../../@core/components/mui/chip'
+import { DiscipleshipProcessColor, NotApplicable } from '../../@core/contanst'
+import { Account, FormMode, Member } from '../../@core/types'
 import { fetchCurators } from '../../store/account'
-import { Autocomplete } from '@mui/material';
+import DialogMemberForm from './DialogMemberForm'
 
 interface CellType {
   row: Member
@@ -98,26 +97,25 @@ const defaultColumns = [
 ]
 
 const MemberPage = () => {
-  const [formMode, setFormMode] = useState<FormMode>('create')
   const [pageSize, setPageSize] = useState<number>(10)
+  const [formMode, setFormMode] = useState<FormMode>('create')
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [show, setShow] = useState<boolean>(false)
   const [updateMember, setUpdateMember] = useState<any>(null)
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('')
   const [timer, setTimer] = useState<any>(null)
-  const [curator, setCurator] = useState<Account|null>(null)
+  const [curator, setCurator] = useState<Account | null>(null)
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.member)
   const accountStore = useSelector((state: RootState) => state.account)
 
-
   useEffect(() => {
-    dispatch(fetchData({ search, curatorId: curator?.id }))
+    dispatch(fetchData())
     dispatch(fetchCurators())
   }, [dispatch])
 
-  const handleChangeCurator = (curator: Account) => {
+  const handleChangeCurator = (curator: Account | null) => {
     setCurator(curator)
     dispatch(fetchData({ search, curatorId: curator?.id }))
   }
@@ -222,9 +220,9 @@ const MemberPage = () => {
                   sx={{ mr: 4, mb: 2, width: '350px' }}
                   options={accountStore.curators?.map((curator: Account) => ({ id: curator.id, name: curator.name }))}
                   id='autocomplete-care-name'
-                  getOptionLabel={option => option.name}
+                  getOptionLabel={(option: Account) => option.name ?? NotApplicable}
                   defaultValue={curator}
-                  onChange={(v, curator: Account) => handleChangeCurator(curator)}
+                  onChange={(_, curator: Account | null) => handleChangeCurator(curator)}
                   renderInput={params => <TextField {...params} label='Curator' />}
                 />
 
