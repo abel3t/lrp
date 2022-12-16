@@ -1,3 +1,5 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchOverview } from '@store/dashboard';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,9 +13,6 @@ import Typography from '@mui/material/Typography';
 import Icon from '@core/components/icon';
 import CustomAvatar from '@core/components/mui/avatar';
 import OptionsMenu from '@core/components/option-menu';
-
-import { AppDispatch, RootState } from '../../../store';
-import { fetchOverview } from '../../../store/dashboard';
 
 const Overview = () => {
   const dispatch = useDispatch<AppDispatch>();

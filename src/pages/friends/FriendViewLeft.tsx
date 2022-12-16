@@ -1,3 +1,5 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchFriendData } from '@store/friend';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,8 +19,6 @@ import CustomAvatar from '@core/components/mui/avatar';
 import { NotApplicable } from '@core/contanst';
 import { getInitials } from '@core/utils/get-initials';
 
-import { AppDispatch, RootState } from '../../store';
-import { fetchFriendData } from '../../store/friend';
 import DialogFriendForm from './DialogFriendForm';
 
 const FriendViewLeft = () => {

@@ -1,3 +1,5 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchCareData } from '@store/care';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,9 +14,6 @@ import Typography from '@mui/material/Typography';
 
 import CustomChip from '@core/components/mui/chip';
 import { CarePriorityColor, CareTypeColor, NotApplicable } from '@core/contanst';
-
-import { AppDispatch, RootState } from '../../store';
-import { fetchCareData } from '../../store/care';
 
 const CareView = () => {
   const dispatch = useDispatch<AppDispatch>();

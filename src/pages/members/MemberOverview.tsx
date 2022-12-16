@@ -1,3 +1,5 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchMemberCaresData } from '@store/care';
 import { format } from 'date-fns';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,9 +24,6 @@ import { styled } from '@mui/material/styles';
 import CustomChip from '@core/components/mui/chip';
 import { CarePriorityColor, CareTypeColor } from '@core/contanst';
 import { formatRelativeDate } from '@core/utils/date';
-
-import { AppDispatch, RootState } from '../../store';
-import { fetchMemberCaresData } from '../../store/care';
 
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   margin: 0,

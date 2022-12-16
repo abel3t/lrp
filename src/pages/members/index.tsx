@@ -1,3 +1,6 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchCurators } from '@store/account';
+import { fetchData } from '@store/member';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,9 +26,6 @@ import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { Account, FormMode, Member } from '@core/types';
 
-import { AppDispatch, RootState } from '../../store';
-import { fetchCurators } from '../../store/account';
-import { fetchData } from '../../store/member';
 import DialogMemberForm from './DialogMemberForm';
 
 interface CellType {

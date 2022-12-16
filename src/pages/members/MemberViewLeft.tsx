@@ -1,3 +1,5 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchMemberData } from '@store/member';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,8 +20,6 @@ import CustomChip from '@core/components/mui/chip';
 import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
 import { getInitials } from '@core/utils/get-initials';
 
-import { AppDispatch, RootState } from '../../store';
-import { fetchMemberData } from '../../store/member';
 import DialogMemberForm from './DialogMemberForm';
 
 const MemberViewLeft = () => {

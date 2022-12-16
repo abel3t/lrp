@@ -1,3 +1,5 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchTopCaringPeople } from '@store/dashboard';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,9 +18,6 @@ import OptionsMenu from '@core/components/option-menu';
 import { NotApplicable } from '@core/contanst';
 import { CareTitle } from '@core/enums';
 import { ColorsType } from '@core/interface';
-
-import { AppDispatch, RootState } from '../../../store';
-import { fetchTopCaringPeople } from '../../../store/dashboard';
 
 const CareTitleText = {
   [CareTitle.Excellent]: 'Excellent',

@@ -1,6 +1,7 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchData } from '@store/friend';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'store';
 
 import Link from 'next/link';
 
@@ -23,7 +24,6 @@ import { NotApplicable } from '@core/contanst';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode, Friend } from '@core/types';
 
-import { fetchData } from '../../store/friend';
 import DialogFriendForm from './DialogFriendForm';
 
 interface CellType {

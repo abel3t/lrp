@@ -1,5 +1,6 @@
 import type { EmotionCache } from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
+import { store } from '@store';
 import 'iconify-bundle/icons-bundle-react';
 import type { NextPage } from 'next';
 import NProgress from 'nprogress';
@@ -35,7 +36,6 @@ import { AuthProvider } from 'context/AuthContext';
 import UserLayout from 'layouts/UserLayout';
 
 import '../../styles/globals.css';
-import { store } from '../store';
 
 type ExtendedAppProps = AppProps & {
   Component: NextPage;

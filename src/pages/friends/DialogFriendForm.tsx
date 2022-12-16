@@ -1,4 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AppDispatch } from '@store';
+import { fetchData } from '@store/friend';
 import 'cleave.js/dist/addons/cleave-phone.vn';
 import Cleave from 'cleave.js/react';
 import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react';
@@ -33,9 +35,6 @@ import CleaveWrapper from '@core/styles/libs/react-cleave';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode } from '@core/types';
 import { standardDate } from '@core/utils/date';
-
-import { AppDispatch } from '../../store';
-import { fetchData } from '../../store/friend';
 
 export interface FormInputs {
   id: string;

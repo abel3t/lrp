@@ -1,7 +1,9 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchCurators } from '@store/account';
+import { fetchData } from '@store/care';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'store';
 
 import Link from 'next/link';
 
@@ -25,8 +27,6 @@ import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { Account, Care, FormMode } from '@core/types';
 import { formatRelativeDate } from '@core/utils/date';
 
-import { fetchCurators } from '../../store/account';
-import { fetchData } from '../../store/care';
 import DialogCareForm from './DialogCareForm';
 
 interface CellType {
