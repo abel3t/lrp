@@ -18,6 +18,14 @@ export const FriendTypeText = {
   [FriendType.AWalkWithGodClass]: 'A Walk With God Class'
 };
 
+export const FriendTypeColor: ColorsType = {
+  [FriendType.Unbeliever]: 'error',
+  [FriendType.Friend]: 'warning',
+  [FriendType.NextStep]: 'success',
+  [FriendType.NewLife]: 'info',
+  [FriendType.AWalkWithGodClass]: 'primary'
+};
+
 export const CareTypeColor: ColorsType = {
   [CareType.Message]: 'error',
   [CareType.Call]: 'warning',

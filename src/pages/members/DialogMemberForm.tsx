@@ -74,7 +74,7 @@ const defaultValues = {
 };
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => (
-  <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />
+  <TextField inputRef={ref} {...props} sx={{ width: '100%' }} autoComplete='off' />
 ));
 
 const Transition = forwardRef(function Transition(
@@ -220,6 +220,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                         placeholder='Name'
                         error={Boolean(errors.name)}
                         aria-describedby='validate-name'
+                        autoComplete='off'
                       />
                     )}
                   />
@@ -315,6 +316,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                           placeholder='Phone'
                           aria-describedby='validate-phone'
                           options={{ phone: true, phoneRegionCode: 'VN' }}
+                          autoComplete='off'
                         />
                       )}
                     />
@@ -337,6 +339,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                         error={Boolean(errors.email)}
                         placeholder='Email'
                         aria-describedby='validate-email'
+                        autoComplete='off'
                       />
                     )}
                   />
@@ -351,7 +354,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={standardDate(value)}
+                        selected={value ? standardDate(value) : null}
                         openToDate={value ? new Date(value) : new Date(new Date().getFullYear() - 20, 0, 1)}
                         showMonthDropdown
                         showYearDropdown
@@ -387,6 +390,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                         placeholder='address'
                         error={Boolean(errors.email)}
                         aria-describedby='validate-address'
+                        autoComplete='off'
                       />
                     )}
                   />

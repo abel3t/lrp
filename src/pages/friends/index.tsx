@@ -20,7 +20,7 @@ import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { NotApplicable } from '@core/contanst';
+import { FriendTypeColor, FriendTypeText, NotApplicable } from '@core/contanst';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode, Friend } from '@core/types';
 
@@ -60,8 +60,8 @@ const defaultColumns = [
   {
     flex: 0.08,
     minWidth: 80,
-    field: 'discipleshipProcess',
-    headerName: 'Discipleship Process',
+    field: 'type',
+    headerName: 'Friend Type',
     renderCell: ({ row }: CellType) => {
       if (!row.type) {
         return <Typography variant='body2'>{NotApplicable}</Typography>;
@@ -72,7 +72,7 @@ const defaultColumns = [
           skin='light'
           size='small'
           label={row.type}
-          color={'primary'}
+          color={FriendTypeColor[FriendTypeText[row.type]]}
           sx={{
             height: 20,
             fontWeight: 600,

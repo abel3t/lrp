@@ -15,6 +15,7 @@ import { Autocomplete } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Fade, { FadeProps } from '@mui/material/Fade';
@@ -66,7 +67,7 @@ const defaultValues = {
 };
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
-  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />;
+  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} autoComplete='off' />;
 });
 
 const Transition = forwardRef(function Transition(
@@ -98,7 +99,8 @@ const getUtcDate = (date?: DateType) => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0));
 };
 
-const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
+const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const memberStore = useSelector((state: RootState) => state.member);
 
@@ -183,6 +185,12 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
   };
 
   const onSubmit = async (data: FormInputs) => {
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
     data.imageUrl = await getImageUrl();
 
     setShow(false);
@@ -197,12 +205,15 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
         }
 
         const messageMode = mode === 'update' ? 'Update' : 'Create';
-
+        setIsSubmitting(false);
         toast.success(`${messageMode} care successfully!`);
+        setImage(null);
       })
       .catch(error => {
         reset(defaultValues);
         toast.error(error.message);
+        setIsSubmitting(false);
+        setImage(null);
       });
   };
 
@@ -344,7 +355,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={standardDate(value)}
+                        selected={value ? standardDate(value) : null}
                         openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
@@ -392,7 +403,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12}>
                 <Button size='large' type='submit' variant='contained'>
-                  Submit
+                  {isSubmitting ? <CircularProgress disableShrink size={26} sx={{ color: '#fff' }} /> : 'Submit'}
                 </Button>
               </Grid>
             </Grid>
@@ -403,4 +414,4 @@ const DialogEditUserInfo = ({ show, setShow, mode, care, fetchApi }: Props) => {
   );
 };
 
-export default DialogEditUserInfo;
+export default DialogCareForm;

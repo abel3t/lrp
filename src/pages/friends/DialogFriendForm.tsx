@@ -28,13 +28,15 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Icon from '@core/components/icon';
-import { FriendTypeText } from '@core/contanst';
+import { DiscipleshipProcessColor, FriendTypeColor, FriendTypeText } from '@core/contanst';
 import { FriendType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import CleaveWrapper from '@core/styles/libs/react-cleave';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode } from '@core/types';
 import { standardDate } from '@core/utils/date';
+
+import CustomChip from '../../@core/components/mui/chip';
 
 export interface FormInputs {
   id: string;
@@ -70,7 +72,7 @@ const defaultValues = {
 };
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
-  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} />;
+  return <TextField inputRef={ref} {...props} sx={{ width: '100%' }} autoComplete='off' />;
 });
 
 const Transition = forwardRef(function Transition(
@@ -215,6 +217,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         placeholder='Name'
                         error={Boolean(errors.name)}
                         aria-describedby='validate-name'
+                        autoComplete='off'
                       />
                     )}
                   />
@@ -229,7 +232,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id='friend-type-select' error={Boolean(errors.type)} htmlFor='friend-type-select'>
-                    Relationship Process
+                    Friend Type
                   </InputLabel>
                   <Controller
                     name='type'
@@ -247,7 +250,20 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         {Object.values(FriendType).map((type, index) => {
                           return (
                             <MenuItem value={type} key={index}>
-                              {FriendTypeText[type]}
+                              <CustomChip
+                                skin='light'
+                                size='small'
+                                label={FriendTypeText[type]}
+                                color={FriendTypeColor[type]}
+                                sx={{
+                                  height: 20,
+                                  fontWeight: 600,
+                                  borderRadius: '5px',
+                                  fontSize: '0.875rem',
+                                  textTransform: 'capitalize',
+                                  '& .MuiChip-label': { mt: -0.25 }
+                                }}
+                              />
                             </MenuItem>
                           );
                         })}
@@ -272,6 +288,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                           placeholder='Phone'
                           aria-describedby='validate-phone'
                           options={{ phone: true, phoneRegionCode: 'VN' }}
+                          autoComplete='off'
                         />
                       )}
                     />
@@ -294,6 +311,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         error={Boolean(errors.email)}
                         placeholder='Email'
                         aria-describedby='validate-email'
+                        autoComplete='off'
                       />
                     )}
                   />
@@ -308,7 +326,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={standardDate(value)}
+                        selected={value ? standardDate(value) : null}
                         openToDate={value ? new Date(value) : new Date(new Date().getFullYear() - 20, 0, 1)}
                         showMonthDropdown
                         showYearDropdown
@@ -344,6 +362,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         placeholder='address'
                         error={Boolean(errors.email)}
                         aria-describedby='validate-address'
+                        autoComplete='off'
                       />
                     )}
                   />
@@ -363,7 +382,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         onChange={onChange}
                         placeholder='Hometown'
                         error={Boolean(errors.hometown)}
-                        aria-describedby='validate-homwtown'
+                        aria-describedby='validate-hometown'
+                        autoComplete='off'
                       />
                     )}
                   />

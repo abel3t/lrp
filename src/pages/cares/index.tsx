@@ -255,9 +255,9 @@ const CarePage = () => {
                   Create Care
                 </Button>
               </Box>
-
-              <DialogCareForm show={show} setShow={setShow} mode={formMode} care={updateCare} />
             </Box>
+
+            <DialogCareForm show={show} setShow={setShow} mode={formMode} care={updateCare} />
 
             <DataGrid
               autoHeight
