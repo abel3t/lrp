@@ -51,7 +51,7 @@ export interface FormInputs {
 
 interface CustomInputProps {
   value: DateType;
-  label: string;
+  label: string | ReactElement;
   error: boolean;
   onChange: (event: ChangeEvent) => void;
 }
@@ -223,6 +223,17 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
     reset(defaultValues);
   };
 
+  const RequiredLabel = ({ label }: any) => {
+    return (
+      <Typography display='inline'>
+        {label}&nbsp;
+        <Typography display='inline' color='error.main'>
+          *
+        </Typography>
+      </Typography>
+    );
+  };
+
   return (
     <Card>
       <Dialog fullWidth open={show} maxWidth='md' scroll='body' onClose={handleClose} TransitionComponent={Transition}>
@@ -252,7 +263,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
                         getOptionLabel={option => option.name}
                         defaultValue={value}
                         onChange={(_, data) => onChange(data)}
-                        renderInput={params => <TextField {...params} label='Member' />}
+                        renderInput={params => <TextField {...params} label={<RequiredLabel label='Member' />} />}
                       />
                     )}
                   />
@@ -262,7 +273,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id='care-type-select' error={Boolean(errors.type)} htmlFor='care-type-select'>
-                    Care Type
+                    {<RequiredLabel label='Care Type' />}
                   </InputLabel>
                   <Controller
                     name='type'
@@ -306,7 +317,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id='care-priority-select' error={Boolean(errors.type)} htmlFor='care-priority-select'>
-                    Care Priority
+                    {<RequiredLabel label='Care Priority' />}
                   </InputLabel>
                   <Controller
                     name='priority'
@@ -315,7 +326,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Care Priority'
+                        label={<RequiredLabel label='Care Priority' />}
                         onChange={onChange}
                         error={Boolean(errors.type)}
                         labelId='care-priority-select'
@@ -366,7 +377,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
                           <CustomInput
                             value={value}
                             onChange={onChange}
-                            label='Date'
+                            label={<RequiredLabel label='Date' />}
                             error={Boolean(errors.date)}
                             aria-describedby='validate-care-date'
                           />

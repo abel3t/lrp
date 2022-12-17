@@ -28,7 +28,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Icon from '@core/components/icon';
-import { DiscipleshipProcessColor, FriendTypeColor, FriendTypeText } from '@core/contanst';
+import CustomChip from '@core/components/mui/chip';
+import { FriendTypeColor, FriendTypeText } from '@core/contanst';
 import { FriendType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import CleaveWrapper from '@core/styles/libs/react-cleave';
@@ -36,7 +37,6 @@ import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode } from '@core/types';
 import { standardDate } from '@core/utils/date';
 
-import CustomChip from '../../@core/components/mui/chip';
 
 export interface FormInputs {
   id: string;
@@ -212,7 +212,14 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <TextField
                         value={value}
-                        label='Name'
+                        label={
+                          <Typography display='inline'>
+                            Name&nbsp;
+                            <Typography display='inline' color='error.main'>
+                              *
+                            </Typography>
+                          </Typography>
+                        }
                         onChange={onChange}
                         placeholder='Name'
                         error={Boolean(errors.name)}

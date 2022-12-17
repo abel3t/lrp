@@ -215,7 +215,14 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <TextField
                         value={value}
-                        label='Name'
+                        label={
+                          <Typography display='inline'>
+                            Name&nbsp;
+                            <Typography display='inline' color='error.main'>
+                              *
+                            </Typography>
+                          </Typography>
+                        }
                         onChange={onChange}
                         placeholder='Name'
                         error={Boolean(errors.name)}
