@@ -1,6 +1,6 @@
 import { AppDispatch, RootState } from '@store';
 import { fetchTopCaringPeople } from '@store/dashboard';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '@mui/material/Card';
@@ -34,12 +34,14 @@ const CareTitleColor: ColorsType = {
 };
 
 const TopCaringPeople = () => {
+  const [topCaringSet, setTopCaringSet] = useState(0);
+
   const dispatch = useDispatch<AppDispatch>();
   const store = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
-    dispatch(fetchTopCaringPeople());
-  }, [dispatch]);
+    dispatch(fetchTopCaringPeople({ set: topCaringSet }));
+  }, [dispatch, topCaringSet]);
 
   return (
     <Card>
@@ -48,7 +50,38 @@ const TopCaringPeople = () => {
         subheader='Activity Care'
         action={
           <OptionsMenu
-            options={['This Month', 'Last Month']}
+            options={[
+              {
+                text: 'Current',
+                menuItemProps: {
+                  onClick: () => setTopCaringSet(0)
+                }
+              },
+              {
+                text: '2 Months Ago',
+                menuItemProps: {
+                  onClick: () => setTopCaringSet(1)
+                }
+              },
+              {
+                text: '4 Months Ago',
+                menuItemProps: {
+                  onClick: () => setTopCaringSet(2)
+                }
+              },
+              {
+                text: '6 Months Ago',
+                menuItemProps: {
+                  onClick: () => setTopCaringSet(3)
+                }
+              },
+              {
+                text: '1 Year Ago',
+                menuItemProps: {
+                  onClick: () => setTopCaringSet(4)
+                }
+              }
+            ]}
             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
           />
         }

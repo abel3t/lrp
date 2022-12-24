@@ -2,23 +2,35 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import apiClient from '@core/services/api.client';
 
-export const fetchOverview = createAsyncThunk('dashboard/fetchOverview', async () => {
-  const response = await apiClient.get(`/dashboard/overview`);
+import { convertObjectToQueryString } from '../@core/utils/string.util';
+
+interface IDashboardQuery {
+  set?: number;
+}
+
+export const fetchOverview = createAsyncThunk('dashboard/fetchOverview', async (query?: IDashboardQuery) => {
+  const response = await apiClient.get(`/dashboard/overview` + convertObjectToQueryString(query));
 
   return response.data;
 });
 
-export const fetchNeedingMoreCareMembers = createAsyncThunk('dashboard/fetchNeedingMoreCareMembers', async () => {
-  const response = await apiClient.get(`/dashboard/needing-more-care`);
+export const fetchNeedingMoreCareMembers = createAsyncThunk(
+  'dashboard/fetchNeedingMoreCareMembers',
+  async (query?: IDashboardQuery) => {
+    const response = await apiClient.get(`/dashboard/needing-more-care` + convertObjectToQueryString(query));
 
-  return response.data;
-});
+    return response.data;
+  }
+);
 
-export const fetchTopCaringPeople = createAsyncThunk('dashboard/fetchTopCaringPeople', async () => {
-  const response = await apiClient.get(`/dashboard/top-caring`);
+export const fetchTopCaringPeople = createAsyncThunk(
+  'dashboard/fetchTopCaringPeople',
+  async (query?: IDashboardQuery) => {
+    const response = await apiClient.get(`/dashboard/top-caring` + convertObjectToQueryString(query));
 
-  return response.data;
-});
+    return response.data;
+  }
+);
 
 export const appCareSlice = createSlice({
   name: 'care',

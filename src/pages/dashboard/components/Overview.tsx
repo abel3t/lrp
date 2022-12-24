@@ -1,6 +1,6 @@
 import { AppDispatch, RootState } from '@store';
 import { fetchOverview } from '@store/dashboard';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
@@ -15,12 +15,13 @@ import CustomAvatar from '@core/components/mui/avatar';
 import OptionsMenu from '@core/components/option-menu';
 
 const Overview = () => {
+  const [overviewSet, setOverviewSet] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const store = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
-    dispatch(fetchOverview());
-  }, [dispatch]);
+    dispatch(fetchOverview({ set: overviewSet }));
+  }, [dispatch, overviewSet]);
 
   return (
     <Card>
@@ -30,7 +31,38 @@ const Overview = () => {
         titleTypographyProps={{ variant: 'h6' }}
         action={
           <OptionsMenu
-            options={['Last Month', 'Last Year']}
+            options={[
+              {
+                text: 'Current',
+                menuItemProps: {
+                  onClick: () => setOverviewSet(0)
+                }
+              },
+              {
+                text: '2 Months Ago',
+                menuItemProps: {
+                  onClick: () => setOverviewSet(1)
+                }
+              },
+              {
+                text: '4 Months Ago',
+                menuItemProps: {
+                  onClick: () => setOverviewSet(2)
+                }
+              },
+              {
+                text: '6 Months Ago',
+                menuItemProps: {
+                  onClick: () => setOverviewSet(3)
+                }
+              },
+              {
+                text: '1 Year Ago',
+                menuItemProps: {
+                  onClick: () => setOverviewSet(4)
+                }
+              }
+            ]}
             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
           />
         }

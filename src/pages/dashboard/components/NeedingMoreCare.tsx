@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from '@store';
 import { fetchNeedingMoreCareMembers } from '@store/dashboard';
 import { format } from 'date-fns';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline';
@@ -36,12 +36,14 @@ const Timeline = styled(MuiTimeline)<TimelineProps>({
 });
 
 const NeedingMoreCare = () => {
+  const [topNeedingMoreSet, setTopNeedingMoreSet] = useState(0);
+
   const dispatch = useDispatch<AppDispatch>();
   const store = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
-    dispatch(fetchNeedingMoreCareMembers());
-  }, [dispatch]);
+    dispatch(fetchNeedingMoreCareMembers({ set: topNeedingMoreSet }));
+  }, [dispatch, topNeedingMoreSet]);
 
   return (
     <Card>
@@ -49,7 +51,38 @@ const NeedingMoreCare = () => {
         title='Needing More Care'
         action={
           <OptionsMenu
-            options={['This Month', 'Last Month']}
+            options={[
+              {
+                text: 'Current',
+                menuItemProps: {
+                  onClick: () => setTopNeedingMoreSet(0)
+                }
+              },
+              {
+                text: '2 Months Ago',
+                menuItemProps: {
+                  onClick: () => setTopNeedingMoreSet(1)
+                }
+              },
+              {
+                text: '4 Months Ago',
+                menuItemProps: {
+                  onClick: () => setTopNeedingMoreSet(2)
+                }
+              },
+              {
+                text: '6 Months Ago',
+                menuItemProps: {
+                  onClick: () => setTopNeedingMoreSet(3)
+                }
+              },
+              {
+                text: '1 Year Ago',
+                menuItemProps: {
+                  onClick: () => setTopNeedingMoreSet(4)
+                }
+              }
+            ]}
             iconButtonProps={{ size: 'small', className: 'card-more-options' }}
           />
         }

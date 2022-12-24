@@ -37,7 +37,6 @@ import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode } from '@core/types';
 import { standardDate } from '@core/utils/date';
 
-
 export interface FormInputs {
   id: string;
   birthday: DateType | null;

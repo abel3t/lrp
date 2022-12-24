@@ -11,7 +11,6 @@ import { Settings } from '@core/context/settingsContext';
 import themeConfig from 'configs/themeConfig';
 
 import UserThemeOptions from 'layouts/UserThemeOptions';
-import Direction from 'layouts/components/Direction';
 
 import themeOptions from './ThemeOptions';
 import GlobalStyling from './globalStyles';
@@ -53,11 +52,9 @@ const ThemeComponent = (props: Props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Direction direction={settings.direction}>
-        <CssBaseline />
-        <GlobalStyles styles={() => GlobalStyling(theme) as any} />
-        {children}
-      </Direction>
+      <CssBaseline />
+      <GlobalStyles styles={() => GlobalStyling(theme) as any} />
+      {children}
     </ThemeProvider>
   );
 };
