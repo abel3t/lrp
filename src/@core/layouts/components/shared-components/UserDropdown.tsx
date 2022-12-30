@@ -1,5 +1,8 @@
+import { AppDispatch, RootState } from '@store';
+import { fetchProfile } from '@store/account';
 import { useAuth } from 'hooks/useAuth';
-import { Fragment, SyntheticEvent, useState } from 'react';
+import { Fragment, SyntheticEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useRouter } from 'next/router';
 
@@ -13,11 +16,8 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 import Icon from '@core/components/icon';
-import { Settings } from '@core/context/settingsContext';
 
-interface Props {
-  settings: Settings;
-}
+import { NotApplicable } from '../../../contanst';
 
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -27,18 +27,17 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }));
 
-const UserDropdown = (props: Props) => {
-  // ** Props
-  const { settings } = props;
+const UserDropdown = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.account);
 
-  // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-
   const router = useRouter();
   const { logout } = useAuth();
 
-  // ** Vars
-  const { direction } = settings;
+  useEffect(() => {
+    dispatch(fetchProfile());
+  }, [dispatch]);
 
   const handleDropdownOpen = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
@@ -90,8 +89,8 @@ const UserDropdown = (props: Props) => {
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
         sx={{ '& .MuiMenu-paper': { width: 230, mt: 4 } }}
-        anchorOrigin={{ vertical: 'bottom', horizontal: direction === 'ltr' ? 'right' : 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: direction === 'ltr' ? 'right' : 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box sx={{ pt: 2, pb: 3, px: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -106,9 +105,9 @@ const UserDropdown = (props: Props) => {
               <Avatar alt='Staff' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>Staff</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{store.account?.name || NotApplicable}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {store.account?.role || NotApplicable}
               </Typography>
             </Box>
           </Box>

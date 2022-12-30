@@ -153,7 +153,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     const { id, ..._data } = data;
     const body: any = {
       ..._data,
-      birthday: getUtcDate(data.birthday).toISOString()
+      birthday: data.birthday ? getUtcDate(data.birthday).toISOString() : undefined
     };
 
     if (mode === 'update') {

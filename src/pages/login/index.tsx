@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import Head from 'next/head';
 import Link from 'next/link';
 
 import Box, { BoxProps } from '@mui/material/Box';
@@ -113,6 +114,11 @@ const LoginPage = () => {
 
   return (
     <Box className='content-center'>
+      <Head>
+        <title>Login</title>
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+      </Head>
+
       <ContentWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
           sx={{

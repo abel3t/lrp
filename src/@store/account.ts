@@ -9,6 +9,12 @@ export const fetchCurators = createAsyncThunk('account/fetchCurators', async () 
   return response.data;
 });
 
+export const fetchProfile = createAsyncThunk('account/fetchProfile', async () => {
+  const response = await apiClient.get('/profile');
+
+  return response.data;
+});
+
 export const appAccountSlice = createSlice({
   name: 'account',
   initialState: {
@@ -19,6 +25,9 @@ export const appAccountSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchCurators.fulfilled, (state, action) => {
       state.curators = action.payload;
+    });
+    builder.addCase(fetchProfile.fulfilled, (state, action) => {
+      state.account = action.payload;
     });
   }
 });

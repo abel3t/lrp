@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Head from 'next/head';
 import Link from 'next/link';
 
 import { Autocomplete } from '@mui/material';
@@ -205,6 +206,11 @@ const CarePage = () => {
 
   return (
     <DatePickerWrapper>
+      <Head>
+        <title>Cares - Lighthouse Resource Planning</title>
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+      </Head>
+
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Card>

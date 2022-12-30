@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import Grid from '@mui/material/Grid';
 
 import CardStatisticsCharacter from '@core/components/card-statistics/card-stats-with-image';
@@ -11,6 +13,11 @@ import TopCaringPeople from './components/TopCaringPeople';
 const Dashboard = () => {
   return (
     <RechartsWrapper>
+      <Head>
+        <title>Dashboard - Lighthouse Resource Planning</title>
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+      </Head>
+
       <KeenSliderWrapper>
         <Grid container spacing={6} className='match-height'>
           <Grid item xs={12} md={6}>
@@ -27,6 +34,7 @@ const Dashboard = () => {
               }}
             />
           </Grid>
+
           <Grid item xs={12} sm={6} md={3}>
             <CardStatisticsCharacter
               data={{

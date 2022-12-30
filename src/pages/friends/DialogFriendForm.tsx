@@ -39,15 +39,15 @@ import { standardDate } from '@core/utils/date';
 
 export interface FormInputs {
   id: string;
-  birthday: DateType | null;
-  email: string;
-  phone: string;
+  birthday?: DateType | null;
+  email?: string;
+  phone?: string;
   name: string;
   type: string;
-  address: string;
-  hometown: string;
-  gender: string;
-  description: string;
+  address?: string;
+  hometown?: string;
+  gender?: string;
+  description?: string;
 }
 
 interface CustomInputProps {
@@ -59,7 +59,7 @@ interface CustomInputProps {
 
 const defaultValues = {
   id: '',
-  birthday: null,
+  birthday: '',
   email: '',
   name: '',
   phone: '',
@@ -149,7 +149,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
     const { id, ..._data } = data;
     const body: any = {
       ..._data,
-      birthday: getUtcDate(data.birthday).toISOString()
+      birthday: data.birthday ? getUtcDate(data.birthday).toISOString() : undefined
     };
 
     if (mode === 'update') {
@@ -238,20 +238,26 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id='friend-type-select' error={Boolean(errors.type)} htmlFor='friend-type-select'>
-                    Friend Type
+                    <Typography display='inline'>
+                      Friend Type&nbsp;
+                      <Typography display='inline' color='error.main'>
+                        *
+                      </Typography>
+                    </Typography>
                   </InputLabel>
                   <Controller
                     name='type'
                     control={control}
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Relationship Process'
+                        label='Friend Type'
                         onChange={onChange}
                         error={Boolean(errors.type)}
                         labelId='friend-type-select'
                         aria-describedby='friend-friend-type'
+                        required={true}
                       >
                         {Object.values(FriendType).map((type, index) => {
                           return (
@@ -399,9 +405,9 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel
-                    id='validation-basic-select'
+                    id='validation-friend-gender-select'
                     error={Boolean(errors.gender)}
-                    htmlFor='validation-basic-select'
+                    htmlFor='validation-friend-gender-select'
                   >
                     Gender
                   </InputLabel>
@@ -412,10 +418,10 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Country'
+                        label='Gender'
                         onChange={onChange}
                         error={Boolean(errors.gender)}
-                        labelId='validation-basic-select'
+                        labelId='validation-friend-gender-select'
                         aria-describedby='validate-gender'
                       >
                         <MenuItem value='Male'>Male</MenuItem>

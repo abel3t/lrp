@@ -94,7 +94,7 @@ const App = (props: ExtendedAppProps) => {
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
         <Head>
-          <title>{`${themeConfig.templateName} - LRP`}</title>
+          <title>Lighthouse Resource Planning</title>
           <meta name='description' content={`${themeConfig.templateName} – LRP.`} />
           <meta name='keywords' content='LRP' />
           <meta name='viewport' content='initial-scale=1, width=device-width' />

@@ -5,6 +5,7 @@ export type FormMode = 'create' | 'update';
 export type Account = {
   id: string;
   name?: string;
+  role?: string;
 };
 
 export type Member = {
