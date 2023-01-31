@@ -15,6 +15,12 @@ export const fetchFriendData = createAsyncThunk('friend/fetchFriendData', async 
   return response.data;
 });
 
+export const deleteFriend = createAsyncThunk('friend/deleteFriend', async (friendId: string) => {
+  const response = await apiClient.get(`/friends/${friendId}`);
+
+  return response.data;
+});
+
 // export const deleteFriend = createAsyncThunk(
 //   'appFriend/deleteData',
 //   async (id: number | string, { getState, dispatch }: Redux) => {
@@ -38,10 +44,11 @@ export const appFriendSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
       state.data = action.payload;
-    }),
-      builder.addCase(fetchFriendData.fulfilled, (state, action) => {
-        state.friend = action.payload;
-      });
+    });
+
+    builder.addCase(fetchFriendData.fulfilled, (state, action) => {
+      state.friend = action.payload;
+    });
   }
 });
 

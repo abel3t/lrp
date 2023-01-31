@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from '@store';
-import { fetchData } from '@store/friend';
+import { deleteFriend, fetchData } from '@store/friend';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -119,6 +119,14 @@ const FriendPage = () => {
     setShow(true);
   };
 
+  const handleDeleteFriends = async () => {
+    for (const memberId of selectedRows) {
+      await dispatch(deleteFriend(memberId as string));
+    }
+
+    dispatch(fetchData());
+  };
+
   const columns = [
     ...defaultColumns,
     {
@@ -189,7 +197,9 @@ const FriendPage = () => {
                 renderValue={selected => (selected.length === 0 ? 'Actions' : selected)}
               >
                 <MenuItem disabled>Actions</MenuItem>
-                <MenuItem value='Delete'>Delete</MenuItem>
+                <MenuItem value='Delete' onClick={handleDeleteFriends}>
+                  Delete
+                </MenuItem>
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 

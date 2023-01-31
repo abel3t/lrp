@@ -98,7 +98,7 @@ const App = (props: ExtendedAppProps) => {
           <meta name='description' content={`${themeConfig.templateName} – LRP.`} />
           <meta name='keywords' content='LRP' />
           <meta name='viewport' content='initial-scale=1, width=device-width' />
-          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+          <meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests' />
         </Head>
 
         <AuthProvider>

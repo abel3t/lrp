@@ -22,11 +22,9 @@ const Home = () => {
     if (auth.user && auth.user.role) {
       const homeRoute = getHomeRoute(auth.user.role);
 
-      // Redirect user to Home URL
       router.replace(homeRoute);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.isReady]);
 
   return <Spinner />;
 };

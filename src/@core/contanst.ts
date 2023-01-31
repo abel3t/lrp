@@ -12,6 +12,7 @@ export const DiscipleshipProcessColor: ColorsType = {
 
 export const FriendTypeText = {
   [FriendType.Unbeliever]: 'Unbeliever',
+  [FriendType.Unsure]: 'Unsure',
   [FriendType.Friend]: 'Friend',
   [FriendType.NextStep]: 'Next Step',
   [FriendType.NewLife]: 'New Life',
@@ -20,6 +21,7 @@ export const FriendTypeText = {
 
 export const FriendTypeColor: ColorsType = {
   [FriendType.Unbeliever]: 'error',
+  [FriendType.Unsure]: 'secondary',
   [FriendType.Friend]: 'warning',
   [FriendType.NextStep]: 'success',
   [FriendType.NewLife]: 'info',

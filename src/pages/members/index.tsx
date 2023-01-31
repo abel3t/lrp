@@ -1,6 +1,6 @@
 import { AppDispatch, RootState } from '@store';
 import { fetchCurators } from '@store/account';
-import { fetchData } from '@store/member';
+import { deleteMember, fetchData } from '@store/member';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,6 +21,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
+import ConfirmDialog from '@core/components/confirm-dialog';
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
 import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
@@ -147,6 +148,14 @@ const MemberPage = () => {
     setShow(true);
   };
 
+  const handleDelete = async () => {
+    for (const memberId of selectedRows) {
+      await dispatch(deleteMember(memberId as string));
+    }
+
+    dispatch(fetchData());
+  };
+
   const columns = [
     ...defaultColumns,
     {
@@ -217,7 +226,11 @@ const MemberPage = () => {
                 renderValue={selected => (selected.length === 0 ? 'Actions' : selected)}
               >
                 <MenuItem disabled>Actions</MenuItem>
-                <MenuItem value='Delete'>Delete</MenuItem>
+
+                <ConfirmDialog title='Confirmation' text='Are you sure to delete these members?' action={handleDelete}>
+                  <MenuItem value='Delete'>Delete</MenuItem>
+                </ConfirmDialog>
+
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 

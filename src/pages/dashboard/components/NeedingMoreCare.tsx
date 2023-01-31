@@ -4,6 +4,8 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Link from 'next/link';
+
 import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -100,39 +102,42 @@ const NeedingMoreCare = () => {
               </TimelineSeparator>
 
               <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(3)} !important` }}>
-                <Box
-                  sx={{
-                    mb: 3,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography sx={{ mr: 2, fontWeight: 600 }}>
-                    {careMember.member?.name}
-                    &nbsp; &nbsp;
-                    <CustomChip
-                      skin='light'
-                      size='small'
-                      label={careMember?.type ? CareTypeText[careMember?.type as CareType] : NotApplicable}
-                      color={CareTypeColor[careMember?.type || '']}
-                      sx={{
-                        height: 20,
-                        fontWeight: 600,
-                        borderRadius: '5px',
-                        fontSize: '0.875rem',
-                        textTransform: 'capitalize',
-                        '& .MuiChip-label': { mt: -0.25 }
-                      }}
-                    />
-                  </Typography>
+                <Link href={`/cares/${careMember.id}`} style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                  <Box
+                    sx={{
+                      mb: 3,
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <Typography sx={{ mr: 2, fontWeight: 600 }}>
+                      {careMember.member?.name}
+                      &nbsp; &nbsp;
+                      <CustomChip
+                        skin='light'
+                        size='small'
+                        label={careMember?.type ? CareTypeText[careMember?.type as CareType] : NotApplicable}
+                        color={CareTypeColor[careMember?.type || '']}
+                        sx={{
+                          height: 20,
+                          fontWeight: 600,
+                          borderRadius: '5px',
+                          fontSize: '0.875rem',
+                          textTransform: 'capitalize',
+                          '& .MuiChip-label': { mt: -0.25 }
+                        }}
+                      />
+                    </Typography>
 
-                  <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                    {formatRelativeDate(careMember.date)}&nbsp; - &nbsp;
-                    {format(new Date(careMember.date), 'dd/MM/yyyy')}
-                  </Typography>
-                </Box>
+                    <Typography variant='caption' sx={{ color: 'text.disabled' }}>
+                      {formatRelativeDate(careMember.date)}&nbsp; - &nbsp;
+                      {format(new Date(careMember.date), 'dd/MM/yyyy')}
+                    </Typography>
+                  </Box>
+                </Link>
+
                 <Typography variant='body2' sx={{ mb: 2 }}>
                   {careMember.description}
                 </Typography>

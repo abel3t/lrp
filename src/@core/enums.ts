@@ -7,6 +7,7 @@ export enum DiscipleshipProcess {
 
 export enum FriendType {
   Unbeliever = 'Unbeliever',
+  Unsure = 'Unsure',
   Friend = 'Friend',
   NextStep = 'NextStep',
   NewLife = 'NewLife',

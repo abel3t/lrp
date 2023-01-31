@@ -21,6 +21,12 @@ export const fetchMemberData = createAsyncThunk('member/fetchMemberData', async 
   return response.data;
 });
 
+export const deleteMember = createAsyncThunk('member/deleteMember', async (memberId: string) => {
+  const response = await apiClient.delete(`/members/${memberId}`);
+
+  return response.data;
+});
+
 // export const deleteMember = createAsyncThunk(
 //   'appMember/deleteData',
 //   async (id: number | string, { getState, dispatch }: Redux) => {
@@ -44,10 +50,11 @@ export const appMemberSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
       state.data = action.payload;
-    }),
-      builder.addCase(fetchMemberData.fulfilled, (state, action) => {
-        state.member = action.payload;
-      });
+    });
+
+    builder.addCase(fetchMemberData.fulfilled, (state, action) => {
+      state.member = action.payload;
+    });
   }
 });
 

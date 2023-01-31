@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline';
@@ -22,8 +23,10 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 import CustomChip from '@core/components/mui/chip';
-import { CarePriorityColor, CareTypeColor } from '@core/contanst';
+import { CarePriorityColor, CareTypeColor, CareTypeText } from '@core/contanst';
 import { formatRelativeDate } from '@core/utils/date';
+
+import { CareType } from '../../@core/enums';
 
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   margin: 0,
@@ -74,39 +77,42 @@ const CaringOverview = () => {
                 </TimelineSeparator>
 
                 <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(3)} !important` }}>
-                  <Box
-                    sx={{
-                      mb: 3,
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}
-                  >
-                    <CustomChip
-                      skin='light'
-                      size='small'
-                      label={careMember?.type}
-                      color={CareTypeColor[careMember?.type || '']}
+                  <Link href={`/cares/${careMember.id}`} style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                    <Box
                       sx={{
-                        height: 20,
-                        fontWeight: 600,
-                        borderRadius: '5px',
-                        fontSize: '0.875rem',
-                        textTransform: 'capitalize',
-                        '& .MuiChip-label': { mt: -0.25 }
+                        mb: 3,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
                       }}
-                    />
-                    <Typography sx={{ mr: 2, fontWeight: 600 }} color='primary'>
-                      &nbsp;by&nbsp;
-                      <span color='primary'>{careMember.curator?.name}</span>
-                    </Typography>
+                    >
+                      <CustomChip
+                        skin='light'
+                        size='small'
+                        label={CareTypeText[careMember?.type as CareType]}
+                        color={CareTypeColor[careMember?.type || '']}
+                        sx={{
+                          height: 20,
+                          fontWeight: 600,
+                          borderRadius: '5px',
+                          fontSize: '0.875rem',
+                          textTransform: 'capitalize',
+                          '& .MuiChip-label': { mt: -0.25 }
+                        }}
+                      />
+                      <Typography sx={{ mr: 2, fontWeight: 600 }} color='primary'>
+                        &nbsp;by&nbsp;
+                        <span color='primary'>{careMember.curator?.name}</span>
+                      </Typography>
 
-                    <Typography variant='caption' sx={{ color: 'text.disabled' }}>
-                      {formatRelativeDate(careMember.date)}&nbsp; - &nbsp;
-                      {format(new Date(careMember.date), 'dd/MM/yyyy')}
-                    </Typography>
-                  </Box>
+                      <Typography variant='caption' sx={{ color: 'text.disabled' }}>
+                        {formatRelativeDate(careMember.date)}&nbsp; - &nbsp;
+                        {format(new Date(careMember.date), 'dd/MM/yyyy')}
+                      </Typography>
+                    </Box>
+                  </Link>
+
                   <Typography variant='body2' sx={{ mb: 2 }}>
                     {careMember.description}
                   </Typography>

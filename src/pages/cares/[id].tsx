@@ -3,6 +3,7 @@ import { fetchCareData } from '@store/care';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
@@ -13,7 +14,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import CustomChip from '@core/components/mui/chip';
-import { CarePriorityColor, CareTypeColor, NotApplicable } from '@core/contanst';
+import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '@core/contanst';
 
 const CareView = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,8 +40,9 @@ const CareView = () => {
               <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Member:
               </Typography>
-
-              <Typography variant='body2'>{store.care.member?.name || NotApplicable}</Typography>
+              <Link href={`/members/${store.care.member?.id}`} style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                <Typography variant='body2'>{store.care.member?.name || NotApplicable}</Typography>
+              </Link>
             </Box>
 
             <Box sx={{ display: 'flex', mb: 2.7 }}>
@@ -51,7 +53,7 @@ const CareView = () => {
               <CustomChip
                 skin='light'
                 size='small'
-                label={store.care?.type}
+                label={CareTypeText[store.care?.type]}
                 color={CareTypeColor[store.care?.type || '']}
                 sx={{
                   height: 20,
