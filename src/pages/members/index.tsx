@@ -29,6 +29,7 @@ import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { Account, FormMode, Member } from '@core/types';
 
 import DialogMemberForm from './DialogMemberForm';
+import toast from 'react-hot-toast';
 
 interface CellType {
   row: Member;
@@ -153,6 +154,7 @@ const MemberPage = () => {
       await dispatch(deleteMember(memberId as string));
     }
 
+    toast.success(`Delete members successfully!`);
     dispatch(fetchData());
   };
 
