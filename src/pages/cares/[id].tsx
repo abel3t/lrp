@@ -29,7 +29,7 @@ const CareView = () => {
 
   return (
     <Grid container spacing={8}>
-      <Grid item xs={15} md={6} lg={5}>
+      <Grid item xs={12} md={8} lg={7}>
         <Card>
           <CardHeader title='Care Details' />
           <CardContent
@@ -106,7 +106,7 @@ const CareView = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={9} md={4} lg={4} style={{ width: '400px', height: '800px' }}>
+      <Grid item xs={12} md={4} lg={5} style={{ width: '400px', height: '800px' }}>
         <img src={store.care?.imageUrl} alt='N/A' width='400px' height='auto' />
       </Grid>
     </Grid>
