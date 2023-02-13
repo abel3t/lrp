@@ -113,7 +113,7 @@ const CaringOverview = () => {
                     </Box>
                   </Link>
 
-                  <Typography variant='body2' sx={{ mb: 2 }}>
+                  <Typography variant='body2' sx={{ mb: 2, whiteSpace: 'pre' }}>
                     {careMember.description}
                   </Typography>
                 </TimelineContent>
@@ -237,14 +237,6 @@ const SundayServiceOverview = () => {
                   <Typography variant='caption'>12 min ago</Typography>
                 </Box>
                 <Typography variant='body2'>Create new invoices and send to Leona Watkins</Typography>
-                <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ width: 28, height: 'auto' }}>
-                    <img width={28} height={28} alt='invoice.pdf' src='/images/icons/file-icons/pdf.png' />
-                  </Box>
-                  <Typography variant='subtitle2' sx={{ ml: 2, fontWeight: 600 }}>
-                    invoice.pdf
-                  </Typography>
-                </Box>
               </TimelineContent>
             </TimelineItem>
           </Timeline>

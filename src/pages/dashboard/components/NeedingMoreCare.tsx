@@ -138,7 +138,7 @@ const NeedingMoreCare = () => {
                   </Box>
                 </Link>
 
-                <Typography variant='body2' sx={{ mb: 2 }}>
+                <Typography variant='body2' sx={{ mb: 2, whiteSpace: 'pre' }}>
                   {careMember.description}
                 </Typography>
               </TimelineContent>

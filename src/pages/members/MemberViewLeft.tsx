@@ -132,7 +132,7 @@ const MemberViewLeft = () => {
                     Description:
                   </Typography>
 
-                  <Typography variant='body2'>{store.member.description || NotApplicable}</Typography>
+                  <Typography variant='body2' sx={{whiteSpace: 'pre'}}>{store.member.description || NotApplicable}</Typography>
                 </Box>
               </Box>
             </CardContent>

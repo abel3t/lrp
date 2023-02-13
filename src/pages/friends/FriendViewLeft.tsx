@@ -112,7 +112,7 @@ const FriendViewLeft = () => {
                     Description:
                   </Typography>
 
-                  <Typography variant='body2'>{store.friend.description || NotApplicable}</Typography>
+                  <Typography variant='body2' sx={{whiteSpace: 'pre'}}>{store.friend.description || NotApplicable}</Typography>
                 </Box>
               </Box>
             </CardContent>
