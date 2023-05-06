@@ -7,6 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSettings } from '@core/hooks/useSettings';
 import Layout from '@core/layouts/Layout';
 
+import TawkApp from './components/TawkApp';
 import VerticalAppBarContent from './components/vertical/AppBarContent';
 
 interface Props {
@@ -44,9 +45,6 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
       verticalLayoutProps={{
         navMenu: {
           navItems: VerticalNavItems()
-
-          // Uncomment the below line when using server-side menu in vertical layout and comment the above line
-          // navItems: verticalMenuItems
         },
         appBar: {
           content: props => (
@@ -61,6 +59,8 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
       }}
     >
       {children}
+
+      <TawkApp />
     </Layout>
   );
 };
