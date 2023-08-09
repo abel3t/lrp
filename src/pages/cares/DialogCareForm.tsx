@@ -46,7 +46,7 @@ export interface FormInputs {
   priority?: string;
   date?: Date | string;
   description?: string;
-  imageUrl?: string;
+  image?: string;
 }
 
 interface CustomInputProps {
@@ -63,7 +63,7 @@ const defaultValues = {
   priority: '',
   date: '',
   description: '',
-  imageUrl: ''
+  image: ''
 };
 
 const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
@@ -112,7 +112,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
     priority: yup.string(),
     date: yup.string(),
     description: yup.string(),
-    imageUrl: yup.string()
+    image: yup.string()
   });
 
   useEffect(() => {
@@ -164,7 +164,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
   const getImageUrl = () => {
     if (!image) {
-      return getValues('imageUrl');
+      return getValues('image');
     }
 
     const formData = new FormData();
@@ -191,7 +191,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
     setIsSubmitting(true);
 
-    data.imageUrl = await getImageUrl();
+    data.image = await getImageUrl();
 
     setShow(false);
 
@@ -389,7 +389,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
               </Grid>
 
               <Grid item xs={12}>
-                <UploadImage file={image} setFile={setImage} imageUrl={getValues('imageUrl')} />
+                <UploadImage file={image} setFile={setImage} image={getValues('image')} />
               </Grid>
 
               <Grid item xs={12}>

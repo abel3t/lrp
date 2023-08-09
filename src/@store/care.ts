@@ -12,7 +12,7 @@ interface IQueryCare {
 export const fetchData = createAsyncThunk('care/fetchData', async (query?: IQueryCare) => {
   const response = await apiClient.get('/cares' + convertObjectToQueryString(query));
 
-  return response.data;
+  return response.data.map((x: Care) => ({ ...x, member: x.person }));
 });
 
 export const fetchCareData = createAsyncThunk('care/fetchCareData', async (careId: string) => {

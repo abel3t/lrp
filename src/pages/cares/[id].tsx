@@ -107,7 +107,7 @@ const CareView = () => {
       </Grid>
 
       <Grid item xs={12} md={4} lg={5} style={{ width: '400px', height: '800px' }}>
-        <img src={store.care?.imageUrl} alt='N/A' width='400px' height='auto' />
+        <img src={store.care?.image} alt='N/A' width='400px' height='auto' />
       </Grid>
     </Grid>
   );

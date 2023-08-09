@@ -10,7 +10,7 @@ interface FileProp {
   size: number;
 }
 
-const UploadImage = ({ file, setFile, imageUrl }: any) => {
+const UploadImage = ({ file, setFile, image }: any) => {
   // ** State
   const [files, setFiles] = useState<File[]>([]);
 
@@ -55,8 +55,8 @@ const UploadImage = ({ file, setFile, imageUrl }: any) => {
     >
       <input {...getInputProps()} />
 
-      {!!imageUrl && !files.length && (
-        <img alt={'N/A'} className='single-file-image' src={imageUrl} width={200} height={200} />
+      {!!image && !files.length && (
+        <img alt={'N/A'} className='single-file-image' src={image} width={200} height={200} />
       )}
 
       {!!files.length &&
@@ -71,7 +71,7 @@ const UploadImage = ({ file, setFile, imageUrl }: any) => {
           />
         ))}
 
-      {!imageUrl && !files.length && (
+      {!image && !files.length && (
         <Box sx={{ padding: '15px' }}>
           <Typography color='textSecondary'>Drop image here or click to share your story...</Typography>
         </Box>

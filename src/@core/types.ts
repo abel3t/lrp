@@ -25,12 +25,8 @@ export type Member = {
   firstComeToLEC?: string;
   introducedBy?: string;
   newLifeMentor?: string;
-  memberClassDay?: string;
-  walkWithGodClassDay?: string;
   weddingDate?: string;
-  giveChildDay?: string;
   hometown?: string;
-  otherRole?: string;
 };
 
 export type Friend = {
@@ -56,5 +52,5 @@ export type Care = {
   priority: CarePriority;
   date?: Date;
   description?: string;
-  imageUrl?: string;
+  image?: string;
 };
