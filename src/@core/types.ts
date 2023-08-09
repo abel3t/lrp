@@ -46,6 +46,7 @@ export type Friend = {
 export type Care = {
   id?: string;
   member?: Member;
+  person?: Member;
   curator?: any;
   memberId: string;
   type: CareType;
