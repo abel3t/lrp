@@ -1,4 +1,4 @@
-import { CarePriority, CareType, DisciplePriority, DiscipleType, FriendType } from './enums';
+import { CarePriority, CareType, DisciplePriority, DiscipleType, PersonalType } from './enums';
 
 export type FormMode = 'create' | 'update';
 
@@ -21,6 +21,7 @@ export type Member = {
   email?: string;
   description?: string;
   curator?: Account;
+  friend?: any;
   discipleshipProcess?: string;
   believeInJesusDay?: string;
   firstComeToLEC?: string;
@@ -41,7 +42,8 @@ export type Friend = {
   email?: string;
   description?: string;
   hometown?: string;
-  type: FriendType;
+  type: PersonalType;
+  friend?: any;
 };
 
 export type Care = {
@@ -55,6 +57,7 @@ export type Care = {
   date?: Date;
   description?: string;
   image?: string;
+  friend?: any;
 };
 
 export type Disciple = {

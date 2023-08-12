@@ -30,11 +30,16 @@ import Typography from '@mui/material/Typography';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { DisciplePriorityColor, DiscipleTypeColor, DiscipleTypeText } from '@core/contanst';
-import { DisciplePriority, DiscipleType } from '@core/enums';
+import {
+  DisciplePriorityColor,
+  DiscipleTypeColor,
+  DiscipleTypeText,
+  NotApplicable, PersonalTypeColor, PersonalTypeText
+} from '@core/contanst';
+import { DisciplePriority, DiscipleType, PersonalType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
-import { FormMode, Member } from '@core/types';
+import { FormMode, Member, Person } from '@core/types';
 import { standardDate } from '@core/utils/date';
 
 import UploadImage from './UploadImage';
@@ -101,6 +106,7 @@ const getUtcDate = (date?: DateType) => {
 
 const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentChosenPerson, setCurrentChosenPerson] = useState<any>({});
   const dispatch = useDispatch<AppDispatch>();
   const personStore = useSelector((state: RootState) => state.person);
 
@@ -219,6 +225,7 @@ const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) 
 
   const handleClose = () => {
     setShow(false);
+    setCurrentChosenPerson({});
 
     reset(defaultValues);
   };
@@ -243,7 +250,26 @@ const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) 
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              {mode === 'create' ? 'Create Disciple' : 'Update Disciple'}
+              {
+                mode === 'create' ? 'Create Discipleship Process' : 'Update Discipleship Process'
+              }
+
+              &nbsp; for &nbsp;
+
+              <CustomChip
+                skin='light'
+                size='medium'
+                label={currentChosenPerson?.type ? PersonalTypeText[currentChosenPerson?.type as PersonalType] : NotApplicable}
+                color={PersonalTypeColor[currentChosenPerson?.type || '']}
+                sx={{
+                  height: 20,
+                  fontWeight: 600,
+                  borderRadius: '5px',
+                  fontSize: '0.875rem',
+                  textTransform: 'capitalize',
+                  '& .MuiChip-label': { mt: -0.25 }
+                }}
+              />
             </Typography>
           </Box>
 
@@ -262,8 +288,13 @@ const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) 
                         id='autocomplete-disciple-name'
                         getOptionLabel={option => option.name}
                         defaultValue={value}
-                        onChange={(_, data) => onChange(data)}
-                        renderInput={params => <TextField {...params} label={<RequiredLabel label='Member' />} />}
+                        onChange={(_, data) => {
+                          setCurrentChosenPerson(
+                            personStore.data?.find((person: Person) => person.id === data?.id)
+                          );
+                          onChange(data);
+                        }}
+                        renderInput={params => <TextField {...params} label={<RequiredLabel label='Person' />} />}
                       />
                     )}
                   />
@@ -288,7 +319,8 @@ const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) 
                         labelId='disciple-type-select'
                         aria-describedby='disciple-type'
                       >
-                        {Object.values(DiscipleType).map((type, index) => {
+                        {Object.values(DiscipleType)
+                          .map((type, index) => {
                           return (
                             <MenuItem value={type} key={index}>
                               <CustomChip

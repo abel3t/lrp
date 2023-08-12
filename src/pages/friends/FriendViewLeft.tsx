@@ -20,7 +20,6 @@ import { NotApplicable } from '@core/contanst';
 import { getInitials } from '@core/utils/get-initials';
 
 import DialogFriendForm from './DialogFriendForm';
-import { FriendType } from '../../@core/enums';
 
 const FriendViewLeft = () => {
   const [openEdit, setOpenEdit] = useState<boolean>(false);
@@ -35,11 +34,9 @@ const FriendViewLeft = () => {
     if (router.isReady) {
       dispatch(fetchFriendData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch, store.friend.id]);
+  }, [router.isReady, dispatch, router.query?.id]);
 
   useEffect(() => {
-    console.log('alo', store.friend?.type, store.friend?.type as string === 'Member')
-
     if (store.friend?.type as string === 'Member') {
       router.push(`/members/${store.friend?.id}`);
     }
@@ -66,6 +63,20 @@ const FriendViewLeft = () => {
             </CardContent>
 
             <CardContent>
+
+              <Box sx={{ display: 'flex', mb: 2.7 }}>
+                <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
+                  Introduced by:
+                </Typography>
+                <Link
+                  href={`/members/${store.friend?.friend?.id}`}
+                  as={`/members/${store.friend?.friend?.id}`}
+                  style={{ cursor: 'pointer', textDecoration: 'none' }}
+                >
+                  <Typography variant='body2'>{store.friend?.friend?.name || NotApplicable}</Typography>
+                </Link>
+              </Box>
+
               <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
               <Box sx={{ pt: 2, pb: 1 }}>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>

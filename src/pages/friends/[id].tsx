@@ -10,7 +10,7 @@ const UserView = () => {
         <FriendViewLeft />
       </Grid>
       <Grid item xs={12} md={7} lg={8}>
-        <FriendViewRight tab={'overview'} />
+        <FriendViewRight tab={'discipleship_process'} />
       </Grid>
     </Grid>
   );

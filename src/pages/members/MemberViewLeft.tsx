@@ -32,15 +32,17 @@ const MemberViewLeft = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log('change')
+  }, [router.route]);
+
+  useEffect(() => {
     if (router.isReady) {
       dispatch(fetchMemberData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch]);
+  }, [router.isReady, dispatch, router.query?.id]);
 
 
   useEffect(() => {
-    console.log('alo', store.member?.type, store.member?.type as string !== 'Member')
-
     if (store.member?.type && store.member?.type as string !== 'Member') {
       router.push(`/friends/${store.member?.id}`);
     }
@@ -86,6 +88,19 @@ const MemberViewLeft = () => {
             </CardContent>
 
             <CardContent>
+              <Box sx={{ display: 'flex', mb: 2.7 }}>
+                <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
+                  Introduced by:
+                </Typography>
+                <Link
+                  href={`/members/${store.member?.friend?.id}`}
+                  as={`/members/${store.member?.friend?.id}`}
+                  style={{ cursor: 'pointer', textDecoration: 'none' }}
+                >
+                  <Typography variant='body2'>{store.member?.friend?.name || NotApplicable}</Typography>
+                </Link>
+              </Box>
+
               <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
               <Box sx={{ pt: 2, pb: 1 }}>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>

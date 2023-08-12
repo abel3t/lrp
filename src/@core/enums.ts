@@ -5,15 +5,6 @@ export enum DiscipleshipProcess {
   Empowerment = 'Empowerment'
 }
 
-export enum FriendType {
-  Unbeliever = 'Unbeliever',
-  Unsure = 'Unsure',
-  Friend = 'Friend',
-  NextStep = 'NextStep',
-  NewLife = 'NewLife',
-  AWalkWithGodClass = 'WalkWithGodClass',
-}
-
 export enum CareType {
   Message = 'Message',
   Call = 'Call',
@@ -32,6 +23,13 @@ export enum CareTitle {
   Good = 'Good',
   Normal = 'Normal',
   NotGood = 'NotGood'
+}
+
+export enum PersonalType {
+  Member = 'Member',
+  Unbeliever = 'Unbeliever',
+  Unsure = "Unsure",
+  Friend = "Friend",
 }
 
 export enum DiscipleType {

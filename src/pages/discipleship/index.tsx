@@ -175,7 +175,7 @@ const DisciplePage = () => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Tooltip title='View'>
-            <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/disciples/${row.id}`}>
+            <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/discipleship/${row.id}`}>
               <Icon icon='mdi:eye-outline' />
             </IconButton>
           </Tooltip>

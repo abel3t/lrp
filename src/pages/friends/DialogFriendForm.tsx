@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AppDispatch } from '@store';
+import { AppDispatch, RootState } from '@store';
 import { fetchData } from '@store/friend';
 import 'cleave.js/dist/addons/cleave-phone.vn';
 import Cleave from 'cleave.js/react';
@@ -7,7 +7,7 @@ import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DateType } from 'types/forms/reactDatepickerTypes';
 import * as yup from 'yup';
 
@@ -29,17 +29,23 @@ import Typography from '@mui/material/Typography';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { FriendTypeColor, FriendTypeText } from '@core/contanst';
-import { FriendType } from '@core/enums';
+import { PersonalTypeColor, PersonalTypeText, NotApplicable } from '@core/contanst';
+import { PersonalType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import CleaveWrapper from '@core/styles/libs/react-cleave';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
-import { FormMode } from '@core/types';
+import { FormMode, Member, Person } from '@core/types';
 import { standardDate } from '@core/utils/date';
+import { Autocomplete } from '@mui/material';
 
 export interface FormInputs {
   id: string;
   birthday?: DateType | null;
+  firstComeToLEC?: DateType | null,
+  believeInJesusDay?: DateType | null,
+  baptismalDay?: DateType | null,
+  memberDay?: DateType | null,
+  friend?: Person | null;
   email?: string;
   phone?: string;
   name: string;
@@ -59,7 +65,11 @@ interface CustomInputProps {
 
 const defaultValues = {
   id: '',
+  friend: null,
   birthday: '',
+  firstComeToLEC: '',
+  believeInJesusDay: '',
+  baptismalDay: '',
   email: '',
   name: '',
   phone: '',
@@ -114,12 +124,13 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
     description: yup.string(),
     type: yup.string()
   });
+  const memberStore = useSelector((state: RootState) => state.member);
 
   useEffect(() => {
     if (friend) {
       Object.keys(defaultValues).forEach((key: any) => {
         if ((friend as any)[key]) {
-          if (key === 'birthday') {
+          if (['birthday', 'firstComeToLEC', 'believeInJesusDay', 'baptismalDay', 'memberDay'].includes(key)) {
             setValue(key, new Date((friend as any)[key]));
 
             return;
@@ -149,7 +160,11 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
     const { id, ..._data } = data;
     const body: any = {
       ..._data,
-      birthday: data.birthday ? getUtcDate(data.birthday).toISOString() : undefined
+      birthday: data.birthday ? getUtcDate(data.birthday).toISOString() : undefined,
+      firstComeToLEC: data.firstComeToLEC ? getUtcDate(data.firstComeToLEC).toISOString() : undefined,
+      believeInJesusDay: data.believeInJesusDay ? getUtcDate(data.believeInJesusDay).toISOString() : undefined,
+      baptismalDay: data.baptismalDay ? getUtcDate(data.baptismalDay).toISOString() : undefined,
+      memberDay: data.memberDay ? getUtcDate(data.memberDay).toISOString() : undefined
     };
 
     if (mode === 'update') {
@@ -259,14 +274,16 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                         aria-describedby='friend-friend-type'
                         required={true}
                       >
-                        {Object.values(FriendType).map((type, index) => {
+                        {Object.values(PersonalType)
+                          .filter(type => !(mode === 'create' && type === PersonalType.Member))
+                          .map((type, index) => {
                           return (
                             <MenuItem value={type} key={index}>
                               <CustomChip
                                 skin='light'
                                 size='small'
-                                label={FriendTypeText[type]}
-                                color={FriendTypeColor[type]}
+                                label={PersonalTypeText[type]}
+                                color={PersonalTypeColor[type]}
                                 sx={{
                                   height: 20,
                                   fontWeight: 600,
@@ -284,6 +301,28 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                   />
                 </FormControl>
               </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='friend'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <Autocomplete
+                        openOnFocus
+                        options={memberStore.data?.map((member: Member) => ({ id: member.id, name: member.name }))}
+                        id='autocomplete-member-friend-name'
+                        getOptionLabel={(option: Member) => option.name ?? NotApplicable}
+                        defaultValue={value}
+                        onChange={(_, data) => onChange(data)}
+                        renderInput={params => <TextField {...params} label='Introduced By' />}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+
 
               <Grid item xs={12} sm={6}>
                 <CleaveWrapper>
@@ -352,6 +391,95 @@ const DialogEditUserInfo = ({ show, setShow, mode, friend, fetchApi }: Props) =>
                             label='Date of Birth'
                             error={Boolean(errors.birthday)}
                             aria-describedby='validate-birthday'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+
+
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='firstComeToLEC'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        selected={value ? standardDate(value) : null}
+                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='First come to LEC'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-firstComeToLEC'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='believeInJesusDay'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        selected={value ? standardDate(value) : null}
+                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='Believe in Jesus day'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-believeInJesusDay'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='baptismalDay'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        selected={value ? standardDate(value) : null}
+                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='Baptismal day'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-baptismalDay'
                           />
                         }
                       />

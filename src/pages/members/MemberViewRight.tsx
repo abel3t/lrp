@@ -1,13 +1,10 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { InvoiceType } from 'types/apps/invoiceTypes';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import MuiTab, { TabProps } from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 import Icon from '@core/components/icon';
@@ -16,10 +13,11 @@ import MemberMinistry from './MemberMinistry';
 import MemberNetwork from './MemberNetwork';
 import MemberOverview from './MemberOverview';
 import MemberTeam from './MemberTeam';
+import DiscipleshipProcess from './DiscipleshipProcess';
+import Friends from './Friends';
 
 interface Props {
   tab: string;
-  invoiceData: InvoiceType[];
 }
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
@@ -31,9 +29,8 @@ const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   }
 }));
 
-const MemberViewRight = ({ tab, invoiceData }: Props) => {
+const MemberViewRight = ({ tab }: Props) => {
   const [activeTab, setActiveTab] = useState<string>(tab);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setActiveTab(value);
@@ -47,12 +44,6 @@ const MemberViewRight = ({ tab, invoiceData }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
 
-  useEffect(() => {
-    if (invoiceData) {
-      setIsLoading(false);
-    }
-  }, [invoiceData]);
-
   return (
     <TabContext value={activeTab}>
       <TabList
@@ -63,32 +54,35 @@ const MemberViewRight = ({ tab, invoiceData }: Props) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='Overview' icon={<Icon icon='mdi:account-outline' />} />
+        <Tab value='discipleship_process' label='Discipleship Process' />
+        <Tab value='friends' label='Friends' />
+
         {/*<Tab value='ministry' label='Ministry' icon={<Icon icon='mdi:lock-outline' />} />*/}
         {/*<Tab value='team' label='Team' icon={<Icon icon='mdi:bell-outline' />} />*/}
-        <Tab value='network' label='Network' icon={<Icon icon='mdi:link-variant' />} />
+        {/*<Tab value='network' label='Network' icon={<Icon icon='mdi:link-variant' />} />*/}
       </TabList>
       <Box sx={{ mt: 6 }}>
-        {isLoading ? (
-          <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <CircularProgress sx={{ mb: 4 }} />
-            <Typography>Loading...</Typography>
-          </Box>
-        ) : (
-          <>
-            <TabPanel sx={{ p: 0 }} value='overview'>
-              <MemberOverview />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='ministry'>
-              <MemberMinistry />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='team'>
-              <MemberTeam />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='network'>
-              <MemberNetwork />
-            </TabPanel>
-          </>
-        )}
+        <TabPanel sx={{ p: 0 }} value='overview'>
+          <MemberOverview />
+        </TabPanel>
+
+        <TabPanel sx={{ p: 0 }} value='discipleship_process'>
+          <DiscipleshipProcess />
+        </TabPanel>
+
+        <TabPanel sx={{ p: 0 }} value='friends'>
+          <Friends />
+        </TabPanel>
+
+        <TabPanel sx={{ p: 0 }} value='ministry'>
+          <MemberMinistry />
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='team'>
+          <MemberTeam />
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='network'>
+          <MemberNetwork />
+        </TabPanel>
       </Box>
     </TabContext>
   );

@@ -23,8 +23,8 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:account-multiple-outline'
     },
     {
-      title: 'Disciples',
-      path: '/disciples',
+      title: 'Discipleship',
+      path: '/discipleship',
       icon: 'mdi:church-outline'
     }
 

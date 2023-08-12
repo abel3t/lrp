@@ -21,35 +21,33 @@ export const fetchMemberData = createAsyncThunk('member/fetchMemberData', async 
   return response.data;
 });
 
+export const fetchPersonFriendsData = createAsyncThunk('person/fetchPersonFriendsData', async (personId: string) => {
+  const response = await apiClient.get(`/members/${personId}/friends`);
+
+  return response.data?.map((friend: Member, index: number) => ({ index: index + 1, ...friend }));
+});
+
 export const deleteMember = createAsyncThunk('member/deleteMember', async (memberId: string) => {
   const response = await apiClient.delete(`/members/${memberId}`);
 
   return response.data;
 });
 
-// export const deleteMember = createAsyncThunk(
-//   'appMember/deleteData',
-//   async (id: number | string, { getState, dispatch }: Redux) => {
-//     const response = await apiClient.delete('/apps/member/delete', {
-//       data: id
-//     })
-//     await dispatch(fetchData(getState().member.params))
-//
-//
-//     return response.data
-//   }
-// )
-
 export const appMemberSlice = createSlice({
   name: 'member',
   initialState: {
     data: [],
+    friends: [],
     member: {} as Member
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
       state.data = action.payload;
+    });
+
+    builder.addCase(fetchPersonFriendsData.fulfilled, (state, action) => {
+      state.friends = action.payload;
     });
 
     builder.addCase(fetchMemberData.fulfilled, (state, action) => {

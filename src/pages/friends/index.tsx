@@ -21,7 +21,7 @@ import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { FriendTypeColor, FriendTypeText, NotApplicable } from '@core/contanst';
+import { PersonalTypeColor, PersonalTypeText, NotApplicable } from '@core/contanst';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode, Friend } from '@core/types';
 
@@ -73,7 +73,7 @@ const defaultColumns = [
           skin='light'
           size='small'
           label={row.type}
-          color={FriendTypeColor[FriendTypeText[row.type]]}
+          color={PersonalTypeColor[PersonalTypeText[row.type]]}
           sx={{
             height: 20,
             fontWeight: 600,
