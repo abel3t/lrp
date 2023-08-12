@@ -11,7 +11,7 @@ export enum FriendType {
   Friend = 'Friend',
   NextStep = 'NextStep',
   NewLife = 'NewLife',
-  AWalkWithGodClass = 'WalkWithGodClass'
+  AWalkWithGodClass = 'WalkWithGodClass',
 }
 
 export enum CareType {
@@ -33,3 +33,16 @@ export enum CareTitle {
   Normal = 'Normal',
   NotGood = 'NotGood'
 }
+
+export enum DiscipleType {
+  ShareGospel = 'ShareGospel',
+  Believe = 'Believe',
+  Disciple = 'Disciple'
+}
+
+export enum DisciplePriority {
+  Good = 'Good',
+  Normal = 'Normal',
+  Warning = 'Warning'
+}
+

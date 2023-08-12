@@ -37,6 +37,15 @@ const MemberViewLeft = () => {
     }
   }, [router.isReady, dispatch]);
 
+
+  useEffect(() => {
+    console.log('alo', store.member?.type, store.member?.type as string !== 'Member')
+
+    if (store.member?.type && store.member?.type as string !== 'Member') {
+      router.push(`/friends/${store.member?.id}`);
+    }
+  }, [store.member.id]);
+
   if (store.member.id) {
     return (
       <Grid container spacing={6}>

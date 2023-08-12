@@ -5,6 +5,8 @@ import care from './care';
 import dashboard from './dashboard';
 import friend from './friend';
 import member from './member';
+import disciple from './disciple';
+import person from './person';
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +14,9 @@ export const store = configureStore({
     friend,
     care,
     account,
-    dashboard
+    dashboard,
+    disciple,
+    person
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

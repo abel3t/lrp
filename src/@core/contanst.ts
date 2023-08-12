@@ -1,4 +1,4 @@
-import { CarePriority, CareType, DiscipleshipProcess, FriendType } from './enums';
+import { CarePriority, CareType, DisciplePriority, DiscipleshipProcess, DiscipleType, FriendType } from './enums';
 import { ColorsType } from './interface';
 
 export const NotApplicable = 'N/A';
@@ -46,4 +46,22 @@ export const CareTypeText = {
   [CareType.FaceToFace]: 'Face To Face',
   [CareType.Call]: 'Call',
   [CareType.Visit]: 'Visit'
+};
+
+export const DiscipleTypeColor: ColorsType = {
+  [DiscipleType.ShareGospel]: 'info',
+  [DiscipleType.Believe]: 'success',
+  [DiscipleType.Disciple]: 'primary'
+};
+
+export const DisciplePriorityColor: ColorsType = {
+  [DisciplePriority.Warning]: 'error',
+  [DisciplePriority.Normal]: 'warning',
+  [DisciplePriority.Good]: 'success'
+};
+
+export const DiscipleTypeText = {
+  [DiscipleType.ShareGospel]: 'Shared the Gospel',
+  [DiscipleType.Believe]: 'Believed in Jesus',
+  [DiscipleType.Disciple]: 'Disciple'
 };

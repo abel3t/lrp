@@ -20,6 +20,7 @@ import { NotApplicable } from '@core/contanst';
 import { getInitials } from '@core/utils/get-initials';
 
 import DialogFriendForm from './DialogFriendForm';
+import { FriendType } from '../../@core/enums';
 
 const FriendViewLeft = () => {
   const [openEdit, setOpenEdit] = useState<boolean>(false);
@@ -34,7 +35,15 @@ const FriendViewLeft = () => {
     if (router.isReady) {
       dispatch(fetchFriendData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch]);
+  }, [router.isReady, dispatch, store.friend.id]);
+
+  useEffect(() => {
+    console.log('alo', store.friend?.type, store.friend?.type as string === 'Member')
+
+    if (store.friend?.type as string === 'Member') {
+      router.push(`/members/${store.friend?.id}`);
+    }
+  }, [store.friend.id]);
 
   if (store.friend.id) {
     return (

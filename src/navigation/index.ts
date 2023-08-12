@@ -21,6 +21,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Friends',
       path: '/friends',
       icon: 'mdi:account-multiple-outline'
+    },
+    {
+      title: 'Disciples',
+      path: '/disciples',
+      icon: 'mdi:church-outline'
     }
 
     // {

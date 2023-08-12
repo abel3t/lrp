@@ -4,7 +4,6 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -12,6 +11,17 @@ import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@store';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { DisciplePriorityColor, DiscipleTypeColor, DiscipleTypeText } from '../../@core/contanst';
+import Link from 'next/link';
+import CustomChip from '../../@core/components/mui/chip';
+import { DiscipleType } from '../../@core/enums';
+import { formatRelativeDate } from '../../@core/utils/date';
+import { format } from 'date-fns';
+import { fetchPersonDisciplesData } from '../../@store/disciple';
 
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   margin: 0,
@@ -30,132 +40,79 @@ const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
 const FriendOverview = () => {
   return (
     <Grid container spacing={6}>
-      <SundayServiceOverview />
+      <FriendTimeline />
     </Grid>
   );
 };
 
-const SundayServiceOverview = () => {
+const FriendTimeline = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const store = useSelector((state: RootState) => state.disciple);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.isReady) {
+      dispatch(fetchPersonDisciplesData(router.query?.id as string));
+    }
+  }, [router.isReady, dispatch]);
+
   return (
     <Grid item xs={12}>
       <Card>
         <CardHeader title='User Activity Timeline' />
-        <CardContent>
-          <Timeline>
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='error' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    User login
-                  </Typography>
-                  <Typography variant='caption'>12 min ago</Typography>
-                </Box>
-                <Typography variant='body2'>User login at 2:12pm</Typography>
-              </TimelineContent>
-            </TimelineItem>
+        <CardContent style={{ maxHeight: 500, overflow: 'auto' }}>
+          <Timeline sx={{ my: 0, py: 0 }}>
+            {store.personDisciples?.map((discipleMember: any, index: number) => (
+              <TimelineItem key={index}>
+                <TimelineSeparator>
+                  <TimelineDot color={DisciplePriorityColor[discipleMember.priority]} />
+                  <TimelineConnector />
+                </TimelineSeparator>
 
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='primary' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    Meeting with John
-                  </Typography>
-                  <Typography variant='caption'>45 min ago</Typography>
-                </Box>
-                <Typography variant='body2' sx={{ mb: 2 }}>
-                  React Project meeting with John @10:15am
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar alt='Avatar' src='/images/avatars/2.png' sx={{ width: 40, height: 40, mr: 2 }} />
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
-                      Leona Watkins (Client)
-                    </Typography>
-                    <Typography variant='body2'>CEO of Watkins Group</Typography>
-                  </Box>
-                </Box>
-              </TimelineContent>
-            </TimelineItem>
+                <TimelineContent sx={{ mt: 0, mb: theme => `${theme.spacing(3)} !important` }}>
+                  <Link href={`/disciples/${discipleMember.id}`} style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                    <Box
+                      sx={{
+                        mb: 3,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <CustomChip
+                        skin='light'
+                        size='small'
+                        label={DiscipleTypeText[discipleMember?.type as DiscipleType]}
+                        color={DiscipleTypeColor[discipleMember?.type || '']}
+                        sx={{
+                          height: 20,
+                          fontWeight: 600,
+                          borderRadius: '5px',
+                          fontSize: '0.875rem',
+                          textTransform: 'capitalize',
+                          '& .MuiChip-label': { mt: -0.25 }
+                        }}
+                      />
+                      <Typography sx={{ mr: 2, fontWeight: 600 }} color='primary'>
+                        &nbsp;by&nbsp;
+                        <span color='primary'>{discipleMember.curator?.name}</span>
+                      </Typography>
 
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='info' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    Create a new react project for client
-                  </Typography>
-                  <Typography variant='caption'>2 day ago</Typography>
-                </Box>
-                <Typography variant='body2'>Add files to new design folder</Typography>
-              </TimelineContent>
-            </TimelineItem>
+                      <Typography variant='caption' sx={{ color: 'text.disabled' }}>
+                        {formatRelativeDate(discipleMember.date)}&nbsp; - &nbsp;
+                        {format(new Date(discipleMember.date), 'dd/MM/yyyy')}
+                      </Typography>
+                    </Box>
+                  </Link>
 
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='success' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    Create invoices for client
+                  <Typography variant='body2' sx={{ mb: 2, whiteSpace: 'pre' }}>
+                    {discipleMember.description}
                   </Typography>
-                  <Typography variant='caption'>12 min ago</Typography>
-                </Box>
-                <Typography variant='body2'>Create new invoices and send to Leona Watkins</Typography>
-                <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ width: 28, height: 'auto' }}>
-                    <img width={28} height={28} alt='invoice.pdf' src='/images/icons/file-icons/pdf.png' />
-                  </Box>
-                  <Typography variant='subtitle2' sx={{ ml: 2, fontWeight: 600 }}>
-                    invoice.pdf
-                  </Typography>
-                </Box>
-              </TimelineContent>
-            </TimelineItem>
+                </TimelineContent>
+              </TimelineItem>
+            ))}
           </Timeline>
         </CardContent>
       </Card>

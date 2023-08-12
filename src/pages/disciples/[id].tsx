@@ -1,6 +1,6 @@
 import { AppDispatch, RootState } from '@store';
-import { fetchCareData } from '@store/care';
-import { useEffect } from 'react';
+import { fetchDiscipleData } from '@store/disciple';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Link from 'next/link';
@@ -14,16 +14,22 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import CustomChip from '@core/components/mui/chip';
-import { CarePriorityColor, CareTypeColor, CareTypeText, NotApplicable } from '@core/contanst';
+import { DisciplePriorityColor, DiscipleTypeColor, DiscipleTypeText, NotApplicable } from '@core/contanst';
 
-const CareView = () => {
+const DiscipleView = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const store = useSelector((state: RootState) => state.care);
+  const store = useSelector((state: RootState) => state.disciple);
+  const [personalLink, setPersonalLink] = useState('friends');
 
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchCareData(router?.query?.id as string));
+      dispatch(fetchDiscipleData(router?.query?.id as string));
+
+      const link = store.disciple?.person?.type === 'Member' ? 'members': 'friends';
+
+      setPersonalLink(link);
+
     }
   }, [router.isReady, dispatch]);
 
@@ -31,7 +37,7 @@ const CareView = () => {
     <Grid container spacing={8}>
       <Grid item xs={12} md={8} lg={7}>
         <Card>
-          <CardHeader title='Care Details' />
+          <CardHeader title='Disciple Details' />
           <CardContent
             sx={{ pt: theme => `${theme.spacing(2.5)} !important` }}
             style={{ maxHeight: 350, overflow: 'auto' }}
@@ -40,21 +46,24 @@ const CareView = () => {
               <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                 Member:
               </Typography>
-              <Link href={`/members/${store.care.person?.id}`} style={{ cursor: 'pointer', textDecoration: 'none' }}>
-                <Typography variant='body2'>{store.care.person?.name || NotApplicable}</Typography>
+
+              <Link href={`/${personalLink}/${store.disciple.person?.id}`} style={{ cursor: 'pointer', textDecoration: 'none' }}>
+                <Typography variant='body2'>{store.disciple.person?.name || NotApplicable}</Typography>
               </Link>
+
+
             </Box>
 
             <Box sx={{ display: 'flex', mb: 2.7 }}>
               <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
-                Care Type:
+                Disciple Type:
               </Typography>
 
               <CustomChip
                 skin='light'
                 size='small'
-                label={CareTypeText[store.care?.type]}
-                color={CareTypeColor[store.care?.type || '']}
+                label={DiscipleTypeText[store.disciple?.type]}
+                color={DiscipleTypeColor[store.disciple?.type || '']}
                 sx={{
                   height: 20,
                   fontWeight: 600,
@@ -74,8 +83,8 @@ const CareView = () => {
               <CustomChip
                 skin='light'
                 size='small'
-                label={store.care?.priority}
-                color={CarePriorityColor[store.care?.priority || '']}
+                label={store.disciple?.priority}
+                color={DisciplePriorityColor[store.disciple?.priority || '']}
                 sx={{
                   height: 20,
                   fontWeight: 600,
@@ -92,7 +101,7 @@ const CareView = () => {
                 Curator:
               </Typography>
 
-              <Typography variant='body2'>{store.care.curator?.name || NotApplicable}</Typography>
+              <Typography variant='body2'>{store.disciple.curator?.name || NotApplicable}</Typography>
             </Box>
 
             <Box sx={{ display: 'flex', mb: 2.7 }}>
@@ -100,17 +109,17 @@ const CareView = () => {
                 Description:
               </Typography>
 
-              <Typography variant='body2' sx={{whiteSpace: 'pre'}}>{store.care.description || NotApplicable}</Typography>
+              <Typography variant='body2' sx={{whiteSpace: 'pre'}}>{store.disciple.description || NotApplicable}</Typography>
             </Box>
           </CardContent>
         </Card>
       </Grid>
 
       <Grid item xs={12} md={4} lg={5} style={{ width: '400px', height: '800px' }}>
-        <img src={store.care?.image} alt='N/A' width='400px' height='auto' />
+        <img src={store.disciple?.image} alt='N/A' width='400px' height='auto' />
       </Grid>
     </Grid>
   );
 };
 
-export default CareView;
+export default DiscipleView;

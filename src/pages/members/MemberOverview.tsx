@@ -46,7 +46,7 @@ const MemberOverview = () => {
   return (
     <Grid container spacing={6}>
       <CaringOverview />
-      <SundayServiceOverview />
+      <MemberTimeline />
     </Grid>
   );
 };
@@ -126,7 +126,7 @@ const CaringOverview = () => {
   );
 };
 
-const SundayServiceOverview = () => {
+const MemberTimeline = () => {
   return (
     <Grid item xs={12}>
       <Card>
