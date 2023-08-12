@@ -202,7 +202,6 @@ const CreateAbsenceForm = ({ show, setShow, fetchApi }: Props) => {
                     type: '',
                     description: ''
                   })}>Add</Button>
-                  <Button color="error">Delete All</Button>
                 </ButtonGroup>
               </Grid  >
 
