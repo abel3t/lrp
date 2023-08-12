@@ -215,7 +215,7 @@ const CreateAbsenceForm = ({ show, setShow, fetchApi }: Props) => {
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}

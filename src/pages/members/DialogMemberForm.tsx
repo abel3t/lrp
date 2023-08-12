@@ -492,7 +492,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                       <DatePicker
                         required={false}
                         selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -522,7 +522,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                       <DatePicker
                         required={false}
                         selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -552,7 +552,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                       <DatePicker
                         required={false}
                         selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -582,7 +582,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                       <DatePicker
                         required={false}
                         selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date(new Date().getFullYear(), 0, 1)}
+                        openToDate={value ? new Date(value) : new Date()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
