@@ -26,6 +26,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Discipleship',
       path: '/discipleship',
       icon: 'mdi:church-outline'
+    },
+    {
+      title: 'Absences',
+      path: '/absence',
+      icon: 'mdi:license'
     }
 
     // {

@@ -2,13 +2,13 @@ import Head from 'next/head';
 
 import Grid from '@mui/material/Grid';
 
-import CardStatisticsCharacter from '@core/components/card-statistics/card-stats-with-image';
 import KeenSliderWrapper from '@core/styles/libs/keen-slider';
 import RechartsWrapper from '@core/styles/libs/recharts';
 
 import NeedingMoreCare from './components/NeedingMoreCare';
 import Overview from './components/Overview';
 import TopCaringPeople from './components/TopCaringPeople';
+import SundayServicePresence from './components/SundayServicePresence';
 
 const Dashboard = () => {
   return (
@@ -23,29 +23,8 @@ const Dashboard = () => {
           <Grid item xs={12} md={6}>
             <Overview />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <CardStatisticsCharacter
-              data={{
-                stats: '25',
-                title: 'Members',
-                chipColor: 'primary',
-                trendNumber: '+15.6%',
-                chipText: 'This Week'
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <CardStatisticsCharacter
-              data={{
-                stats: '20',
-                trend: 'negative',
-                title: 'Members',
-                chipColor: 'success',
-                trendNumber: '-25.5%',
-                chipText: 'Last Month'
-              }}
-            />
+          <Grid item xs={12} sm={12} md={6}>
+            <SundayServicePresence />
           </Grid>
           <Grid item xs={12} md={6}>
             <NeedingMoreCare />

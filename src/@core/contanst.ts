@@ -1,4 +1,5 @@
 import {
+  AbsenceType,
   CarePriority,
   CareType,
   DisciplePriority,
@@ -66,4 +67,26 @@ export const PersonalTypeColor: ColorsType = {
   [PersonalType.Unsure]: 'secondary',
   [PersonalType.Friend]: 'warning',
   [PersonalType.Member]: 'primary'
+};
+
+export const AbsenceTypeColor: ColorsType = {
+  [AbsenceType.NoAsking]: 'error',
+  [AbsenceType.Asking]: 'success',
+};
+
+export const AbsenceTypeText = {
+  [AbsenceType.NoAsking]: 'No Asking',
+  [AbsenceType.Asking]: 'Asking',
+};
+
+export const SundayServicePriorityText = {
+  absentNoAsking: 'Absence Without Asking',
+  absentAsking: 'Absence With Asking',
+  present: 'Presence'
+};
+
+export const SundayServicePriorityColor: ColorsType = {
+  absentNoAsking: 'error',
+  absentAsking: 'warning',
+  present: 'success'
 };

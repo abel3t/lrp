@@ -44,3 +44,7 @@ export enum DisciplePriority {
   Warning = 'Warning'
 }
 
+export enum AbsenceType {
+  Asking = 'Asking',
+  NoAsking = 'NoAsking'
+}

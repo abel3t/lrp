@@ -15,6 +15,7 @@ import MemberOverview from './MemberOverview';
 import MemberTeam from './MemberTeam';
 import DiscipleshipProcess from './DiscipleshipProcess';
 import Friends from './Friends';
+import SundayServiceHistory from './SundayServiceHistory';
 
 interface Props {
   tab: string;
@@ -56,6 +57,7 @@ const MemberViewRight = ({ tab }: Props) => {
         <Tab value='overview' label='Overview' icon={<Icon icon='mdi:account-outline' />} />
         <Tab value='discipleship_process' label='Discipleship Process' />
         <Tab value='friends' label='Friends' />
+        <Tab value='dunday_service' label='Sunday Service' />
 
         {/*<Tab value='ministry' label='Ministry' icon={<Icon icon='mdi:lock-outline' />} />*/}
         {/*<Tab value='team' label='Team' icon={<Icon icon='mdi:bell-outline' />} />*/}
@@ -72,6 +74,10 @@ const MemberViewRight = ({ tab }: Props) => {
 
         <TabPanel sx={{ p: 0 }} value='friends'>
           <Friends />
+        </TabPanel>
+
+        <TabPanel sx={{ p: 0 }} value='dunday_service'>
+          <SundayServiceHistory />
         </TabPanel>
 
         <TabPanel sx={{ p: 0 }} value='ministry'>

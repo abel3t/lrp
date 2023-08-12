@@ -7,6 +7,7 @@ import friend from './friend';
 import member from './member';
 import disciple from './disciple';
 import person from './person';
+import absence from './absence';
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +17,8 @@ export const store = configureStore({
     account,
     dashboard,
     disciple,
-    person
+    person,
+    absence
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

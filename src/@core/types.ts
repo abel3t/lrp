@@ -93,3 +93,12 @@ export type Person = {
   weddingDate?: string;
   hometown?: string;
 };
+
+export type Absence = {
+  id?: string;
+  index?: number;
+  type?: string;
+  description?: string;
+  member?: Member;
+  person?: Member;
+}
