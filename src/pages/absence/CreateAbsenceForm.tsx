@@ -33,7 +33,7 @@ import apiClient from '@core/services/api.client';
 import { Member, Person } from '@core/types';
 import DatePickerWrapper from '../../@core/styles/libs/react-datepicker';
 import DatePicker from 'react-datepicker';
-import { standardDate } from '../../@core/utils/date';
+import { convertToStartOfUtcDate, createStartOfDate } from '../../@core/utils/date';
 import { Autocomplete } from '@mui/material';
 import { fetchData as fetchMembersData } from '@store/member';
 
@@ -141,7 +141,7 @@ const CreateAbsenceForm = ({ show, setShow, fetchApi }: Props) => {
           name: absence.member?.name
         },
         type: absence.type,
-        date: data.date,
+        date: convertToStartOfUtcDate(data.date),
         description: absence.description
       }
     });
@@ -213,8 +213,8 @@ const CreateAbsenceForm = ({ show, setShow, fetchApi }: Props) => {
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date()}
+                        selected={value ? new Date(value) : null}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}

@@ -36,7 +36,7 @@ import apiClient from '@core/services/api.client';
 import CleaveWrapper from '@core/styles/libs/react-cleave';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { Account, FormMode, Member } from '@core/types';
-import { standardDate } from '@core/utils/date';
+import { createStartOfDate, standardDate } from '@core/utils/date';
 
 export interface FormInputs {
   id: string;
@@ -461,7 +461,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         required={false}
-                        selected={value ? standardDate(value) : null}
+                        selected={standardDate(value)}
                         openToDate={value ? new Date(value) : new Date(new Date().getFullYear() - 20, 0, 1)}
                         showMonthDropdown
                         showYearDropdown
@@ -491,8 +491,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         required={false}
-                        selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date()}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -521,8 +521,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         required={false}
-                        selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date()}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -551,8 +551,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         required={false}
-                        selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date()}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
@@ -581,8 +581,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
                         required={false}
-                        selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date()}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}

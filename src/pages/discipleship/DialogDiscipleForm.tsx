@@ -40,7 +40,7 @@ import { DisciplePriority, DiscipleType, PersonalType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
 import { FormMode, Member, Person } from '@core/types';
-import { standardDate } from '@core/utils/date';
+import { createStartOfDate, standardDate } from '@core/utils/date';
 
 import UploadImage from './UploadImage';
 
@@ -398,8 +398,8 @@ const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) 
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={value ? standardDate(value) : null}
-                        openToDate={value ? new Date(value) : new Date()}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
                         showMonthDropdown
                         showYearDropdown
                         onChange={e => onChange(e)}
