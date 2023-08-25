@@ -238,4 +238,9 @@ const FriendPage = () => {
   );
 };
 
+FriendPage.acl = {
+  action: 'read',
+  subject: 'friends'
+};
+
 export default FriendPage;

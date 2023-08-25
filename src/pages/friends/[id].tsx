@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import FriendViewLeft from './FriendViewLeft';
 import FriendViewRight from './FriendViewRight';
 
-const UserView = () => {
+const FriendView = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={5} lg={4}>
@@ -16,4 +16,9 @@ const UserView = () => {
   );
 };
 
-export default UserView;
+FriendView.acl = {
+  action: 'read',
+  subject: 'friend-detail',
+}
+
+export default FriendView;

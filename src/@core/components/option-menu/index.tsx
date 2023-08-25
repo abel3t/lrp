@@ -54,7 +54,6 @@ const OptionsMenu = (props: OptionsMenuType) => {
   };
 
   const handleClose = () => {
-    console.log('close nè');
     setAnchorEl(null);
   };
 
@@ -91,7 +90,6 @@ const OptionsMenu = (props: OptionsMenuType) => {
                 {...(option.href && { sx: { p: 0 } })}
                 onClick={e => {
                   handleClose();
-                  console.log(option.menuItemProps);
                   option.menuItemProps && option.menuItemProps.onClick ? option.menuItemProps.onClick(e) : null;
                 }}
               >

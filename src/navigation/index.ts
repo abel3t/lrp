@@ -5,32 +5,44 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Dashboard',
       path: '/dashboard',
-      icon: 'mdi:home-outline'
+      icon: 'mdi:home-outline',
+      action: 'manage',
+      subject: 'dashboard',
     },
     {
       title: 'Members',
       path: '/members',
-      icon: 'mdi:person-outline'
+      icon: 'mdi:person-outline',
+      action: 'manage',
+      subject: 'members'
     },
     {
       title: 'Cares',
       path: '/cares',
-      icon: 'mdi:calendar-plus-outline'
+      icon: 'mdi:calendar-plus-outline',
+      action: 'manage',
+      subject: 'cares'
     },
     {
       title: 'Friends',
       path: '/friends',
-      icon: 'mdi:account-multiple-outline'
+      icon: 'mdi:account-multiple-outline',
+      action: 'manage',
+      subject: 'friends'
     },
     {
       title: 'Discipleship',
       path: '/discipleship',
-      icon: 'mdi:church-outline'
+      icon: 'mdi:church-outline',
+      action: 'manage',
+      subject: 'discipleship'
     },
     {
       title: 'Absences',
       path: '/absence',
-      icon: 'mdi:license'
+      icon: 'mdi:license',
+      action: 'manage',
+      subject: 'absence'
     }
 
     // {

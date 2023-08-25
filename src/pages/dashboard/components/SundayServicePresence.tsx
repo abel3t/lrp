@@ -68,7 +68,6 @@ const SundayServicePresence = () => {
         setLoadMaximumValue(false);
         setCategories(categories);
 
-        console.log({ maximumValue, loadMaximumValue })
         setSeries([
           {
             type: 'column',

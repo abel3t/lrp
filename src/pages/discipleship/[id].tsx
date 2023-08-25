@@ -122,4 +122,9 @@ const DiscipleView = () => {
   );
 };
 
+DiscipleView.acl = {
+  action: 'read',
+  subject: 'disciple-detail'
+}
+
 export default DiscipleView;

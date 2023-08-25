@@ -284,4 +284,9 @@ const DisciplePage = () => {
   );
 };
 
+DisciplePage.acl = {
+  action: 'read',
+  subject: 'discipleship'
+};
+
 export default DisciplePage;

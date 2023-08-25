@@ -32,10 +32,6 @@ const MemberViewLeft = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('change')
-  }, [router.route]);
-
-  useEffect(() => {
     if (router.isReady) {
       dispatch(fetchMemberData(router.query?.id as string));
     }

@@ -282,4 +282,9 @@ const MemberPage = () => {
   );
 };
 
+MemberPage.acl = {
+  action: 'read',
+  subject: 'members'
+};
+
 export default MemberPage;

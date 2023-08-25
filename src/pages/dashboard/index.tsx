@@ -9,8 +9,12 @@ import NeedingMoreCare from './components/NeedingMoreCare';
 import Overview from './components/Overview';
 import TopCaringPeople from './components/TopCaringPeople';
 import SundayServicePresence from './components/SundayServicePresence';
+import { useContext } from 'react';
+import { AbilityContext } from '../../layouts/components/acl/Can';
 
 const Dashboard = () => {
+  const ability = useContext(AbilityContext);
+
   return (
     <RechartsWrapper>
       <Head>
@@ -26,16 +30,27 @@ const Dashboard = () => {
           <Grid item xs={12} sm={12} md={6}>
             <SundayServicePresence />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <NeedingMoreCare />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TopCaringPeople />
-          </Grid>
+
+          {
+            ability?.can('read', 'cares-overview') &&
+            <>
+              <Grid item xs={12} md={6}>
+                <NeedingMoreCare />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TopCaringPeople />
+              </Grid>
+            </>
+          }
         </Grid>
       </KeenSliderWrapper>
     </RechartsWrapper>
   );
+};
+
+Dashboard.acl = {
+  action: 'read',
+  subject: 'dashboard'
 };
 
 export default Dashboard;

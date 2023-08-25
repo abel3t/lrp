@@ -148,8 +148,6 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
             return;
           }
 
-          console.log(key, (member as any)[key])
-
           setValue(key, (member as any)[key]);
         }
       });

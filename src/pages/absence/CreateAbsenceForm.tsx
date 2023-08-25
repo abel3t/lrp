@@ -108,8 +108,7 @@ const CreateAbsenceForm = ({ show, setShow, fetchApi }: Props) => {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
-    getValues
+    reset
   } = useForm<FormInputs>({
     defaultValues: defaultValues,
     mode: 'onBlur',
@@ -362,8 +361,6 @@ const CreateAbsenceForm = ({ show, setShow, fetchApi }: Props) => {
                       <div style={{height: '100%', marginLeft: '5px', display: 'flex', alignItems: 'center'}}>
                         <Icon icon="mdi:trash" onClick={() => {
                           remove(index);
-
-                          console.log(index, item, getValues('absences'))
                         }} style={{ cursor: 'pointer' }}/>
                       </div>
                     </Grid>
