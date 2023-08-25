@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from '@store';
 import { fetchCurators } from '@store/account';
 import { deleteMember, fetchData } from '@store/member';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Head from 'next/head';
@@ -30,6 +30,7 @@ import { Account, FormMode, Member } from '@core/types';
 
 import DialogMemberForm from './DialogMemberForm';
 import toast from 'react-hot-toast';
+import { AbilityContext } from '../../layouts/components/acl/Can';
 
 interface CellType {
   row: Member;
@@ -113,6 +114,8 @@ const MemberPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const store = useSelector((state: RootState) => state.member);
   const accountStore = useSelector((state: RootState) => state.account);
+
+  const ability = useContext(AbilityContext);
 
   useEffect(() => {
     dispatch(fetchData());
@@ -255,9 +258,14 @@ const MemberPage = () => {
                   sx={{ mr: 4, mb: 2, maxWidth: '180px' }}
                   onChange={e => handleSearch(e.target.value)}
                 />
-                <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
-                  Create Member
-                </Button>
+
+                {
+                  ability?.can('create', 'member') &&
+
+                  <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
+                    Create Member
+                  </Button>
+                }
               </Box>
             </Box>
 
