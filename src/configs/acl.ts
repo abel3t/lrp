@@ -20,7 +20,7 @@ const defineRulesFor = (role: string, subject: string) => {
   const { can, rules } = new AbilityBuilder(AppAbility);
   const acceptRoles = ['Global_Admin', 'Staff', 'Pastor', 'Deacon'];
 
-  if (role === 'Ministry') {
+  if (role === 'Missionary') {
     can('manage', 'dashboard');
     can('manage', 'members');
     can('manage', 'friends');
