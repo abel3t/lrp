@@ -83,7 +83,7 @@ const SundayServicePresence = () => {
       });
 
 
-  }, [dispatch, loadMaximumValue, maximumValue, maximumValue, store.presents]);
+  }, [dispatch, loadMaximumValue, maximumValue, maximumValue]);
 
   const options: ApexOptions = {
     chart: {
