@@ -31,7 +31,7 @@ const DiscipleView = () => {
       setPersonalLink(link);
 
     }
-  }, [router.isReady, dispatch]);
+  }, [router.isReady, dispatch, router?.query?.id]);
 
   return (
     <Grid container spacing={8}>

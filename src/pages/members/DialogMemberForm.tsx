@@ -152,7 +152,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
         }
       });
     }
-  }, [show]);
+  }, [show, member]);
 
   const {
     control,

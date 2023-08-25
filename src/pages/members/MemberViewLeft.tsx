@@ -42,7 +42,7 @@ const MemberViewLeft = () => {
     if (store.member?.type && store.member?.type as string !== 'Member') {
       router.push(`/friends/${store.member?.id}`);
     }
-  }, [store.member.id]);
+  }, [store.member.id, store.member?.type, router.query?.id]);
 
   if (store.member.id) {
     return (
