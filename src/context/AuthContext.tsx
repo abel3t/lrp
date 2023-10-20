@@ -1,5 +1,5 @@
-import { AxiosRequestConfig } from 'axios';
-import { ReactNode, createContext, useEffect, useState } from 'react';
+import { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -35,7 +35,7 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     apiClient.interceptors.request.use(
-      async (config: AxiosRequestConfig) => {
+      async (config: AxiosRequestConfig): Promise<InternalAxiosRequestConfig>  => {
         const noneAuthorize: Record<string, boolean> = {
           '/login': true,
           '/global-admins': true,
@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: Props) => {
         };
 
         if (noneAuthorize[config.url || '']) {
-          return config;
+          return config as InternalAxiosRequestConfig;
         }
 
         const nowTimestamp = new Date().getTime();
@@ -80,7 +80,7 @@ const AuthProvider = ({ children }: Props) => {
             ...config.headers,
             Authorization: 'Bearer ' + localStorage.getItem(authConfig.storageTokenKeyName)
           }
-        };
+        } as InternalAxiosRequestConfig;
       },
       error => {
         console.log(error);
