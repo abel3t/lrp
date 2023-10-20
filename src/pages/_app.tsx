@@ -4,10 +4,7 @@ import { store } from '@store';
 import 'iconify-bundle/icons-bundle-react';
 import type { NextPage } from 'next';
 import NProgress from 'nprogress';
-import 'prismjs';
-import 'prismjs/components/prism-jsx';
-import 'prismjs/components/prism-tsx';
-import 'prismjs/themes/prism-tomorrow.css';
+
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import 'react-perfect-scrollbar/dist/css/styles.css';
