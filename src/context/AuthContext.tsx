@@ -35,7 +35,7 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     apiClient.interceptors.request.use(
-      async (config: AxiosRequestConfig): Promise<AxiosRequestConfig>  => {
+      async (config: AxiosRequestConfig): Promise<any>  => {
         const noneAuthorize: Record<string, boolean> = {
           '/login': true,
           '/global-admins': true,
