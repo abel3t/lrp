@@ -62,7 +62,7 @@ const defaultColumns = [
     flex: 0.08,
     minWidth: 80,
     field: 'type',
-    headerName: 'Friend Type',
+    headerName: 'Type',
     renderCell: ({ row }: CellType) => {
       if (!row.type) {
         return <Typography variant='body2'>{NotApplicable}</Typography>;
