@@ -89,12 +89,13 @@ const defaultColumns = [
 ];
 
 const FriendPage = () => {
-  const [value, setValue] = useState<string>('');
   const [formMode, setFormMode] = useState<FormMode>('create');
   const [pageSize, setPageSize] = useState<number>(10);
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
   const [show, setShow] = useState<boolean>(false);
   const [updateFriend, setUpdateFriend] = useState<any>(null);
+  const [search, setSearch] = useState('');
+  const [timer, setTimer] = useState<any>(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const store = useSelector((state: RootState) => state.friend);
@@ -103,8 +104,17 @@ const FriendPage = () => {
     dispatch(fetchData());
   }, [dispatch]);
 
-  const handleFilter = (val: string) => {
-    setValue(val);
+  const handleSearch = (search: string) => {
+    setSearch(search);
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    const newTimer = setTimeout(() => {
+      dispatch(fetchData({ search }));
+    }, 500);
+
+    setTimer(newTimer);
   };
 
   const handleCreate = () => {
@@ -208,10 +218,10 @@ const FriendPage = () => {
               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                 <TextField
                   size='small'
-                  value={value}
+                  value={search}
                   placeholder='Search Friend'
                   sx={{ mr: 4, mb: 2, maxWidth: '180px' }}
-                  onChange={e => handleFilter(e.target.value)}
+                  onChange={e => handleSearch(e.target.value)}
                 />
                 <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
                   Create Friend

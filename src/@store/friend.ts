@@ -2,9 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import apiClient from '@core/services/api.client';
 import { Friend } from '@core/types';
+import { convertObjectToQueryString } from '../@core/utils/string.util';
 
-export const fetchData = createAsyncThunk('friend/fetchData', async () => {
-  const response = await apiClient.get('/friends');
+interface IQueryFriend {
+  search?: string;
+}
+
+export const fetchData = createAsyncThunk('friend/fetchData', async (query?: IQueryFriend) => {
+  const response = await apiClient.get('/friends' + convertObjectToQueryString(query));
 
   return response.data.map((friend: Friend, index: number) => ({ index: index + 1, ...friend }));
 });
