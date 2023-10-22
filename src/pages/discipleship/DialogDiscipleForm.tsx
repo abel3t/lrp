@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AppDispatch, RootState } from '@store';
-import { fetchData } from '@store/care';
-import { fetchData as fetchMembersData } from '@store/member';
+import { fetchData } from '@store/disciple';
+import { fetchData as fetchPeopleData } from '@store/person';
 import 'cleave.js/dist/addons/cleave-phone.vn';
 import { ChangeEvent, ReactElement, Ref, forwardRef, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -30,18 +30,23 @@ import Typography from '@mui/material/Typography';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { CarePriorityColor, CareTypeColor, CareTypeText } from '@core/contanst';
-import { CarePriority, CareType } from '@core/enums';
+import {
+  DisciplePriorityColor,
+  DiscipleTypeColor,
+  DiscipleTypeText,
+  NotApplicable, PersonalTypeColor, PersonalTypeText
+} from '@core/contanst';
+import { DisciplePriority, DiscipleType, PersonalType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
-import { FormMode, Member } from '@core/types';
+import { FormMode, Member, Person } from '@core/types';
 import { createStartOfDate, standardDate } from '@core/utils/date';
 
 import UploadImage from './UploadImage';
 
 export interface FormInputs {
   id?: string;
-  member?: any;
+  person?: any;
   type?: string;
   priority?: string;
   date?: Date | string;
@@ -58,7 +63,7 @@ interface CustomInputProps {
 
 const defaultValues = {
   id: '',
-  member: null,
+  person: null,
   type: '',
   priority: '',
   date: '',
@@ -81,7 +86,7 @@ type Props = {
   show: boolean;
   setShow: any;
   mode: FormMode;
-  care: any | null;
+  disciple: any | null;
   fetchApi?: any;
 };
 
@@ -99,15 +104,16 @@ const getUtcDate = (date?: DateType) => {
   return new Date(Date.UTC(year, month, day, 0, 0, 0));
 };
 
-const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
+const DialogDiscipleForm = ({ show, setShow, mode, disciple, fetchApi }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentChosenPerson, setCurrentChosenPerson] = useState<any>({});
   const dispatch = useDispatch<AppDispatch>();
-  const memberStore = useSelector((state: RootState) => state.member);
+  const personStore = useSelector((state: RootState) => state.person);
 
   const [image, setImage] = useState<File | null>(null);
 
   const validationSchema = yup.object().shape({
-    member: yup.object().shape({ id: yup.string(), name: yup.string() }),
+    person: yup.object().shape({ id: yup.string(), name: yup.string() }),
     type: yup.string(),
     priority: yup.string(),
     date: yup.string(),
@@ -117,19 +123,19 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
   useEffect(() => {
     if (show) {
-      dispatch(fetchMembersData());
+      dispatch(fetchPeopleData());
     }
 
-    if (care && show) {
+    if (disciple && show) {
       Object.keys(defaultValues).forEach((key: any) => {
-        if ((care as any)[key]) {
+        if ((disciple as any)[key]) {
           if (key === 'date') {
-            setValue(key, new Date((care as any)[key]));
+            setValue(key, new Date((disciple as any)[key]));
 
             return;
           }
 
-          setValue(key, (care as any)[key]);
+          setValue(key, (disciple as any)[key]);
         }
       });
     }
@@ -143,7 +149,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
     getValues,
     reset
   } = useForm<FormInputs>({
-    defaultValues: care || defaultValues,
+    defaultValues: disciple || defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   });
@@ -156,10 +162,10 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
     };
 
     if (mode === 'update') {
-      return apiClient.put(`/cares/${id}`, body);
+      return apiClient.put(`/disciples/${id}`, body);
     }
 
-    return apiClient.post('/cares', body);
+    return apiClient.post('/disciples', body);
   };
 
   const getImageUrl = () => {
@@ -168,7 +174,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
     }
 
     const formData = new FormData();
-    formData.append('file', new File([image], `care-${getValues('member')?.id || 'unknown'}-${image.name}`));
+    formData.append('file', new File([image], `disciple-${getValues('person')?.id || 'unknown'}-${image.name}`));
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
@@ -206,7 +212,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
         const messageMode = mode === 'update' ? 'Update' : 'Create';
         setIsSubmitting(false);
-        toast.success(`${messageMode} care successfully!`);
+        toast.success(`${messageMode} disciple successfully!`);
         setImage(null);
       })
       .catch(error => {
@@ -219,6 +225,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
   const handleClose = () => {
     setShow(false);
+    setCurrentChosenPerson({});
 
     reset(defaultValues);
   };
@@ -243,7 +250,26 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-              {mode === 'create' ? 'Create Care' : 'Update Care'}
+              {
+                mode === 'create' ? 'Create Discipleship Process' : 'Update Discipleship Process'
+              }
+
+              &nbsp; for &nbsp;
+
+              <CustomChip
+                skin='light'
+                size='medium'
+                label={currentChosenPerson?.type ? PersonalTypeText[currentChosenPerson?.type as PersonalType] : NotApplicable}
+                color={PersonalTypeColor[currentChosenPerson?.type || '']}
+                sx={{
+                  height: 20,
+                  fontWeight: 600,
+                  borderRadius: '5px',
+                  fontSize: '0.875rem',
+                  textTransform: 'capitalize',
+                  '& .MuiChip-label': { mt: -0.25 }
+                }}
+              />
             </Typography>
           </Box>
 
@@ -252,18 +278,23 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
-                    name='member'
+                    name='person'
                     control={control}
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <Autocomplete
                         openOnFocus
-                        options={memberStore.data?.map((member: Member) => ({ id: member.id, name: member.name }))}
-                        id='autocomplete-care-name'
+                        options={personStore.data?.map((member: Member) => ({ id: member.id, name: member.name }))}
+                        id='autocomplete-disciple-name'
                         getOptionLabel={option => option.name}
                         defaultValue={value}
-                        onChange={(_, data) => onChange(data)}
-                        renderInput={params => <TextField {...params} label={<RequiredLabel label='Member' />} />}
+                        onChange={(_, data) => {
+                          setCurrentChosenPerson(
+                            personStore.data?.find((person: Person) => person.id === data?.id)
+                          );
+                          onChange(data);
+                        }}
+                        renderInput={params => <TextField {...params} label={<RequiredLabel label='Person' />} />}
                       />
                     )}
                   />
@@ -272,8 +303,8 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='care-type-select' error={Boolean(errors.type)} htmlFor='care-type-select'>
-                    {<RequiredLabel label='Care Type' />}
+                  <InputLabel id='disciple-type-select' error={Boolean(errors.type)} htmlFor='disciple-type-select'>
+                    {<RequiredLabel label='Disciple Type' />}
                   </InputLabel>
                   <Controller
                     name='type'
@@ -282,20 +313,21 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label='Care Type'
+                        label='Disciple Type'
                         onChange={onChange}
                         error={Boolean(errors.type)}
-                        labelId='care-type-select'
-                        aria-describedby='care-type'
+                        labelId='disciple-type-select'
+                        aria-describedby='disciple-type'
                       >
-                        {Object.values(CareType).map((type, index) => {
+                        {Object.values(DiscipleType)
+                          .map((type, index) => {
                           return (
                             <MenuItem value={type} key={index}>
                               <CustomChip
                                 skin='light'
                                 size='small'
-                                label={CareTypeText[type]}
-                                color={CareTypeColor[type || '']}
+                                label={DiscipleTypeText[type]}
+                                color={DiscipleTypeColor[type || '']}
                                 sx={{
                                   height: 20,
                                   fontWeight: 600,
@@ -316,8 +348,8 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='care-priority-select' error={Boolean(errors.type)} htmlFor='care-priority-select'>
-                    {<RequiredLabel label='Care Priority' />}
+                  <InputLabel id='disciple-priority-select' error={Boolean(errors.type)} htmlFor='disciple-priority-select'>
+                    {<RequiredLabel label='Disciple Priority' />}
                   </InputLabel>
                   <Controller
                     name='priority'
@@ -326,20 +358,20 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
                     render={({ field: { value, onChange } }) => (
                       <Select
                         value={value}
-                        label={<RequiredLabel label='Care Priority' />}
+                        label={<RequiredLabel label='Disciple Priority' />}
                         onChange={onChange}
                         error={Boolean(errors.type)}
-                        labelId='care-priority-select'
-                        aria-describedby='care-priority'
+                        labelId='disciple-priority-select'
+                        aria-describedby='disciple-priority'
                       >
-                        {Object.values(CarePriority).map((priority, index) => {
+                        {Object.values(DisciplePriority).map((priority, index) => {
                           return (
                             <MenuItem value={priority} key={index}>
                               <CustomChip
                                 skin='light'
                                 size='small'
                                 label={priority}
-                                color={CarePriorityColor[priority || '']}
+                                color={DisciplePriorityColor[priority || '']}
                                 sx={{
                                   height: 20,
                                   fontWeight: 600,
@@ -379,7 +411,7 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
                             onChange={onChange}
                             label={<RequiredLabel label='Date' />}
                             error={Boolean(errors.date)}
-                            aria-describedby='validate-care-date'
+                            aria-describedby='validate-disciple-date'
                           />
                         }
                       />
@@ -425,4 +457,4 @@ const DialogCareForm = ({ show, setShow, mode, care, fetchApi }: Props) => {
   );
 };
 
-export default DialogCareForm;
+export default DialogDiscipleForm;

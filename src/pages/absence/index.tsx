@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from '@store';
-import { deleteFriend, fetchData } from '@store/friend';
+import { deleteAbsence, fetchData } from '@store/absence';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,14 +21,15 @@ import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { PersonalTypeColor, PersonalTypeText, NotApplicable } from '@core/contanst';
+import { NotApplicable, AbsenceTypeColor } from '@core/contanst';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
-import { FormMode, Friend } from '@core/types';
+import { FormMode, Absence } from '@core/types';
 
-import DialogFriendForm from './DialogFriendForm';
+import DialogAbsenceForm from './UpdateAbsenceForm';
+import CreateAbsenceForm from './CreateAbsenceForm';
 
 interface CellType {
-  row: Friend;
+  row: Absence;
 }
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -42,27 +43,27 @@ const defaultColumns = [
     minWidth: 30,
     field: 'index',
     headerName: 'ID',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/friends/${row?.id}`}>#{row.index}</StyledLink>
+    renderCell: ({ row }: CellType) => <StyledLink href={`/absences/${row?.id}`}>#{row.index}</StyledLink>
   },
   {
     flex: 0.15,
     minWidth: 125,
     field: 'name',
     headerName: 'Name',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.name}</Typography>
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.member?.name}</Typography>
   },
   {
     flex: 0.09,
     minWidth: 90,
-    field: 'phone',
-    headerName: 'Phone',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.phone || NotApplicable}</Typography>
+    field: 'description',
+    headerName: 'Description',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.description || NotApplicable}</Typography>
   },
   {
     flex: 0.08,
     minWidth: 80,
     field: 'type',
-    headerName: 'Friend Type',
+    headerName: 'Absence Type',
     renderCell: ({ row }: CellType) => {
       if (!row.type) {
         return <Typography variant='body2'>{NotApplicable}</Typography>;
@@ -73,7 +74,7 @@ const defaultColumns = [
           skin='light'
           size='small'
           label={row.type}
-          color={PersonalTypeColor[PersonalTypeText[row.type]]}
+          color={AbsenceTypeColor[row.type]}
           sx={{
             height: 20,
             fontWeight: 600,
@@ -88,16 +89,16 @@ const defaultColumns = [
   }
 ];
 
-const FriendPage = () => {
+const AbsencePage = () => {
   const [value, setValue] = useState<string>('');
   const [formMode, setFormMode] = useState<FormMode>('create');
   const [pageSize, setPageSize] = useState<number>(10);
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
   const [show, setShow] = useState<boolean>(false);
-  const [updateFriend, setUpdateFriend] = useState<any>(null);
+  const [updateAbsence, setUpdateAbsence] = useState<any>(null);
 
   const dispatch = useDispatch<AppDispatch>();
-  const store = useSelector((state: RootState) => state.friend);
+  const store = useSelector((state: RootState) => state.absence);
 
   useEffect(() => {
     dispatch(fetchData());
@@ -108,20 +109,20 @@ const FriendPage = () => {
   };
 
   const handleCreate = () => {
-    setUpdateFriend(null);
+    setUpdateAbsence(null);
     setFormMode('create');
     setShow(true);
   };
 
-  const handleUpdate = (friend: any) => {
-    setUpdateFriend(friend);
+  const handleUpdate = (absence: any) => {
+    setUpdateAbsence(absence);
     setFormMode('update');
     setShow(true);
   };
 
-  const handleDeleteFriends = async () => {
+  const handleDeleteAbsences = async () => {
     for (const memberId of selectedRows) {
-      await dispatch(deleteFriend(memberId as string));
+      await dispatch(deleteAbsence(memberId as string));
     }
 
     dispatch(fetchData());
@@ -137,31 +138,11 @@ const FriendPage = () => {
       headerName: 'Actions',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title='View'>
-            <IconButton size='small' component={Link} sx={{ mr: 0.5 }} href={`/friends/${row.id}`}>
-              <Icon icon='mdi:eye-outline' />
-            </IconButton>
-          </Tooltip>
           <Tooltip title='Edit'>
             <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => handleUpdate(row)}>
               <Icon icon='mdi:pencil-outline' />
             </IconButton>
           </Tooltip>
-          {/*<OptionsMenu*/}
-          {/*  iconProps={{ fontSize: 20 }}*/}
-          {/*  iconButtonProps={{ size: 'small' }}*/}
-          {/*  menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}*/}
-          {/*  options={[*/}
-          {/*    {*/}
-          {/*      text: 'Edit',*/}
-          {/*      icon: <Icon icon='mdi:pencil-outline' fontSize={20} />*/}
-          {/*    },*/}
-          {/*    {*/}
-          {/*      text: 'View',*/}
-          {/*      icon: <Icon icon='mdi:eye-outline' fontSize={20} />*/}
-          {/*    }*/}
-          {/*  ]}*/}
-          {/*/>*/}
         </Box>
       )
     }
@@ -170,7 +151,7 @@ const FriendPage = () => {
   return (
     <DatePickerWrapper>
       <Head>
-        <title>Friends - Lighthouse Resource Planning</title>
+        <title>Absences - Lighthouse Resource Planning</title>
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
 
@@ -197,24 +178,28 @@ const FriendPage = () => {
                 renderValue={selected => (selected.length === 0 ? 'Actions' : selected)}
               >
                 <MenuItem disabled>Actions</MenuItem>
-                <MenuItem value='Delete' onClick={handleDeleteFriends}>
+                <MenuItem value='Delete' onClick={handleDeleteAbsences}>
                   Delete
                 </MenuItem>
                 <MenuItem value='Edit'>Edit</MenuItem>
               </Select>
 
-              <DialogFriendForm show={show} setShow={setShow} mode={formMode} friend={updateFriend} />
+              {
+                formMode === 'create'
+                ? <CreateAbsenceForm show={show} setShow={setShow} />
+                 : <DialogAbsenceForm show={show} setShow={setShow} absence={updateAbsence} />
+              }
 
               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                 <TextField
                   size='small'
                   value={value}
-                  placeholder='Search Friend'
+                  placeholder='Search Absence'
                   sx={{ mr: 4, mb: 2, maxWidth: '180px' }}
                   onChange={e => handleFilter(e.target.value)}
                 />
                 <Button sx={{ mb: 2 }} variant='contained' onClick={handleCreate}>
-                  Create Friend
+                  Create Absence
                 </Button>
               </Box>
             </Box>
@@ -238,9 +223,4 @@ const FriendPage = () => {
   );
 };
 
-FriendPage.acl = {
-  action: 'read',
-  subject: 'friends'
-};
-
-export default FriendPage;
+export default AbsencePage;

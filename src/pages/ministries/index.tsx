@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { InvoiceType } from 'types/apps/invoiceTypes';
 
 import Link from 'next/link';
 
@@ -36,7 +35,7 @@ interface InvoiceStatusObj {
 }
 
 interface CellType {
-  row: InvoiceType;
+  row: any;
 }
 
 // ** Styled component for the link in the dataTable
@@ -56,7 +55,7 @@ const invoiceStatusObj: InvoiceStatusObj = {
 };
 
 // ** renders client column
-const renderClient = (row: InvoiceType) => {
+const renderClient = (row: any) => {
   if (row.avatar.length) {
     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />;
   } else {

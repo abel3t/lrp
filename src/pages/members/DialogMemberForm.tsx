@@ -30,18 +30,24 @@ import Typography from '@mui/material/Typography';
 
 import Icon from '@core/components/icon';
 import CustomChip from '@core/components/mui/chip';
-import { DiscipleshipProcessColor, NotApplicable } from '@core/contanst';
-import { DiscipleshipProcess } from '@core/enums';
+import { DiscipleshipProcessColor, NotApplicable, PersonalTypeColor, PersonalTypeText } from '@core/contanst';
+import { DiscipleshipProcess, PersonalType } from '@core/enums';
 import apiClient from '@core/services/api.client';
 import CleaveWrapper from '@core/styles/libs/react-cleave';
 import DatePickerWrapper from '@core/styles/libs/react-datepicker';
-import { Account, FormMode } from '@core/types';
-import { standardDate } from '@core/utils/date';
+import { Account, FormMode, Member } from '@core/types';
+import { createStartOfDate, standardDate } from '@core/utils/date';
 
 export interface FormInputs {
   id: string;
   curator?: Account | null;
+  friend?: Member | null;
   birthday?: DateType | null;
+  firstComeToLEC?: DateType | null,
+  believeInJesusDay?: DateType | null,
+  baptismalDay?: DateType | null,
+  memberDay?: DateType | null,
+  type?: string;
   email?: string;
   name: string;
   phone?: string;
@@ -62,7 +68,13 @@ interface CustomInputProps {
 const defaultValues = {
   id: '',
   curator: null,
+  friend: null,
+  type: '',
   birthday: '',
+  firstComeToLEC: '',
+  believeInJesusDay: '',
+  baptismalDay: '',
+  memberDay: '',
   email: '',
   name: '',
   phone: '',
@@ -109,9 +121,14 @@ const getUtcDate = (date?: DateType) => {
 const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const store = useSelector((state: RootState) => state.account);
+  const memberStore = useSelector((state: RootState) => state.member);
 
   const validationSchema = yup.object().shape({
     birthday: yup.string(),
+    firstComeToLEC: yup.string(),
+    believeInJesusDay: yup.string(),
+    baptismalDay: yup.string(),
+    memberDay: yup.string(),
     email: yup.string().email(),
     name: yup.string().required('Name is required'),
     address: yup.string(),
@@ -125,7 +142,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     if (member && show) {
       Object.keys(defaultValues).forEach((key: any) => {
         if ((member as any)[key]) {
-          if (key === 'birthday') {
+          if (['birthday', 'firstComeToLEC', 'believeInJesusDay', 'baptismalDay', 'memberDay'].includes(key)) {
             setValue(key, new Date((member as any)[key]));
 
             return;
@@ -135,7 +152,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
         }
       });
     }
-  }, [show]);
+  }, [show, member]);
 
   const {
     control,
@@ -153,7 +170,11 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
     const { id, ..._data } = data;
     const body: any = {
       ..._data,
-      birthday: data.birthday ? getUtcDate(data.birthday).toISOString() : undefined
+      birthday: data.birthday ? getUtcDate(data.birthday).toISOString() : undefined,
+      firstComeToLEC: data.firstComeToLEC ? getUtcDate(data.firstComeToLEC).toISOString() : undefined,
+      believeInJesusDay: data.believeInJesusDay ? getUtcDate(data.believeInJesusDay).toISOString() : undefined,
+      baptismalDay: data.baptismalDay ? getUtcDate(data.baptismalDay).toISOString() : undefined,
+      memberDay: data.memberDay ? getUtcDate(data.memberDay).toISOString() : undefined
     };
 
     if (mode === 'update') {
@@ -238,6 +259,59 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                   )}
                 </FormControl>
               </Grid>
+              {
+                mode === 'update' &&
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id='friend-type-select' error={Boolean(errors.type)} htmlFor='member-type-select'>
+                      <Typography display='inline'>
+                        Friend Type&nbsp;
+                        <Typography display='inline' color='error.main'>
+                          *
+                        </Typography>
+                      </Typography>
+                    </InputLabel>
+                    <Controller
+                      name='type'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange } }) => (
+                        <Select
+                          value={value}
+                          label='Friend Type'
+                          onChange={onChange}
+                          error={Boolean(errors.type)}
+                          labelId='friend-type-select'
+                          aria-describedby='friend-friend-type'
+                          required={true}
+                        >
+                          {Object.values(PersonalType).map((type, index) => {
+                            return (
+                              <MenuItem value={type} key={index}>
+                                <CustomChip
+                                  skin='light'
+                                  size='small'
+                                  label={PersonalTypeText[type]}
+                                  color={PersonalTypeColor[type]}
+                                  sx={{
+                                    height: 20,
+                                    fontWeight: 600,
+                                    borderRadius: '5px',
+                                    fontSize: '0.875rem',
+                                    textTransform: 'capitalize',
+                                    '& .MuiChip-label': { mt: -0.25 }
+                                  }}
+                                />
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+
+              }
 
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
@@ -297,11 +371,34 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                       <Autocomplete
                         openOnFocus
                         options={store.curators?.map((curator: Account) => ({ id: curator.id, name: curator.name }))}
-                        id='autocomplete-care-name'
+                        id='autocomplete-curator-name'
                         getOptionLabel={(option: Account) => option.name ?? NotApplicable}
                         defaultValue={value}
                         onChange={(_, data) => onChange(data)}
                         renderInput={params => <TextField {...params} label='Curator' />}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}
+
+                    sm={6}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='friend'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <Autocomplete
+                        openOnFocus
+                        options={memberStore.data?.map((member: Member) => ({ id: member.id, name: member.name }))}
+                        id='autocomplete-member-name'
+                        getOptionLabel={(option: Member) => option.name ?? NotApplicable}
+                        defaultValue={value}
+                        onChange={(_, data) => onChange(data)}
+                        renderInput={params => <TextField {...params} label='Introduced By' />}
                       />
                     )}
                   />
@@ -361,7 +458,8 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                     rules={{ required: false }}
                     render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        selected={value ? standardDate(value) : null}
+                        required={false}
+                        selected={standardDate(value)}
                         openToDate={value ? new Date(value) : new Date(new Date().getFullYear() - 20, 0, 1)}
                         showMonthDropdown
                         showYearDropdown
@@ -375,6 +473,126 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                             label='Date of Birth'
                             error={Boolean(errors.birthday)}
                             aria-describedby='validate-birthday'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='firstComeToLEC'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        required={false}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='First come to LEC'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-firstComeToLEC'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='believeInJesusDay'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        required={false}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='Believe in Jesus day'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-believeInJesusDay'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='baptismalDay'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        required={false}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='Baptismal day'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-baptismalDay'
+                          />
+                        }
+                      />
+                    )}
+                  />
+                </DatePickerWrapper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePickerWrapper>
+                  <Controller
+                    name='memberDay'
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field: { value, onChange } }) => (
+                      <DatePicker
+                        required={false}
+                        selected={standardDate(value)}
+                        openToDate={value ? new Date(value) : createStartOfDate()}
+                        showMonthDropdown
+                        showYearDropdown
+                        onChange={e => onChange(e)}
+                        placeholderText='dd/MM/yyyy'
+                        dateFormat='dd/MM/yyyy'
+                        customInput={
+                          <CustomInput
+                            value={value}
+                            onChange={onChange}
+                            label='Member Date'
+                            error={Boolean(errors.birthday)}
+                            aria-describedby='validate-memberDay'
                           />
                         }
                       />

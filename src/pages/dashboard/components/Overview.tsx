@@ -79,7 +79,7 @@ const Overview = () => {
         }
       />
       <CardContent>
-        <Grid container spacing={6}>
+        <Grid container spacing={6} sx={{ mt: 1 }}>
           <Grid item xs={12} sm={4}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <CustomAvatar skin='light' variant='rounded' color='primary' sx={{ mr: 4 }}>
@@ -91,6 +91,7 @@ const Overview = () => {
                 </Typography>
                 <Typography variant='caption'>Members</Typography>
               </Box>
+
             </Box>
           </Grid>
 
@@ -122,7 +123,9 @@ const Overview = () => {
             </Box>
           </Grid>
         </Grid>
+
       </CardContent>
+
     </Card>
   );
 };

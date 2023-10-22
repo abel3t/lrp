@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 
 import Icon from '@core/components/icon';
 
-import FriendOverview from './FriendOverview';
+import FriendTimeline from './FriendTimeline';
 
 interface Props {
   tab: string;
@@ -48,7 +48,7 @@ const FriendViewRight = ({ tab }: Props) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='overview' label='Overview' icon={<Icon icon='mdi:account-outline' />} />
+        <Tab value='discipleship_process' label='Discipleship Process' icon={<Icon icon='mdi:account-outline' />} />
         {/*<Tab value='ministry' label='Ministry' icon={<Icon icon='mdi:lock-outline' />} />*/}
         {/*<Tab value='team' label='Team' icon={<Icon icon='mdi:bell-outline' />} />*/}
         {/*<Tab value='network' label='Network' icon={<Icon icon='mdi:link-variant' />} />*/}
@@ -62,13 +62,13 @@ const FriendViewRight = ({ tab }: Props) => {
         {/*) : (*/}
         {/*  <>*/}
         {/*    <TabPanel sx={{ p: 0 }} value='overview'>*/}
-        {/*      <FriendOverview />*/}
+        {/*      <FriendTimeline />*/}
         {/*    </TabPanel>*/}
         {/*  </>*/}
         {/*)}*/}
 
-        <TabPanel sx={{ p: 0 }} value='overview'>
-          <FriendOverview />
+        <TabPanel sx={{ p: 0 }} value='discipleship_process'>
+          <FriendTimeline />
         </TabPanel>
       </Box>
     </TabContext>

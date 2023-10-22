@@ -8,6 +8,11 @@ interface IDashboardQuery {
   set?: number;
 }
 
+interface IPresentQuery {
+  type: string;
+  amount?: number;
+}
+
 export const fetchOverview = createAsyncThunk('dashboard/fetchOverview', async (query?: IDashboardQuery) => {
   const response = await apiClient.get(`/dashboard/overview` + convertObjectToQueryString(query));
 
@@ -32,24 +37,40 @@ export const fetchTopCaringPeople = createAsyncThunk(
   }
 );
 
+export const fetchSundayServicePresence = createAsyncThunk(
+  'dashboard/fetchSundayServicePresence',
+  async (query?: IPresentQuery) => {
+    const response = await apiClient.get(`/dashboard/presents` + convertObjectToQueryString(query));
+
+    return response.data;
+  }
+);
+
 export const appCareSlice = createSlice({
   name: 'care',
   initialState: {
     overview: {} as any,
     needingMoreCareMembers: [] as any[],
-    topCaringPeople: [] as any[]
+    topCaringPeople: [] as any[],
+    presents: [] as any[]
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchOverview.fulfilled, (state, action) => {
       state.overview = action.payload;
-    }),
-      builder.addCase(fetchNeedingMoreCareMembers.fulfilled, (state, action) => {
-        state.needingMoreCareMembers = action.payload;
-      }),
-      builder.addCase(fetchTopCaringPeople.fulfilled, (state, action) => {
-        state.topCaringPeople = action.payload;
-      });
+    });
+
+    builder.addCase(fetchNeedingMoreCareMembers.fulfilled, (state, action) => {
+      state.needingMoreCareMembers = action.payload;
+    });
+
+    builder.addCase(fetchTopCaringPeople.fulfilled, (state, action) => {
+      state.topCaringPeople = action.payload;
+    });
+
+    builder.addCase(fetchSundayServicePresence.fulfilled, (state, action) => {
+      state.presents = action.payload;
+    });
   }
 });
 

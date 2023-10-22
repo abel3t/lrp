@@ -13,7 +13,6 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -46,7 +45,6 @@ const MemberOverview = () => {
   return (
     <Grid container spacing={6}>
       <CaringOverview />
-      <SundayServiceOverview />
     </Grid>
   );
 };
@@ -61,7 +59,7 @@ const CaringOverview = () => {
     if (router.isReady) {
       dispatch(fetchMemberCaresData(router.query?.id as string));
     }
-  }, [router.isReady, dispatch]);
+  }, [router.isReady, dispatch, router.query?.id]);
 
   return (
     <Grid item xs={12}>
@@ -119,126 +117,6 @@ const CaringOverview = () => {
                 </TimelineContent>
               </TimelineItem>
             ))}
-          </Timeline>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
-};
-
-const SundayServiceOverview = () => {
-  return (
-    <Grid item xs={12}>
-      <Card>
-        <CardHeader title='User Activity Timeline' />
-        <CardContent>
-          <Timeline>
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='error' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    User login
-                  </Typography>
-                  <Typography variant='caption'>12 min ago</Typography>
-                </Box>
-                <Typography variant='body2'>User login at 2:12pm</Typography>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='primary' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    Meeting with John
-                  </Typography>
-                  <Typography variant='caption'>45 min ago</Typography>
-                </Box>
-                <Typography variant='body2' sx={{ mb: 2 }}>
-                  React Project meeting with John @10:15am
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar alt='Avatar' src='/images/avatars/2.png' sx={{ width: 40, height: 40, mr: 2 }} />
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
-                      Leona Watkins (Client)
-                    </Typography>
-                    <Typography variant='body2'>CEO of Watkins Group</Typography>
-                  </Box>
-                </Box>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='info' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    Create a new react project for client
-                  </Typography>
-                  <Typography variant='caption'>2 day ago</Typography>
-                </Box>
-                <Typography variant='body2'>Add files to new design folder</Typography>
-              </TimelineContent>
-            </TimelineItem>
-
-            <TimelineItem>
-              <TimelineSeparator>
-                <TimelineDot color='success' />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                    Create invoices for client
-                  </Typography>
-                  <Typography variant='caption'>12 min ago</Typography>
-                </Box>
-                <Typography variant='body2'>Create new invoices and send to Leona Watkins</Typography>
-              </TimelineContent>
-            </TimelineItem>
           </Timeline>
         </CardContent>
       </Card>

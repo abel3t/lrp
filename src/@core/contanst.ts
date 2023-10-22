@@ -1,4 +1,12 @@
-import { CarePriority, CareType, DiscipleshipProcess, FriendType } from './enums';
+import {
+  AbsenceType,
+  CarePriority,
+  CareType,
+  DisciplePriority,
+  DiscipleshipProcess,
+  DiscipleType,
+  PersonalType
+} from './enums';
 import { ColorsType } from './interface';
 
 export const NotApplicable = 'N/A';
@@ -9,25 +17,6 @@ export const DiscipleshipProcessColor: ColorsType = {
   [DiscipleshipProcess.Equipment]: 'info',
   [DiscipleshipProcess.Empowerment]: 'primary'
 };
-
-export const FriendTypeText = {
-  [FriendType.Unbeliever]: 'Unbeliever',
-  [FriendType.Unsure]: 'Unsure',
-  [FriendType.Friend]: 'Friend',
-  [FriendType.NextStep]: 'Next Step',
-  [FriendType.NewLife]: 'New Life',
-  [FriendType.AWalkWithGodClass]: 'A Walk With God Class'
-};
-
-export const FriendTypeColor: ColorsType = {
-  [FriendType.Unbeliever]: 'error',
-  [FriendType.Unsure]: 'secondary',
-  [FriendType.Friend]: 'warning',
-  [FriendType.NextStep]: 'success',
-  [FriendType.NewLife]: 'info',
-  [FriendType.AWalkWithGodClass]: 'primary'
-};
-
 export const CareTypeColor: ColorsType = {
   [CareType.Message]: 'error',
   [CareType.Call]: 'warning',
@@ -46,4 +35,58 @@ export const CareTypeText = {
   [CareType.FaceToFace]: 'Face To Face',
   [CareType.Call]: 'Call',
   [CareType.Visit]: 'Visit'
+};
+
+export const DiscipleTypeColor: ColorsType = {
+  [DiscipleType.ShareGospel]: 'info',
+  [DiscipleType.Believe]: 'success',
+  [DiscipleType.Disciple]: 'primary'
+};
+
+export const DisciplePriorityColor: ColorsType = {
+  [DisciplePriority.Warning]: 'error',
+  [DisciplePriority.Normal]: 'warning',
+  [DisciplePriority.Good]: 'success'
+};
+
+export const DiscipleTypeText = {
+  [DiscipleType.ShareGospel]: 'Shared the Gospel',
+  [DiscipleType.Believe]: 'Believed in Jesus',
+  [DiscipleType.Disciple]: 'Disciple'
+};
+
+export const PersonalTypeText = {
+  [PersonalType.Unbeliever]: 'Unbeliever',
+  [PersonalType.Unsure]: 'Unsure',
+  [PersonalType.Friend]: 'Friend',
+  [PersonalType.Member]: 'Member',
+};
+
+export const PersonalTypeColor: ColorsType = {
+  [PersonalType.Unbeliever]: 'error',
+  [PersonalType.Unsure]: 'secondary',
+  [PersonalType.Friend]: 'warning',
+  [PersonalType.Member]: 'primary'
+};
+
+export const AbsenceTypeColor: ColorsType = {
+  [AbsenceType.NoAsking]: 'error',
+  [AbsenceType.Asking]: 'success',
+};
+
+export const AbsenceTypeText = {
+  [AbsenceType.NoAsking]: 'No Asking',
+  [AbsenceType.Asking]: 'Asking',
+};
+
+export const SundayServicePriorityText = {
+  absentNoAsking: 'Absence Without Asking',
+  absentAsking: 'Absence With Asking',
+  present: 'Presence'
+};
+
+export const SundayServicePriorityColor: ColorsType = {
+  absentNoAsking: 'error',
+  absentAsking: 'warning',
+  present: 'success'
 };
