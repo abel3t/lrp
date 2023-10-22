@@ -176,11 +176,13 @@ const MemberPage = () => {
               <Icon icon='mdi:eye-outline' />
             </IconButton>
           </Tooltip>
-          <Tooltip title='Edit'>
+
+          {ability?.can('edit', 'member') && (<Tooltip title='Edit'>
             <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => handleUpdate(row)}>
               <Icon icon='mdi:pencil-outline' />
             </IconButton>
-          </Tooltip>
+          </Tooltip>)
+          }
           {/*<OptionsMenu*/}
           {/*  iconProps={{ fontSize: 20 }}*/}
           {/*  iconButtonProps={{ size: 'small' }}*/}
