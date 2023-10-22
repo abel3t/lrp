@@ -101,4 +101,5 @@ export type Absence = {
   description?: string;
   member?: Member;
   person?: Member;
+  date?: Date;
 }

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Head from 'next/head';
-import Link from 'next/link';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -16,7 +15,6 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 import { DataGrid, GridRowId } from '@mui/x-data-grid';
 
 import Icon from '@core/components/icon';
@@ -27,24 +25,14 @@ import { FormMode, Absence } from '@core/types';
 
 import DialogAbsenceForm from './UpdateAbsenceForm';
 import CreateAbsenceForm from './CreateAbsenceForm';
+import { formatRelativeDate } from '../../@core/utils/date';
+import { format } from 'date-fns';
 
 interface CellType {
   row: Absence;
 }
 
-const StyledLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}));
-
 const defaultColumns = [
-  {
-    flex: 0.03,
-    minWidth: 30,
-    field: 'index',
-    headerName: 'ID',
-    renderCell: ({ row }: CellType) => <StyledLink href={`/absences/${row?.id}`}>#{row.index}</StyledLink>
-  },
   {
     flex: 0.15,
     minWidth: 125,
@@ -53,11 +41,17 @@ const defaultColumns = [
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.member?.name}</Typography>
   },
   {
-    flex: 0.09,
-    minWidth: 90,
-    field: 'description',
-    headerName: 'Description',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.description || NotApplicable}</Typography>
+    flex: 0.105,
+    minWidth: 110,
+    field: 'date',
+    headerName: 'Date',
+    renderCell: ({ row }: CellType) => (
+      <Typography variant='body2'>
+        {formatRelativeDate(row?.date)}
+        &nbsp; - &nbsp;
+        {row?.date ? format(new Date(row?.date), 'dd/MM/yyyy') : ''}
+      </Typography>
+    )
   },
   {
     flex: 0.08,
@@ -86,6 +80,13 @@ const defaultColumns = [
         />
       );
     }
+  },
+  {
+    flex: 0.09,
+    minWidth: 90,
+    field: 'description',
+    headerName: 'Description',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row?.description || NotApplicable}</Typography>
   }
 ];
 

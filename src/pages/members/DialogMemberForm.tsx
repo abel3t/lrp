@@ -265,7 +265,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                   <FormControl fullWidth>
                     <InputLabel id='friend-type-select' error={Boolean(errors.type)} htmlFor='member-type-select'>
                       <Typography display='inline'>
-                        Friend Type&nbsp;
+                        Type&nbsp;
                         <Typography display='inline' color='error.main'>
                           *
                         </Typography>
@@ -278,7 +278,7 @@ const DialogEditUserInfo = ({ show, setShow, mode, member, fetchApi }: Props) =>
                       render={({ field: { value, onChange } }) => (
                         <Select
                           value={value}
-                          label='Friend Type'
+                          label='Type'
                           onChange={onChange}
                           error={Boolean(errors.type)}
                           labelId='friend-type-select'
