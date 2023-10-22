@@ -113,7 +113,7 @@ const NeedingMoreCare = () => {
                     }}
                   >
                     <Typography sx={{ mr: 2, fontWeight: 600 }}>
-                      {careMember.member?.name}
+                      {careMember.person?.name}
                       &nbsp; &nbsp;
                       <CustomChip
                         skin='light'
@@ -129,6 +129,12 @@ const NeedingMoreCare = () => {
                           '& .MuiChip-label': { mt: -0.25 }
                         }}
                       />
+
+                      <Typography sx={{ fontWeight: 600 }} color='primary'>
+                        &nbsp;by&nbsp;
+                        <span color='primary'>{careMember.curator?.name}</span>
+                      </Typography>
+
                     </Typography>
 
                     <Typography variant='caption' sx={{ color: 'text.disabled' }}>
