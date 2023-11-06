@@ -20,7 +20,7 @@ import {
 } from '../../@core/contanst';
 import CustomChip from '../../@core/components/mui/chip';
 import { formatRelativeDate } from '../../@core/utils/date';
-import { format, getISOWeek } from 'date-fns';
+import { format, getWeek } from 'date-fns';
 import { fetchSundayServiceHistories } from '@store/absence';
 
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
@@ -91,7 +91,7 @@ const SundayServiceHistory = () => {
                       <Typography variant="caption" sx={{ color: 'text.disabled' }}>
                         {formatRelativeDate(history.date)}&nbsp; - &nbsp;
 
-                        Week: {getISOWeek(new Date(history.date))} &nbsp; - &nbsp;
+                        Week: {getWeek(new Date(history.date), { weekStartsOn: 1 })} &nbsp; - &nbsp;
 
                         {format(new Date(history.date), 'dd/MM/yyyy')}
                       </Typography>
