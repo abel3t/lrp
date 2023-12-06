@@ -34,7 +34,7 @@ const UploadImage = ({ file, setFile, image }: any) => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     accept: {
-      'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.heic']
     },
     onDrop: handleChangeFile
   });
