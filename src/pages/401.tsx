@@ -1,9 +1,6 @@
 import { ReactNode } from 'react';
 
-import Link from 'next/link';
-
 import Box, { BoxProps } from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
@@ -17,18 +14,18 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }));
 
-const Img = styled('img')(({ theme }) => ({
-  marginTop: theme.spacing(15),
-  marginBottom: theme.spacing(15),
-  [theme.breakpoints.down('lg')]: {
-    height: 450,
-    marginTop: theme.spacing(10),
-    marginBottom: theme.spacing(10)
-  },
-  [theme.breakpoints.down('md')]: {
-    height: 400
-  }
-}));
+// const Img = styled('img')(({ theme }) => ({
+//   marginTop: theme.spacing(15),
+//   marginBottom: theme.spacing(15),
+//   [theme.breakpoints.down('lg')]: {
+//     height: 450,
+//     marginTop: theme.spacing(10),
+//     marginBottom: theme.spacing(10)
+//   },
+//   [theme.breakpoints.down('md')]: {
+//     height: 400
+//   }
+// }));
 
 const Error401 = () => {
   return (
