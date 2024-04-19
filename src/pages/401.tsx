@@ -46,7 +46,7 @@ const Error401 = () => {
         {/*<Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>*/}
         {/*  Back to Home*/}
         {/*</Button>*/}
-        <Typography variant='body1'>Làm web tốn công, tiến tiền mà không ai xài là nổi buồn của người làm.</Typography>
+        <Typography variant='body1'>Làm web tốn công, tiến tiền mà không ai xài thì buồn lắm (-_-)!</Typography>
       </Box>
       <FooterIllustrations image='/images/pages/misc-401-object.png' />
     </Box>
