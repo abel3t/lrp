@@ -27,6 +27,7 @@ import { useSettings } from '@core/hooks/useSettings';
 import BlankLayout from '@core/layouts/BlankLayout';
 
 import themeConfig from 'configs/themeConfig';
+import {useRouter} from "next/router";
 
 const ContentWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -70,6 +71,10 @@ interface FormData {
 }
 
 const LoginPage = () => {
+
+  const router = useRouter();
+
+  router.replace('/dashboard');
 
 
   const [rememberMe, setRememberMe] = useState<boolean>(true);

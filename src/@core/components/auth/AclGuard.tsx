@@ -8,8 +8,6 @@ import BlankLayout from '@core/layouts/BlankLayout';
 
 import type { ACLObj, AppAbility } from 'configs/acl';
 
-import { AbilityContext } from 'layouts/components/acl/Can';
-
 interface AclGuardProps {
   children: ReactNode;
   guestGuard: boolean;
@@ -37,7 +35,7 @@ const AclGuard = (props: AclGuardProps) => {
 
   // Check the access of current user and render pages
   if (ability && ability.can(aclAbilities.action, aclAbilities.subject)) {
-    return <AbilityContext.Provider value={ability}>{children}</AbilityContext.Provider>;
+    // return <AbilityContext.Provider value={ability}>{children}</AbilityContext.Provider>;
   }
 
   // Render Not Authorized component if the current user has limited access
