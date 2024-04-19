@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import BlankLayout from '@core/layouts/BlankLayout';
 
 import type { ACLObj, AppAbility } from 'configs/acl';
-import { buildAbilityFor } from 'configs/acl';
 
 import { AbilityContext } from 'layouts/components/acl/Can';
 
@@ -21,7 +20,7 @@ const AclGuard = (props: AclGuardProps) => {
   // ** Props
   const { aclAbilities, children, guestGuard } = props;
 
-  const [ability, setAbility] = useState<AppAbility | undefined>(undefined);
+  const [ability] = useState<AppAbility | undefined>(undefined);
 
   const auth = useAuth();
   const router = useRouter();
