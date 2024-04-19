@@ -32,6 +32,7 @@ const Error401 = () => {
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
+          <Typography variant='h4'>Đã lâu không gặp!</Typography>
           <Typography variant='h4'>LRP tạm thời không hoạt động, đang tiến hành di chuyển dữ liệu!</Typography>
           {/*<Typography variant='h1' sx={{ mb: 2.5 }}>*/}
           {/*  401*/}
@@ -45,6 +46,7 @@ const Error401 = () => {
         {/*<Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>*/}
         {/*  Back to Home*/}
         {/*</Button>*/}
+        <Typography variant='body'>Làm web tốn công, tiến tiền mà không ai xài là nổi buồn của người làm.</Typography>
       </Box>
       <FooterIllustrations image='/images/pages/misc-401-object.png' />
     </Box>
