@@ -33,7 +33,7 @@ const Error401 = () => {
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
           <Typography variant='h4'>Đã lâu không gặp!</Typography>
-          <Typography variant='h4'>LRP tạm thời không hoạt động, đang tiến hành di chuyển dữ liệu!</Typography>
+          <Typography variant='h4'>LRP tạm thời không hoạt động,<br/>đang tiến hành di chuyển dữ liệu!</Typography>
           {/*<Typography variant='h1' sx={{ mb: 2.5 }}>*/}
           {/*  401*/}
           {/*</Typography>*/}

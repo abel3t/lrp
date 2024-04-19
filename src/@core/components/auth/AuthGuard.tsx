@@ -2,6 +2,7 @@ import { useAuth } from 'hooks/useAuth';
 import { ReactElement, ReactNode, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
+import Error401 from "../../../pages/401";
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -9,7 +10,7 @@ interface AuthGuardProps {
 }
 
 const AuthGuard = (props: AuthGuardProps) => {
-  const { children, fallback } = props;
+  console.log(props);
   const auth = useAuth();
   const router = useRouter();
 
@@ -19,15 +20,13 @@ const AuthGuard = (props: AuthGuardProps) => {
     }
 
     if (auth.user === null && !window.localStorage.getItem('user')) {
-      router.replace('/login');
+      // router.replace('/');
     }
   }, [router.isReady]);
 
-  if (auth.loading || auth.user === null) {
-    return fallback;
-  }
-
-  return <>{children}</>;
+  return (
+    <Error401 />
+  );
 };
 
 export default AuthGuard;
